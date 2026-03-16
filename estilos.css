@@ -1,3 +1,7 @@
+html{
+    scroll-behavior:smooth;
+}
+
 body{
     background-color: antiquewhite;
     font-family: 'Montserrat', sans-serif;
@@ -42,8 +46,8 @@ p{
 .hero{
     height: 100vh;
     background-image: linear-gradient(
-        rgba(0,0,0,0,5),
-        rgba(0,0,0,0,5)
+        rgba(0,0,0,0.5),
+        rgba(0,0,0,0.5)
     ),
     url(Imagenes/Portada.jpg);
     background-size: cover;
@@ -133,4 +137,17 @@ nav{
     .menu{
         margin-top:10px;
     }
+}
+
+.whatsapp{
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background:#25d366;
+    color: white;
+    font-size: 30px;
+    padding: 15px;
+    border-radius: 50%;
+    text-decoration: none;
+    box-shadow:0 4px 10px rgba(0, 0, 0, 0.3);
 }
