@@ -113,3 +113,19 @@ nav{
     padding: 50px;
     background:#ffffff;
 }
+
+@media (max-width:768px){
+    .cards{
+        flex-direction:column;
+        align-items:center;
+    }
+    .hero-text h1{
+        font-size: 40px;
+    }
+    nav{
+        flex-direction: column;
+    }
+    .menu{
+        margin-top:10px;
+    }
+}
