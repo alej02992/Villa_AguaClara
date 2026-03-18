@@ -3,6 +3,7 @@ html{
 }
 
 body{
+    margin: 0;
     background-color: antiquewhite;
     font-family: 'Muli', sans-serif;
     text-align: center;
@@ -95,32 +96,30 @@ nav{
 }
 
 .galeria{
-    padding:50px;
+    width: 100%;
+    padding:50px 0;
     text-align: center;
 }
 
 .galeria h2{
     font-size: 40px;
     margin-bottom: 30px;
-    letter-spacing: 2px;
 }
 
 .grid-galeria{
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 10px;
+    display: flex;
+    width: 100px;
 }
 
 .grid-galeria img{
-    width: 100%;
-    height: 250px;
+    width: 450%;
+    height: 350px;
     object-fit: cover;
-    border-radius: 10px;
-    transition: transform 0.3s ease;
 }
 
 .grid-galeria img:hover{
     transform:scale(1.05);
+    transition: 0.3s;
 }
 
 .ubicacion{
