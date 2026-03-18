@@ -62,6 +62,11 @@
         </div>
     </section>
 
+    <div class="lightbox" id="lightbox">
+        <span class="cerrar">&times;</span>
+        <img class="lightbox-img" id="lightbox-img">
+    </div>
+
     <section class="ubicacion">
         <h2>¿Donde estamos?</h2>
         <iframe
@@ -84,5 +89,29 @@
     <a href="https://wa.me/573102879726"class="whatsapp" target="_blank">
         <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp">
     </a>
+
+    <script>
+        const imagenes = document.querySelectorAll(".grid-galeria img");
+        const lightbox = document.getElementById("lightbox");
+        const lightboxImg = document.getElementById("lightbox-img");
+        const cerrar = document.querySelector(".cerrar");
+
+    imagenes.forEach(img => {
+        img.addEventListener("click", () => {
+            lightbox.style.display = "flex";
+            lightboxImg.src = img.src;
+            }); 
+        });
+
+    cerrar.addEventListener("click", () => {
+        lightbox.style.display = "none";
+    });
+
+    lightbox.addEventListener("click", (e) => {
+        if(e.target !== lightboxImg){
+            lightbox.style.display = "none";
+        }
+    });
+    </script>
 </body>
 </html>
