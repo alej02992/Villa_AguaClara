@@ -4,7 +4,7 @@ html{
 
 body{
     background-color: antiquewhite;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Muli', sans-serif;
     text-align: center;
 }
 
@@ -96,22 +96,27 @@ nav{
 
 .galeria{
     padding:50px;
-    background:rgb(0, 128, 77);
+    text-align: center;
+}
+
+.galeria h2{
+    font-size: 40px;
+    margin-bottom: 30px;
+    letter-spacing: 2px;
 }
 
 .grid-galeria{
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
-    gap: 20px;
-    margin-top: 30px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
 }
 
 .grid-galeria img{
     width: 100%;
-    height: 200px;
+    height: 250px;
     object-fit: cover;
     border-radius: 10px;
-    transition: transform 0.3s;
+    transition: transform 0.3s ease;
 }
 
 .grid-galeria img:hover{
