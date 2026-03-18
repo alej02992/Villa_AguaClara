@@ -62,10 +62,15 @@
         </div>
     </section>
 
-    <div class="lightbox" id="lightbox">
-        <span class="cerrar">&times;</span>
-        <img class="lightbox-img" id="lightbox-img">
-    </div>
+   <div class="lightbox" id="lightbox">
+    <span class="cerrar">&times;</span>
+
+    <span class="flecha izquierda">&#10094;</span>
+    <img class="lightbox-img" id="lightbox-img">
+    <span class="flecha derecha">&#10095;</span>
+
+    <div class="contador" id="contador">1 / 5</div>
+</div>
 
     <section class="ubicacion">
         <h2>¿Donde estamos?</h2>
@@ -90,28 +95,96 @@
         <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp">
     </a>
 
-    <script>
-        const imagenes = document.querySelectorAll(".grid-galeria img");
-        const lightbox = document.getElementById("lightbox");
-        const lightboxImg = document.getElementById("lightbox-img");
-        const cerrar = document.querySelector(".cerrar");
+   <script>
+const imagenes = document.querySelectorAll(".grid-galeria img");
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightbox-img");
+const cerrar = document.querySelector(".cerrar");
+const izquierda = document.querySelector(".izquierda");
+const derecha = document.querySelector(".derecha");
+const contador = document.getElementById("contador");
 
-    imagenes.forEach(img => {
-        img.addEventListener("click", () => {
-            lightbox.style.display = "flex";
-            lightboxImg.src = img.src;
-            }); 
-        });
+let indexActual = 0;
 
-    cerrar.addEventListener("click", () => {
-        lightbox.style.display = "none";
+// Mostrar imagen + contador
+function mostrarImagen(){
+    lightboxImg.src = imagenes[indexActual].src;
+    contador.textContent = (indexActual + 1) + " / " + imagenes.length;
+}
+
+// Abrir lightbox
+imagenes.forEach((img, index) => {
+    img.addEventListener("click", () => {
+        indexActual = index;
+        mostrarImagen();
+        lightbox.style.display = "flex";
     });
+});
 
-    lightbox.addEventListener("click", (e) => {
-        if(e.target !== lightboxImg){
+// Flechas
+derecha.addEventListener("click", () => {
+    indexActual = (indexActual + 1) % imagenes.length;
+    mostrarImagen();
+});
+
+izquierda.addEventListener("click", () => {
+    indexActual = (indexActual - 1 + imagenes.length) % imagenes.length;
+    mostrarImagen();
+});
+
+// Cerrar
+cerrar.addEventListener("click", () => {
+    lightbox.style.display = "none";
+});
+
+// Cerrar tocando afuera
+lightbox.addEventListener("click", (e) => {
+    if(e.target !== lightboxImg){
+        lightbox.style.display = "none";
+    }
+});
+
+
+// ⌨️ NAVEGACIÓN CON TECLADO
+document.addEventListener("keydown", (e) => {
+    if(lightbox.style.display === "flex"){
+        if(e.key === "ArrowRight"){
+            indexActual = (indexActual + 1) % imagenes.length;
+            mostrarImagen();
+        }
+        if(e.key === "ArrowLeft"){
+            indexActual = (indexActual - 1 + imagenes.length) % imagenes.length;
+            mostrarImagen();
+        }
+        if(e.key === "Escape"){
             lightbox.style.display = "none";
         }
-    });
-    </script>
+    }
+});
+
+
+// 📱 DESLIZAR EN CELULAR
+let startX = 0;
+
+lightbox.addEventListener("touchstart", (e) => {
+    startX = e.touches[0].clientX;
+});
+
+lightbox.addEventListener("touchend", (e) => {
+    let endX = e.changedTouches[0].clientX;
+
+    if(startX - endX > 50){
+        // swipe izquierda
+        indexActual = (indexActual + 1) % imagenes.length;
+        mostrarImagen();
+    }
+
+    if(endX - startX > 50){
+        // swipe derecha
+        indexActual = (indexActual - 1 + imagenes.length) % imagenes.length;
+        mostrarImagen();
+    }
+});
+</script>
 </body>
 </html>

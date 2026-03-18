@@ -150,6 +150,29 @@ nav{
     cursor: pointer;
 }
 
+.flecha{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 50px;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+    user-select: none;
+}
+
+.izquierda{
+    left: 20px;
+}
+
+.derecha{
+    right: 20px;
+}
+
+.flecha:hover{
+    color: #25d366;
+}
+
 .ubicacion{
     padding: 50px;
     background:#ffffff;
