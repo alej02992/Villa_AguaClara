@@ -604,4 +604,26 @@ footer {
     .grid-fotos {
         grid-template-columns: 1fr;
     }
+  /* ═══════════════════════════════════════
+   INSTAGRAM FLOTANTE
+   ═══════════════════════════════════════ */
+.instagram-float {
+    position: fixed;
+    bottom: 100px;
+    right: 28px;
+background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%);    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+    z-index: 1001;
+    text-decoration: none;
+    transition: transform 0.25s, opacity 0.25s;
+}
+
+.instagram-float:hover {
+    transform: scale(1.1);
+    opacity: 0.9;
 }
