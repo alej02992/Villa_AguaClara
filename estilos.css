@@ -2,11 +2,56 @@ html{
     scroll-behavior:smooth;
 }
 
-body{
-    margin: 0;
-    background-color: antiquewhite;
-    font-family: 'Muli', sans-serif;
-    text-align: center;
+body {
+  font-family: 'Montserrat', sans-serif; /* O la fuente que elijas */
+  color: #2F2A26; /* Color taupe oscuro para textos generales */
+}   
+
+.header-top-brand {
+  background-color: #ffffff;
+  padding: 20px 0;
+  text-align: center;
+}
+
+.brand-name {
+  font-family: 'Playfair Display', serif; /* O una Serif elegante */
+  font-size: 32px;
+  text-transform: capitalize; /* Para que sea Villa Aguaclara */
+}
+
+.header-contact-languages {
+  float: right; /* O usa Flexbox */
+}
+
+.navbar {
+  background-color: #2F2A26; /* Marrón oscuro */
+  padding: 10px 0;
+  text-align: center;
+}
+.navbar a {
+  color: #ffffff;
+  margin: 0 15px;
+  text-transform: capitalize;
+  text-decoration: none;
+}
+.navbar a.reservar-btn {
+  background-color: #1ED760; /* Tu verde actual */
+  padding: 10px 20px;
+  border-radius: 4px;
+}
+
+.hero-content {
+  color: #ffffff; /* Textos en blanco */
+  text-align: center;
+  /* Centrado vertical con Flexbox */
+}
+.hero-content h1 {
+  font-size: 48px;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.5); /* Sombra suave para legibilidad */
+}
+.hero-content p {
+  color: #ffffff; /* O un verde muy muy claro */
+  font-size: 18px;
 }
 
 h1{
@@ -16,7 +61,7 @@ h1{
 
 p{
     font-size: 20px;
-    color: yellowgreen;
+    color: #36b15f;
 }
 
 .cards{
@@ -66,6 +111,8 @@ nav{
     top:0;
     left:0;
     background:rgba(0, 0, 0, 0.5);
+    transition: 0.3s;
+    z-index: 1000;
 }
 
 .menu a{
@@ -78,6 +125,7 @@ nav{
 .hero-text{
     text-align: center;
     margin-top: 200px;
+    color: white;
 }
 
 .hero-text h1{
@@ -171,6 +219,16 @@ nav{
 
 .flecha:hover{
     color: #25d366;
+}
+
+.contador{
+    position: absolute;
+    bottom: 20px;
+    color: white;
+    font-size: 18px;
+    background: rgba(0,0,0,0.5);
+    padding: 5px 10px;
+    border-radius: 5px;
 }
 
 .ubicacion{
