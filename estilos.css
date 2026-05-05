@@ -447,6 +447,104 @@ footer {
 }
 
 /* ═══════════════════════════════════════
+   TOURS
+   ═══════════════════════════════════════ */
+.section-tours {
+    padding: 80px 60px;
+    background: var(--blanco);
+    text-align: center;
+}
+
+.tours-lista {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+}
+
+.tour-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+    text-align: left;
+}
+
+.tour-item--invertido {
+    direction: rtl;
+}
+
+.tour-item--invertido > * {
+    direction: ltr;
+}
+
+.tour-img-wrap {
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(26, 95, 122, 0.13);
+}
+
+.tour-img-wrap img {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.tour-img-wrap:hover img {
+    transform: scale(1.05);
+}
+
+.tour-info h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30px;
+    font-weight: 400;
+    color: var(--agua-oscuro);
+    margin-bottom: 16px;
+}
+
+.tour-info p {
+    font-size: 15px;
+    color: var(--gris-suave);
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+.tour-detalles {
+    list-style: none;
+    margin-bottom: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.tour-detalles li {
+    font-size: 13px;
+    color: var(--agua-oscuro);
+    letter-spacing: 0.04em;
+    font-weight: 400;
+}
+
+.btn-tour-wa {
+    display: inline-block;
+    background: var(--agua-oscuro);
+    color: #fff;
+    font-family: 'Jost', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 14px 36px;
+    transition: background 0.25s;
+}
+
+.btn-tour-wa:hover {
+    background: var(--agua-claro);
+}
+
+/* ═══════════════════════════════════════
    RESPONSIVE
    ═══════════════════════════════════════ */
 @media (max-width: 900px) {
@@ -477,8 +575,20 @@ footer {
     .section-alojamientos,
     .section-galeria,
     .section-ubicacion,
-    .section-contacto {
+    .section-contacto,
+    .section-tours {
         padding: 50px 20px;
+    }
+
+    .tour-item,
+    .tour-item--invertido {
+        grid-template-columns: 1fr;
+        direction: ltr;
+        gap: 24px;
+    }
+
+    .tour-img-wrap img {
+        height: 240px;
     }
 }
 
