@@ -628,3 +628,7 @@ background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f
     opacity: 0.9;
     }
 }
+a[href*="instagram.com"]:hover {
+    transform: scale(1.1) !important;
+    opacity: 0.85 !important;
+}
