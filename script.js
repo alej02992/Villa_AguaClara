@@ -1,99 +1,52 @@
-const imagenes = document.querySelectorAll(".grid-galeria img");
-const lightbox = document.getElementById("lightbox");
-const lightboxImg = document.getElementById("lightbox-img");
-const cerrar = document.querySelector(".cerrar");
-const izquierda = document.querySelector(".izquierda");
-const derecha = document.querySelector(".derecha");
-const contador = document.getElementById("contador");
+/* ═══════════════════════════════════════
+   VILLA AGUACLARA — script.js
+   Lightbox para galería de fotos
+   ═══════════════════════════════════════ */
 
-let indexActual = 0;
+const imgs       = document.querySelectorAll('#grid-galeria img');
+const lb         = document.getElementById('lightbox');
+const lbImg      = document.getElementById('lb-img');
+const lbContador = document.getElementById('lb-contador');
+let idx = 0;
 
-// Mostrar imagen + contador
-function mostrarImagen(){
-    lightboxImg.src = imagenes[indexActual].src;
-    contador.textContent = (indexActual + 1) + " / " + imagenes.length;
+/* Muestra la imagen en el índice dado */
+function mostrar(i) {
+    idx = i;
+    lbImg.src = imgs[idx].src;
+    lbContador.textContent = (idx + 1) + ' / ' + imgs.length;
 }
 
-// Abrir lightbox
-imagenes.forEach((img, index) => {
-    img.addEventListener("click", () => {
-        indexActual = index;
-        mostrarImagen();
-        lightbox.style.display = "flex";
+/* Abrir lightbox al hacer clic en una foto */
+imgs.forEach((img, i) => {
+    img.addEventListener('click', () => {
+        mostrar(i);
+        lb.classList.add('active');
     });
 });
 
-// Flechas
-derecha.addEventListener("click", () => {
-    indexActual = (indexActual + 1) % imagenes.length;
-    mostrarImagen();
+/* Botones cerrar / flechas */
+document.getElementById('lb-cerrar').addEventListener('click', () => lb.classList.remove('active'));
+document.getElementById('lb-der').addEventListener('click',    () => mostrar((idx + 1) % imgs.length));
+document.getElementById('lb-izq').addEventListener('click',    () => mostrar((idx - 1 + imgs.length) % imgs.length));
+
+/* Cerrar al hacer clic fuera de la imagen */
+lb.addEventListener('click', e => {
+    if (e.target === lb) lb.classList.remove('active');
 });
 
-izquierda.addEventListener("click", () => {
-    indexActual = (indexActual - 1 + imagenes.length) % imagenes.length;
-    mostrarImagen();
+/* Navegación con teclado */
+document.addEventListener('keydown', e => {
+    if (!lb.classList.contains('active')) return;
+    if (e.key === 'ArrowRight') mostrar((idx + 1) % imgs.length);
+    if (e.key === 'ArrowLeft')  mostrar((idx - 1 + imgs.length) % imgs.length);
+    if (e.key === 'Escape')     lb.classList.remove('active');
 });
 
-// Cerrar
-cerrar.addEventListener("click", () => {
-    lightbox.style.display = "none";
-});
-
-// Cerrar tocando afuera
-lightbox.addEventListener("click", (e) => {
-    if(e.target !== lightboxImg){
-        lightbox.style.display = "none";
-    }
-});
-
-
-// ⌨️ NAVEGACIÓN CON TECLADO
-document.addEventListener("keydown", (e) => {
-    if(lightbox.style.display === "flex"){
-        if(e.key === "ArrowRight"){
-            indexActual = (indexActual + 1) % imagenes.length;
-            mostrarImagen();
-        }
-        if(e.key === "ArrowLeft"){
-            indexActual = (indexActual - 1 + imagenes.length) % imagenes.length;
-            mostrarImagen();
-        }
-        if(e.key === "Escape"){
-            lightbox.style.display = "none";
-        }
-    }
-});
-
-
-// 📱 DESLIZAR EN CELULAR
+/* Deslizar en móvil (swipe) */
 let startX = 0;
-
-lightbox.addEventListener("touchstart", (e) => {
-    startX = e.touches[0].clientX;
-});
-
-lightbox.addEventListener("touchend", (e) => {
-    let endX = e.changedTouches[0].clientX;
-
-    if(startX - endX > 50){
-        // swipe izquierda
-        indexActual = (indexActual + 1) % imagenes.length;
-        mostrarImagen();
-    }
-
-    if(endX - startX > 50){
-        // swipe derecha
-        indexActual = (indexActual - 1 + imagenes.length) % imagenes.length;
-        mostrarImagen();
-    }
-});
-
-window.addEventListener("scroll", () => {
-    const nav = document.querySelector("nav");
-
-    if(window.scrollY > 50){
-        nav.classList.add("scrolled");
-    } else {
-        nav.classList.remove("scrolled");
-    }
+lb.addEventListener('touchstart', e => { startX = e.touches[0].clientX; });
+lb.addEventListener('touchend',   e => {
+    const dx = startX - e.changedTouches[0].clientX;
+    if (dx >  50) mostrar((idx + 1) % imgs.length);
+    if (dx < -50) mostrar((idx - 1 + imgs.length) % imgs.length);
 });

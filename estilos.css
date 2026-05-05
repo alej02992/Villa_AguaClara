@@ -1,272 +1,497 @@
-html{
-    scroll-behavior:smooth;
+/* ═══════════════════════════════════════
+   VILLA AGUACLARA — Estilos principales
+   ═══════════════════════════════════════ */
+
+/* ── VARIABLES DE COLOR ── */
+:root {
+    --agua-oscuro:  #1a5f7a;   /* azul agua profundo */
+    --agua-medio:   #2a8aaa;   /* azul agua principal */
+    --agua-claro:   #4db8d4;   /* azul agua claro */
+    --agua-suave:   #e8f6fa;   /* fondo muy claro */
+    --crema:        #f4f1ec;   /* fondo cálido */
+    --blanco:       #ffffff;
+    --negro:        #1a1a1a;
+    --gris-suave:   #7a8a8a;
+    --dorado:       #c9a84c;   /* acento cálido */
+}
+
+/* ── RESET BASE ── */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
-  font-family: 'Montserrat', sans-serif; /* O la fuente que elijas */
-  color: #2F2A26; /* Color taupe oscuro para textos generales */
-}   
-
-.header-top-brand {
-  background-color: #ffffff;
-  padding: 20px 0;
-  text-align: center;
+    font-family: 'Jost', sans-serif;
+    background: var(--crema);
+    color: var(--negro);
+    font-weight: 300;
 }
 
-.brand-name {
-  font-family: 'Playfair Display', serif; /* O una Serif elegante */
-  font-size: 32px;
-  text-transform: capitalize; /* Para que sea Villa Aguaclara */
-}
-
-.header-contact-languages {
-  float: right; /* O usa Flexbox */
-}
-
-.navbar {
-  background-color: #2F2A26; /* Marrón oscuro */
-  padding: 10px 0;
-  text-align: center;
-}
-.navbar a {
-  color: #ffffff;
-  margin: 0 15px;
-  text-transform: capitalize;
-  text-decoration: none;
-}
-.navbar a.reservar-btn {
-  background-color: #1ED760; /* Tu verde actual */
-  padding: 10px 20px;
-  border-radius: 4px;
-}
-
-.hero-content {
-  color: #ffffff; /* Textos en blanco */
-  text-align: center;
-  /* Centrado vertical con Flexbox */
-}
-.hero-content h1 {
-  font-size: 48px;
-  text-shadow: 1px 1px 4px rgba(0,0,0,0.5); /* Sombra suave para legibilidad */
-}
-.hero-content p {
-  color: #ffffff; /* O un verde muy muy claro */
-  font-size: 18px;
-}
-
-h1{
-    color: black;
-    font-size: 60px;
-}
-
-p{
-    font-size: 20px;
-    color: #36b15f;
-}
-
-.cards{
-    display: flex;
-    gap: 30px;
-    flex-wrap: wrap;
-    margin-top: 40px;
-}
-
-.card{
-    width: 250px;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    padding: 15px;
-    transition: transform 0.3s;
-}
-
-.card:hover{
-    transform: translateY(-10px);
-}
-
-.card img{
-    width: 100%;
-    border-radius: 10px;
-}
-
-.hero{
-    height: 100vh;
-    background-image: linear-gradient(
-        rgba(0,0,0,0.5),
-        rgba(0,0,0,0.5)
-    ),
-    url(Imagenes/Portada.jpg);
-    background-size: cover;
-    background-position: center;
-    color:white
-}
-
-nav{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 50px;
-    position:fixed;
-    width:100%;
-    top:0;
-    left:0;
-    background:rgba(0, 0, 0, 0.5);
-    transition: 0.3s;
-    z-index: 1000;
-}
-
-.menu a{
-    color: white;
-    margin-left: 20px;
-    text-decoration: none;
-    font-weight: 200;
-}
-
-.hero-text{
+/* ═══════════════════════════════════════
+   TOP BAR
+   ═══════════════════════════════════════ */
+.top-bar {
+    background: var(--crema);
     text-align: center;
-    margin-top: 200px;
-    color: white;
+    padding: 10px 40px;
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    color: var(--gris-suave);
+    border-bottom: 1px solid rgba(0,0,0,0.08);
 }
 
-.hero-text h1{
-    font-size: 60px;
+.top-bar strong {
+    color: var(--agua-oscuro);
 }
 
-.boton{
-    display: inline-block;
-    background: #25d366;
-    padding: 15px 25px;
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-    margin-top: 20px;
-    font-size: 18px;
-}
-
-.galeria{
-    width: 100%;
-    padding:50px 0;
-    text-align: center;
-}
-
-.galeria h2{
-    font-size: 40px;
-    margin-bottom: 30px;
-}
-
-.grid-galeria{
+/* ═══════════════════════════════════════
+   LOGO HEADER
+   ═══════════════════════════════════════ */
+.logo-header {
     display: flex;
-    width: 100px;
-}
-
-.grid-galeria img{
-    width: 450%;
-    height: 350px;
-    object-fit: cover;
-}
-
-.grid-galeria img:hover{
-    transform:scale(1.05);
-    transition: 0.3s;
-}
-
-.lightbox{
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.9);
     justify-content: center;
     align-items: center;
-    z-index: 2000;
+    padding: 24px 40px 16px;
+    background: var(--crema);
 }
 
-.lightbox-img{
-    max-width: 90%;
-    max-height: 80%;
-    border-radius: 10px;
+.logo-header img {
+    height: 100px;
+    object-fit: contain;
 }
 
-.cerrar{
-    position: absolute;
-    top: 20px;
-    right: 30px;
-    font-size: 40px;
-    color: white;
+/* ═══════════════════════════════════════
+   NAVEGACIÓN
+   ═══════════════════════════════════════ */
+nav.main-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--agua-oscuro);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+nav.main-nav a {
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 18px 26px;
+    transition: background 0.2s, color 0.2s;
+}
+
+nav.main-nav a:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+}
+
+nav.main-nav a.reservar {
+    background: var(--agua-claro);
+    color: #fff;
+    margin-left: 8px;
+}
+
+nav.main-nav a.reservar:hover {
+    background: var(--dorado);
+}
+
+/* ═══════════════════════════════════════
+   HERO GALERÍA HORIZONTAL
+   ═══════════════════════════════════════ */
+.hero-galeria {
+    display: flex;
+    height: 62vh;
+    min-height: 400px;
+    overflow: hidden;
+}
+
+.hero-slide {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
     cursor: pointer;
+    transition: flex 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    min-width: 60px;
 }
 
-.flecha{
+.hero-slide:hover {
+    flex: 3.5;
+}
+
+.hero-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.hero-slide:hover img {
+    transform: scale(1.04);
+}
+
+.hero-slide-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 28px 20px 18px;
+    background: linear-gradient(transparent, rgba(26, 95, 122, 0.7));
+    color: #fff;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-style: italic;
+    opacity: 0;
+    transition: opacity 0.3s;
+    text-align: center;
+}
+
+.hero-slide:hover .hero-slide-label {
+    opacity: 1;
+}
+
+/* ═══════════════════════════════════════
+   SECCIONES — TIPOGRAFÍA COMÚN
+   ═══════════════════════════════════════ */
+.section-label {
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--agua-medio);
+    margin-bottom: 12px;
+}
+
+.section-label--claro {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 46px;
+    font-weight: 300;
+    color: var(--agua-oscuro);
+    margin-bottom: 50px;
+    line-height: 1.15;
+}
+
+.section-title--claro {
+    color: #fff;
+}
+
+/* ═══════════════════════════════════════
+   ALOJAMIENTOS
+   ═══════════════════════════════════════ */
+.section-alojamientos {
+    padding: 80px 60px;
+    text-align: center;
+    background: var(--crema);
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.card-aloj {
+    background: var(--blanco);
+    overflow: hidden;
+    box-shadow: 0 2px 16px rgba(26, 95, 122, 0.10);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card-aloj:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 32px rgba(26, 95, 122, 0.18);
+}
+
+.card-aloj img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s;
+}
+
+.card-aloj:hover img {
+    transform: scale(1.04);
+}
+
+.card-aloj-body {
+    padding: 24px 20px 28px;
+    border-top: 2px solid var(--agua-claro);
+}
+
+.card-aloj-body h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--agua-oscuro);
+    margin-bottom: 8px;
+}
+
+.card-aloj-body p {
+    font-size: 14px;
+    color: var(--gris-suave);
+    line-height: 1.7;
+}
+
+/* ═══════════════════════════════════════
+   GALERÍA
+   ═══════════════════════════════════════ */
+.section-galeria {
+    padding: 80px 60px;
+    background: var(--agua-suave);
+    text-align: center;
+}
+
+.grid-fotos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 240px 240px;
+    gap: 6px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.grid-fotos img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: pointer;
+    transition: opacity 0.3s, transform 0.4s;
+    display: block;
+}
+
+.grid-fotos img:hover {
+    opacity: 0.85;
+    transform: scale(1.02);
+}
+
+.grid-fotos img:first-child {
+    grid-row: span 2;
+    height: 100%;
+}
+
+/* ═══════════════════════════════════════
+   UBICACIÓN
+   ═══════════════════════════════════════ */
+.section-ubicacion {
+    padding: 80px 60px;
+    background: var(--blanco);
+    text-align: center;
+}
+
+.section-ubicacion iframe {
+    border-radius: 4px;
+    margin-top: 10px;
+    max-width: 1000px;
+    width: 100%;
+}
+
+/* ═══════════════════════════════════════
+   CONTACTO CTA
+   ═══════════════════════════════════════ */
+.section-contacto {
+    background: var(--agua-oscuro);
+    color: #fff;
+    padding: 90px 40px;
+    text-align: center;
+}
+
+.section-contacto p {
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 16px;
+    margin-bottom: 36px;
+    line-height: 1.7;
+}
+
+.btn-wa {
+    display: inline-block;
+    background: #25d366;
+    color: #fff;
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 18px 50px;
+    transition: background 0.25s;
+}
+
+.btn-wa:hover {
+    background: var(--dorado);
+}
+
+/* ═══════════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════════ */
+footer {
+    background: #0f3a4a;
+    color: rgba(255, 255, 255, 0.45);
+    text-align: center;
+    padding: 24px 40px;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+}
+
+/* ═══════════════════════════════════════
+   WHATSAPP FLOTANTE
+   ═══════════════════════════════════════ */
+.whatsapp-float {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    background: #25d366;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+    z-index: 1000;
+    text-decoration: none;
+    transition: transform 0.25s, background 0.25s;
+}
+
+.whatsapp-float:hover {
+    transform: scale(1.1);
+    background: #1ebe5d;
+}
+
+.whatsapp-float img {
+    width: 32px;
+    height: 32px;
+}
+
+/* ═══════════════════════════════════════
+   LIGHTBOX
+   ═══════════════════════════════════════ */
+.lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 40, 55, 0.94);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+}
+
+.lightbox.active {
+    display: flex;
+}
+
+.lightbox-img {
+    max-width: 90%;
+    max-height: 82vh;
+    border-radius: 2px;
+}
+
+.lb-cerrar {
+    position: absolute;
+    top: 22px;
+    right: 30px;
+    font-size: 38px;
+    color: rgba(255, 255, 255, 0.75);
+    cursor: pointer;
+    line-height: 1;
+    font-weight: 200;
+    transition: color 0.2s;
+}
+
+.lb-cerrar:hover {
+    color: var(--agua-claro);
+}
+
+.lb-flecha {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 50px;
-    color: white;
+    font-size: 44px;
+    color: rgba(255, 255, 255, 0.65);
     cursor: pointer;
-    padding: 10px;
+    padding: 10px 16px;
     user-select: none;
+    transition: color 0.2s;
 }
 
-.izquierda{
-    left: 20px;
+.lb-flecha:hover {
+    color: var(--agua-claro);
 }
 
-.derecha{
-    right: 20px;
-}
+.lb-izq { left: 16px; }
+.lb-der { right: 16px; }
 
-.flecha:hover{
-    color: #25d366;
-}
-
-.contador{
+.lb-contador {
     position: absolute;
     bottom: 20px;
-    color: white;
-    font-size: 18px;
-    background: rgba(0,0,0,0.5);
-    padding: 5px 10px;
-    border-radius: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 13px;
+    letter-spacing: 0.18em;
 }
 
-.ubicacion{
-    padding: 50px;
-    background:#ffffff;
+/* ═══════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════ */
+@media (max-width: 900px) {
+    .cards-grid {
+        grid-template-columns: 1fr;
+        max-width: 420px;
+        margin: 0 auto;
+    }
+
+    .grid-fotos {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+    }
+
+    .grid-fotos img:first-child {
+        grid-row: span 1;
+    }
+
+    nav.main-nav {
+        flex-wrap: wrap;
+    }
+
+    nav.main-nav a {
+        padding: 14px 16px;
+        font-size: 12px;
+    }
+
+    .section-alojamientos,
+    .section-galeria,
+    .section-ubicacion,
+    .section-contacto {
+        padding: 50px 20px;
+    }
 }
 
-@media (max-width:768px){
-    .cards{
-        flex-direction:column;
-        align-items:center;
+@media (max-width: 600px) {
+    .hero-galeria {
+        height: 45vh;
     }
-    .hero-text h1{
-        font-size: 40px;
-    }
-    nav{
-        flex-direction: column;
-    }
-    .menu{
-        margin-top:10px;
-    }
-}
 
-.whatsapp{
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background:#25d366;
-    color: white;
-    font-size: 30px;
-    padding: 15px;
-    border-radius: 50%;
-    text-decoration: none;
-    box-shadow:0 4px 10px rgba(0, 0, 0, 0.3);
-    z-index: 1000;
-}
+    .section-title {
+        font-size: 32px;
+    }
 
-.whatsapp img{
-    width: 35px;
-    height: 35px;
+    .grid-fotos {
+        grid-template-columns: 1fr;
+    }
 }
