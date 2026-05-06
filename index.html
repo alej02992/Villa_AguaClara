@@ -61,29 +61,186 @@
         <p class="section-label">Nuestros espacios</p>
         <h2 class="section-title">Alojamientos en la naturaleza</h2>
         <div class="cards-grid">
-            <div class="card-aloj">
+            <div class="card-aloj" data-id="montana" onclick="abrirAlojamiento('montana')">
                 <img src="Imagenes/glamping1.jpg" alt="Glamping Montaña">
                 <div class="card-aloj-body">
                     <h3>Glamping Montaña</h3>
                     <p>Vista espectacular a las cumbres de Santander. Duerme bajo las estrellas con todo el confort.</p>
+                    <span class="card-aloj-ver">Ver detalles ↓</span>
                 </div>
             </div>
-            <div class="card-aloj">
+            <div class="card-aloj" data-id="bosque" onclick="abrirAlojamiento('bosque')">
                 <img src="Imagenes/glamping2.jpg" alt="Glamping Bosque">
                 <div class="card-aloj-body">
                     <h3>Glamping Bosque</h3>
                     <p>Experiencia única rodeada de naturaleza viva, sonidos del bosque y aire puro.</p>
+                    <span class="card-aloj-ver">Ver detalles ↓</span>
                 </div>
             </div>
-            <div class="card-aloj">
+            <div class="card-aloj" data-id="cabanas" onclick="abrirAlojamiento('cabanas')">
                 <img src="Imagenes/Cabañas.jpg" alt="Cabañas Alpinas">
                 <div class="card-aloj-body">
                     <h3>Cabañas Alpinas</h3>
                     <p>Perfectas para descansar en pareja o familia. Arquitectura cálida integrada al paisaje.</p>
+                    <span class="card-aloj-ver">Ver detalles ↓</span>
                 </div>
             </div>
         </div>
+
+        <!-- PANEL GLAMPING MONTAÑA -->
+        <div class="detalle-aloj" id="detalle-montana">
+            <div class="detalle-aloj__inner">
+                <button class="detalle-aloj__cerrar" onclick="cerrarAlojamiento('montana')">&times;</button>
+                <div class="detalle-aloj__galeria">
+                    <img class="detalle-aloj__foto-principal" id="foto-montana" src="Imagenes/glamping1.jpg" alt="Glamping Montaña">
+                    <div class="detalle-aloj__thumbs">
+                        <img src="Imagenes/glamping1.jpg" alt="" class="thumb-activo" onclick="cambiarFoto('foto-montana', this)">
+                        <img src="Imagenes/Portada_2.jpg" alt="" onclick="cambiarFoto('foto-montana', this)">
+                        <img src="Imagenes/foto1.jpg" alt="" onclick="cambiarFoto('foto-montana', this)">
+                        <img src="Imagenes/foto2.jpg" alt="" onclick="cambiarFoto('foto-montana', this)">
+                        <img src="Imagenes/foto3.jpg" alt="" onclick="cambiarFoto('foto-montana', this)">
+                    </div>
+                </div>
+                <div class="detalle-aloj__info">
+                    <p class="section-label">Glamping · Villa AguaClara</p>
+                    <h3 class="detalle-aloj__titulo">Glamping Montaña</h3>
+                    <p class="detalle-aloj__desc">Despierta con vistas panorámicas a las cumbres de Santander desde tu cómoda carpa. Un espacio diseñado para quienes buscan el contacto puro con la naturaleza sin renunciar al confort. Las noches estrelladas de Florián cobran vida desde este rincón privilegiado.</p>
+                    <div class="detalle-aloj__incluye">
+                        <p class="detalle-aloj__incluye-titulo">¿Qué incluye?</p>
+                        <ul>
+                            <li>🛏 Cama doble con ropa de cama premium</li>
+                            <li>🚿 Baño privado con agua caliente</li>
+                            <li>☕ Desayuno campestre incluido</li>
+                            <li>🔥 Fogón y área de fogata compartida</li>
+                            <li>🌄 Vista panorámica a la montaña</li>
+                            <li>🅿️ Parqueadero privado</li>
+                            <li>📶 WiFi en zonas comunes</li>
+                        </ul>
+                    </div>
+                    <div class="detalle-aloj__capacidad">
+                        <span>👤 Capacidad: 2 personas</span>
+                        <span>📍 Florián, Santander</span>
+                    </div>
+                    <button class="detalle-aloj__btn-reservar" onclick="abrirCalendario('Glamping Montaña')">
+                        Consultar disponibilidad
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PANEL GLAMPING BOSQUE -->
+        <div class="detalle-aloj" id="detalle-bosque">
+            <div class="detalle-aloj__inner">
+                <button class="detalle-aloj__cerrar" onclick="cerrarAlojamiento('bosque')">&times;</button>
+                <div class="detalle-aloj__galeria">
+                    <img class="detalle-aloj__foto-principal" id="foto-bosque" src="Imagenes/glamping2.jpg" alt="Glamping Bosque">
+                    <div class="detalle-aloj__thumbs">
+                        <img src="Imagenes/glamping2.jpg" alt="" class="thumb-activo" onclick="cambiarFoto('foto-bosque', this)">
+                        <img src="Imagenes/Portada_3.jpeg" alt="" onclick="cambiarFoto('foto-bosque', this)">
+                        <img src="Imagenes/foto4.jpg" alt="" onclick="cambiarFoto('foto-bosque', this)">
+                        <img src="Imagenes/foto5.jpeg" alt="" onclick="cambiarFoto('foto-bosque', this)">
+                        <img src="Imagenes/foto1.jpg" alt="" onclick="cambiarFoto('foto-bosque', this)">
+                    </div>
+                </div>
+                <div class="detalle-aloj__info">
+                    <p class="section-label">Glamping · Villa AguaClara</p>
+                    <h3 class="detalle-aloj__titulo">Glamping Bosque</h3>
+                    <p class="detalle-aloj__desc">Sumérgete en el corazón del bosque nativo. Rodeado de árboles centenarios, aves y el sonido del agua, este glamping te conecta con la esencia más profunda de la naturaleza de Santander. Una experiencia que transforma.</p>
+                    <div class="detalle-aloj__incluye">
+                        <p class="detalle-aloj__incluye-titulo">¿Qué incluye?</p>
+                        <ul>
+                            <li>🛏 Cama doble con edredón de plumas</li>
+                            <li>🚿 Baño privado con ducha natural</li>
+                            <li>☕ Desayuno campestre incluido</li>
+                            <li>🌿 Sendero privado al bosque</li>
+                            <li>🦅 Observación de aves al amanecer</li>
+                            <li>🅿️ Parqueadero privado</li>
+                            <li>📶 WiFi en zonas comunes</li>
+                        </ul>
+                    </div>
+                    <div class="detalle-aloj__capacidad">
+                        <span>👤 Capacidad: 2 personas</span>
+                        <span>📍 Florián, Santander</span>
+                    </div>
+                    <button class="detalle-aloj__btn-reservar" onclick="abrirCalendario('Glamping Bosque')">
+                        Consultar disponibilidad
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PANEL CABAÑAS ALPINAS -->
+        <div class="detalle-aloj" id="detalle-cabanas">
+            <div class="detalle-aloj__inner">
+                <button class="detalle-aloj__cerrar" onclick="cerrarAlojamiento('cabanas')">&times;</button>
+                <div class="detalle-aloj__galeria">
+                    <img class="detalle-aloj__foto-principal" id="foto-cabanas" src="Imagenes/Cabañas.jpg" alt="Cabañas Alpinas">
+                    <div class="detalle-aloj__thumbs">
+                        <img src="Imagenes/Cabañas.jpg" alt="" class="thumb-activo" onclick="cambiarFoto('foto-cabanas', this)">
+                        <img src="Imagenes/Portada_2.jpg" alt="" onclick="cambiarFoto('foto-cabanas', this)">
+                        <img src="Imagenes/foto2.jpg" alt="" onclick="cambiarFoto('foto-cabanas', this)">
+                        <img src="Imagenes/foto3.jpg" alt="" onclick="cambiarFoto('foto-cabanas', this)">
+                        <img src="Imagenes/foto5.jpeg" alt="" onclick="cambiarFoto('foto-cabanas', this)">
+                    </div>
+                </div>
+                <div class="detalle-aloj__info">
+                    <p class="section-label">Cabaña · Villa AguaClara</p>
+                    <h3 class="detalle-aloj__titulo">Cabañas Alpinas</h3>
+                    <p class="detalle-aloj__desc">Arquitectura cálida y acogedora integrada perfectamente al paisaje de Florián. Ideales para parejas o familias que buscan comodidad total con el encanto de una cabaña de montaña. Madera, piedra y naturaleza en perfecta armonía.</p>
+                    <div class="detalle-aloj__incluye">
+                        <p class="detalle-aloj__incluye-titulo">¿Qué incluye?</p>
+                        <ul>
+                            <li>🛏 Habitación principal + sofá cama</li>
+                            <li>🚿 Baño completo con agua caliente</li>
+                            <li>☕ Cocina equipada y comedor</li>
+                            <li>🔥 Chimenea interior</li>
+                            <li>🌲 Terraza con vista al bosque</li>
+                            <li>🅿️ Parqueadero privado</li>
+                            <li>📶 WiFi de alta velocidad</li>
+                        </ul>
+                    </div>
+                    <div class="detalle-aloj__capacidad">
+                        <span>👤 Capacidad: hasta 4 personas</span>
+                        <span>📍 Florián, Santander</span>
+                    </div>
+                    <button class="detalle-aloj__btn-reservar" onclick="abrirCalendario('Cabañas Alpinas')">
+                        Consultar disponibilidad
+                    </button>
+                </div>
+            </div>
+        </div>
+
     </section>
+
+    <!-- CALENDARIO MODAL -->
+    <div class="cal-overlay" id="cal-overlay" onclick="cerrarCalendario()"></div>
+    <div class="cal-modal" id="cal-modal">
+        <div class="cal-modal__header">
+            <div>
+                <p class="section-label" style="margin-bottom:4px">Selecciona tus fechas</p>
+                <h3 class="cal-modal__titulo" id="cal-titulo"></h3>
+            </div>
+            <button class="cal-modal__cerrar" onclick="cerrarCalendario()">&times;</button>
+        </div>
+        <div class="cal-meses" id="cal-meses"></div>
+        <div class="cal-resumen">
+            <div class="cal-resumen__item">
+                <span class="cal-resumen__label">Check-in</span>
+                <span class="cal-resumen__valor" id="cal-checkin">—</span>
+                <span class="cal-resumen__hora">desde las 3:00 PM</span>
+            </div>
+            <div class="cal-resumen__sep"></div>
+            <div class="cal-resumen__item">
+                <span class="cal-resumen__label">Check-out</span>
+                <span class="cal-resumen__valor" id="cal-checkout">—</span>
+                <span class="cal-resumen__hora">hasta las 12:00 PM</span>
+            </div>
+        </div>
+        <a class="cal-btn-wa" id="cal-btn-wa" href="#">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Reservar por WhatsApp
+        </a>
+    </div>
 
     <!-- TOURS -->
     <section class="section-tours" id="tours">
