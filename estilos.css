@@ -956,6 +956,15 @@ footer {
     font-weight: 400;
 }
 
+.cal-resumen__hora {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--agua-medio);
+    margin-top: 4px;
+}
+
 .cal-resumen__sep {
     width: 1px;
     height: 40px;
@@ -994,117 +1003,14 @@ footer {
 }
 
 /* ═══════════════════════════════════════
-   RESPONSIVE
-   ═══════════════════════════════════════ */
-@media (max-width: 900px) {
-    .cards-grid {
-        grid-template-columns: 1fr;
-        max-width: 420px;
-        margin: 0 auto;
-    }
-
-    .grid-fotos {
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: auto;
-    }
-
-    .grid-fotos img:first-child {
-        grid-row: span 1;
-    }
-
-    nav.main-nav {
-        flex-wrap: wrap;
-    }
-
-    nav.main-nav a {
-        padding: 14px 16px;
-        font-size: 12px;
-    }
-
-    .section-alojamientos,
-    .section-galeria,
-    .section-ubicacion,
-    .section-contacto,
-    .section-tours {
-        padding: 50px 20px;
-    }
-
-    .tour-item,
-    .tour-item--invertido {
-        grid-template-columns: 1fr;
-        direction: ltr;
-        gap: 24px;
-    }
-
-    .tour-img-wrap img {
-        height: 240px;
-    }
-
-    .detalle-aloj__inner {
-        grid-template-columns: 1fr;
-    }
-
-    .detalle-aloj__foto-principal {
-        height: 260px;
-    }
-
-    .detalle-aloj__info {
-        padding: 28px 24px;
-    }
-
-    .detalle-aloj__incluye ul {
-        grid-template-columns: 1fr;
-    }
-
-    .detalle-aloj.visible {
-        max-height: 1400px;
-    }
-
-    .cal-meses {
-        grid-template-columns: 1fr;
-        padding: 16px 20px;
-    }
-
-    .cal-mes + .cal-mes {
-        border-left: none;
-        border-top: 1px solid rgba(0,0,0,0.07);
-        padding-top: 20px;
-        margin-top: 8px;
-    }
-
-    .cal-modal__header {
-        padding: 24px 20px 16px;
-    }
-
-    .cal-resumen {
-        padding: 16px 20px;
-    }
-
-    .cal-btn-wa {
-        margin: 0 20px 24px;
-    }
-}
-
-@media (max-width: 600px) {
-    .hero-galeria {
-        height: 45vh;
-    }
-
-    .section-title {
-        font-size: 32px;
-    }
-
-    .grid-fotos {
-        grid-template-columns: 1fr;
-    }
-  /* ═══════════════════════════════════════
    INSTAGRAM FLOTANTE
    ═══════════════════════════════════════ */
 .instagram-float {
     position: fixed;
     bottom: 100px;
     right: 28px;
-background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%);    border-radius: 50%;
+    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+    border-radius: 50%;
     width: 60px;
     height: 60px;
     display: flex;
@@ -1119,9 +1025,345 @@ background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f
 .instagram-float:hover {
     transform: scale(1.1);
     opacity: 0.9;
-    }
 }
+
 a[href*="instagram.com"]:hover {
     transform: scale(1.1) !important;
     opacity: 0.85 !important;
+}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE — TABLET (≤ 900px)
+   ═══════════════════════════════════════ */
+@media (max-width: 900px) {
+
+    /* Nav */
+    nav.main-nav {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    nav.main-nav a {
+        padding: 12px 14px;
+        font-size: 11px;
+    }
+
+    /* Secciones */
+    .section-alojamientos,
+    .section-galeria,
+    .section-ubicacion,
+    .section-contacto,
+    .section-tours {
+        padding: 50px 20px;
+    }
+
+    /* Cards alojamiento */
+    .cards-grid {
+        grid-template-columns: 1fr;
+        max-width: 480px;
+        margin: 0 auto;
+    }
+
+    /* Panel detalle */
+    .detalle-aloj__inner {
+        grid-template-columns: 1fr;
+    }
+    .detalle-aloj__foto-principal {
+        height: 260px;
+    }
+    .detalle-aloj__info {
+        padding: 28px 24px 32px;
+    }
+    .detalle-aloj__incluye ul {
+        grid-template-columns: 1fr;
+    }
+    .detalle-aloj.visible {
+        max-height: 2000px;
+    }
+
+    /* Tours */
+    .tour-item,
+    .tour-item--invertido {
+        grid-template-columns: 1fr;
+        direction: ltr;
+        gap: 24px;
+    }
+    .tour-img-wrap img {
+        height: 240px;
+    }
+
+    /* Galería */
+    .grid-fotos {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+    }
+    .grid-fotos img:first-child {
+        grid-row: span 1;
+    }
+
+    /* Calendario modal — una columna */
+    .cal-modal {
+        width: 96vw;
+        max-height: 92vh;
+    }
+    .cal-modal__header {
+        padding: 20px 18px 14px;
+    }
+    .cal-modal__titulo {
+        font-size: 22px;
+    }
+    .cal-meses {
+        grid-template-columns: 1fr;
+        padding: 12px 16px;
+        gap: 0;
+    }
+    .cal-mes {
+        padding: 0 8px;
+    }
+    .cal-mes + .cal-mes {
+        border-left: none;
+        border-top: 1px solid rgba(0,0,0,0.07);
+        padding-top: 16px;
+        margin-top: 8px;
+    }
+    .cal-resumen {
+        padding: 14px 16px;
+    }
+    .cal-btn-wa {
+        margin: 0 16px 20px;
+        padding: 15px 24px;
+        font-size: 11px;
+    }
+}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE — MÓVIL (≤ 600px)
+   ═══════════════════════════════════════ */
+@media (max-width: 600px) {
+
+    /* Top bar */
+    .top-bar {
+        font-size: 11px;
+        padding: 8px 16px;
+    }
+
+    /* Logo */
+    .logo-header img {
+        height: 72px;
+    }
+    .logo-header {
+        padding: 16px 20px 10px;
+    }
+
+    /* Nav — scroll horizontal en móvil */
+    nav.main-nav {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        justify-content: flex-start;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+    nav.main-nav::-webkit-scrollbar {
+        display: none;
+    }
+    nav.main-nav a {
+        white-space: nowrap;
+        padding: 14px 14px;
+        font-size: 11px;
+        flex-shrink: 0;
+    }
+    nav.main-nav a.reservar {
+        margin-left: 4px;
+    }
+
+    /* Hero */
+    .hero-galeria {
+        height: 52vw;
+        min-height: 200px;
+    }
+    .hero-slide-label {
+        font-size: 14px;
+    }
+
+    /* Títulos */
+    .section-title {
+        font-size: 28px;
+        margin-bottom: 32px;
+    }
+    .section-label {
+        font-size: 10px;
+    }
+
+    /* Secciones */
+    .section-alojamientos,
+    .section-galeria,
+    .section-ubicacion,
+    .section-contacto,
+    .section-tours {
+        padding: 40px 16px;
+    }
+
+    /* Cards */
+    .cards-grid {
+        max-width: 100%;
+        gap: 18px;
+    }
+    .card-aloj img {
+        height: 200px;
+    }
+    .card-aloj-body {
+        padding: 18px 16px 22px;
+    }
+    .card-aloj-body h3 {
+        font-size: 20px;
+    }
+
+    /* Panel detalle */
+    .detalle-aloj__titulo {
+        font-size: 26px;
+    }
+    .detalle-aloj__foto-principal {
+        height: 220px;
+    }
+    .detalle-aloj__thumbs img {
+        height: 48px;
+    }
+    .detalle-aloj__info {
+        padding: 20px 16px 28px;
+    }
+    .detalle-aloj__desc {
+        font-size: 13px;
+    }
+    .detalle-aloj__capacidad {
+        flex-direction: column;
+        gap: 6px;
+    }
+    .detalle-aloj__btn-reservar {
+        width: 100%;
+        text-align: center;
+        padding: 16px 20px;
+    }
+    .detalle-aloj__cerrar {
+        top: 12px;
+        right: 12px;
+        font-size: 24px;
+    }
+
+    /* Tours */
+    .tour-info h3 {
+        font-size: 24px;
+    }
+    .tour-img-wrap img {
+        height: 200px;
+    }
+    .btn-tour-wa {
+        width: 100%;
+        text-align: center;
+        display: block;
+        padding: 14px 20px;
+    }
+
+    /* Galería */
+    .grid-fotos {
+        grid-template-columns: 1fr;
+    }
+
+    /* Mapa */
+    .section-ubicacion iframe {
+        height: 280px;
+    }
+
+    /* Contacto */
+    .section-contacto {
+        padding: 60px 20px;
+    }
+    .btn-wa {
+        padding: 16px 32px;
+        font-size: 12px;
+    }
+
+    /* Calendario modal */
+    .cal-modal {
+        width: 100vw;
+        max-height: 100dvh;
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        transform: none;
+        border-radius: 16px 16px 0 0;
+        border-top: 3px solid var(--agua-claro);
+        overflow-y: auto;
+    }
+    .cal-modal.visible {
+        transform: none;
+    }
+    .cal-overlay {
+        align-items: flex-end;
+    }
+    .cal-modal__header {
+        padding: 18px 16px 12px;
+        position: sticky;
+        top: 0;
+        background: var(--blanco);
+        z-index: 2;
+        border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    .cal-modal__titulo {
+        font-size: 20px;
+    }
+    .cal-meses {
+        padding: 10px 10px;
+    }
+    .cal-mes {
+        padding: 0 4px;
+    }
+    .cal-mes__nombre {
+        font-size: 15px;
+    }
+    .cal-dia {
+        font-size: 12px;
+        min-height: 36px;
+        padding: 6px 2px;
+    }
+    .cal-dia-nombre {
+        font-size: 10px;
+        padding: 4px 0 8px;
+    }
+    .cal-resumen {
+        padding: 12px 16px;
+        position: sticky;
+        bottom: 0;
+        background: var(--crema);
+        z-index: 2;
+    }
+    .cal-resumen__valor {
+        font-size: 16px;
+    }
+    .cal-resumen__hora {
+        font-size: 10px;
+    }
+    .cal-btn-wa {
+        margin: 0 16px 24px;
+        padding: 16px 20px;
+        font-size: 11px;
+        letter-spacing: 0.14em;
+    }
+
+    /* Botones flotantes más pequeños en móvil */
+    .whatsapp-float {
+        width: 52px;
+        height: 52px;
+        bottom: 20px;
+        right: 20px;
+    }
+    .whatsapp-float img {
+        width: 26px;
+        height: 26px;
+    }
+    a[style*="bottom:100px"] {
+        width: 52px !important;
+        height: 52px !important;
+        bottom: 82px !important;
+        right: 20px !important;
+    }
 }
