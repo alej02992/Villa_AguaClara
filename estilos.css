@@ -1695,8 +1695,8 @@ body {
    HEADER
    ══════════════════ */
 .res-header {
-    background: var(--blanco);
-    border-bottom: 1px solid rgba(0,0,0,0.07);
+    background: var(--crema);
+    border-bottom: 1px solid rgba(0,0,0,0.08);
     padding: 0;
     display: flex;
     flex-direction: column;
@@ -1709,33 +1709,43 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 16px 40px;
+    padding: 18px 48px;
 }
 
 .res-header__logo {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    text-decoration: none;
 }
 
 .res-header__logo img {
-    height: 64px;
+    height: 72px;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.10));
+    transition: transform 0.25s;
 }
 
+.res-header__logo:hover img { transform: scale(1.04); }
+
 .res-header__volver {
-    font-size: 12px;
-    letter-spacing: 0.18em;
+    font-size: 11px;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--agua-oscuro);
     text-decoration: none;
     display: flex;
     align-items: center;
-    gap: 8px;
-    transition: opacity 0.2s;
+    gap: 7px;
+    transition: opacity 0.2s, gap 0.2s;
     z-index: 1;
+    opacity: 0.75;
 }
 
-.res-header__volver:hover { opacity: 0.6; }
+.res-header__volver:hover { opacity: 1; gap: 10px; }
 
 .res-header__espaciador { width: 80px; }
 
@@ -1745,18 +1755,36 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 14px 24px;
-    border-top: 1px solid rgba(0,0,0,0.06);
+    padding: 13px 48px;
+    border-top: 1px solid rgba(0,0,0,0.07);
     gap: 0;
+    background: var(--crema);
 }
 
 .res-paso {
     font-size: 10px;
-    letter-spacing: 0.22em;
+    letter-spacing: 0.24em;
     text-transform: uppercase;
     color: var(--gris-suave);
     white-space: nowrap;
     font-weight: 400;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+/* Número del paso */
+.res-paso__num {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid currentColor;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    flex-shrink: 0;
+    opacity: 0.5;
 }
 
 .res-paso.activo {
@@ -1764,13 +1792,46 @@ body {
     font-weight: 500;
 }
 
+.res-paso.activo .res-paso__num {
+    background: var(--agua-oscuro);
+    border-color: var(--agua-oscuro);
+    color: #fff;
+    opacity: 1;
+}
+
+.res-paso.actual {
+    color: var(--dorado);
+    font-weight: 600;
+}
+
+.res-paso.actual .res-paso__num {
+    background: var(--dorado);
+    border-color: var(--dorado);
+    color: #fff;
+    opacity: 1;
+}
+
 .res-paso__linea {
     flex: 1;
-    max-width: 80px;
+    max-width: 72px;
     height: 1px;
-    background: rgba(0,0,0,0.15);
-    margin: 0 14px;
+    background: rgba(0,0,0,0.12);
+    margin: 0 12px;
+    position: relative;
+    overflow: hidden;
 }
+
+.res-paso__linea::after {
+    content: '';
+    position: absolute;
+    left: 0; top: 0;
+    height: 100%;
+    width: 0%;
+    background: var(--agua-oscuro);
+    transition: width 0.6s ease;
+}
+
+.res-paso__linea.llena::after { width: 100%; }
 
 /* ══════════════════
    LAYOUT
