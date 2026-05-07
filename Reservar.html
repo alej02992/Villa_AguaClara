@@ -59,11 +59,11 @@
 
         /* ── LAYOUT ── */
         .res-wrap {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 48px 24px 80px;
             display: grid;
-            grid-template-columns: 1fr 380px;
+            grid-template-columns: 1fr 480px;
             gap: 32px;
             align-items: start;
         }
@@ -192,7 +192,7 @@
 
         .res-deco-foto img {
             width: 100%;
-            height: 120px;
+            height: 180px;
             object-fit: cover;
             display: block;
             transition: transform 0.35s ease;
@@ -200,17 +200,7 @@
 
         .res-deco-foto:hover img { transform: scale(1.06); }
 
-        .res-deco-foto span {
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            background: linear-gradient(transparent, rgba(10,40,55,0.72));
-            color: #fff;
-            font-size: 11px;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-            text-align: center;
-            padding: 16px 4px 7px;
-        }
+        .res-deco-foto span { display: none; }
 
         .res-deco-toggle {
             display: flex;
@@ -283,15 +273,92 @@
             font-size: 24px;
             font-weight: 300;
             color: var(--agua-oscuro);
-            margin-bottom: 6px;
+            margin-bottom: 12px;
         }
 
-        .res-resumen__img {
+        /* ── CARRUSEL ── */
+        .res-carrusel {
+            position: relative;
             width: 100%;
-            height: 160px;
+            height: 360px;
+            overflow: hidden;
+            margin-bottom: 24px;
+            background: #111;
+        }
+
+        .res-carrusel__track {
+            display: flex;
+            height: 100%;
+            width: 100%;
+            transition: transform 0.55s cubic-bezier(0.77, 0, 0.175, 1);
+            will-change: transform;
+        }
+
+        .res-carrusel__slide {
+            min-width: 100%;
+            width: 100%;
+            height: 100%;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .res-carrusel__slide img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
             display: block;
-            margin-bottom: 24px;
+            user-select: none;
+            pointer-events: none;
+        }
+
+        .res-carrusel__btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.18);
+            border: none;
+            color: #fff;
+            font-size: 20px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+            transition: background 0.2s;
+            z-index: 2;
+        }
+
+        .res-carrusel__btn:hover { background: rgba(255,255,255,0.38); }
+        .res-carrusel__btn--izq  { left: 10px; }
+        .res-carrusel__btn--der  { right: 10px; }
+
+        .res-carrusel__dots {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+            z-index: 2;
+        }
+
+        .res-carrusel__dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.45);
+            cursor: pointer;
+            transition: background 0.25s, transform 0.25s;
+            border: none;
+            padding: 0;
+        }
+
+        .res-carrusel__dot.activo {
+            background: #fff;
+            transform: scale(1.35);
         }
 
         .res-resumen__sep {
@@ -407,7 +474,7 @@
             .res-deco-fotos { gap: 6px; }
             .res-deco-foto img { height: 88px; }
 
-            .res-resumen__img { height: 130px; }
+            .res-carrusel { height: 300px; }
 
             .res-resumen__total-valor { font-size: 28px; }
         }
@@ -488,7 +555,16 @@
         <div class="res-resumen">
             <p class="res-label" style="margin-bottom:8px">Resumen</p>
             <p class="res-resumen__nombre" id="res-nombre-aloj">—</p>
-            <img class="res-resumen__img" id="res-img-aloj" src="Imagenes/glamping1.jpg" alt="">
+
+            <!-- CARRUSEL -->
+            <div class="res-carrusel" id="res-carrusel">
+                <div class="res-carrusel__track" id="res-carrusel-track">
+                    <!-- slides inyectados por JS -->
+                </div>
+                <button class="res-carrusel__btn res-carrusel__btn--izq" id="car-izq" aria-label="Anterior">&#8249;</button>
+                <button class="res-carrusel__btn res-carrusel__btn--der" id="car-der" aria-label="Siguiente">&#8250;</button>
+                <div class="res-carrusel__dots" id="car-dots"></div>
+            </div>
 
             <div class="res-resumen__linea res-resumen__linea--concepto">
                 <span id="res-linea-noches">— noches</span>
@@ -521,12 +597,134 @@
         var PRECIO_DECO  = 100000;
         var decoActiva   = false;
 
-        // Imágenes por alojamiento
+        // Imágenes por alojamiento (5 fotos cada uno)
         var imagenes = {
-            'Glamping Montaña': 'Imagenes/glamping1.jpg',
-            'Glamping Bosque':  'Imagenes/glamping2.jpg',
-            'Cabañas Alpinas':  'Imagenes/Cabañas.jpg'
+            'Glamping Montaña': [
+                'Imagenes/glamping1.jpg',
+                'Imagenes/Portada_2.jpg',
+                'Imagenes/foto1.jpg',
+                'Imagenes/foto2.jpg',
+                'Imagenes/foto3.jpg'
+            ],
+            'Glamping Bosque': [
+                'Imagenes/glamping2.jpg',
+                'Imagenes/Portada_3.jpeg',
+                'Imagenes/foto4.jpg',
+                'Imagenes/foto5.jpeg',
+                'Imagenes/foto1.jpg'
+            ],
+            'Cabañas Alpinas': [
+                'Imagenes/Cabañas.jpg',
+                'Imagenes/Portada_2.jpg',
+                'Imagenes/foto2.jpg',
+                'Imagenes/foto3.jpg',
+                'Imagenes/foto5.jpeg'
+            ]
         };
+
+        /* ══ CARRUSEL ══ */
+        var carIdx       = 0;
+        var carFotos     = [];
+        var carTimer     = null;
+        var carManual    = false;   // true cuando el usuario interactuó
+
+        function initCarrusel(fotos) {
+            carFotos = fotos;
+            carIdx   = 0;
+            var track = document.getElementById('res-carrusel-track');
+            var dots  = document.getElementById('car-dots');
+            if (!track || !dots) return;
+
+            track.innerHTML = '';
+            dots.innerHTML  = '';
+
+            fotos.forEach(function(src, i) {
+                var slide = document.createElement('div');
+                slide.className = 'res-carrusel__slide';
+                var img = document.createElement('img');
+                img.src = src;
+                img.alt = 'Foto ' + (i + 1);
+                slide.appendChild(img);
+                track.appendChild(slide);
+
+                var dot = document.createElement('button');
+                dot.className = 'res-carrusel__dot' + (i === 0 ? ' activo' : '');
+                dot.setAttribute('aria-label', 'Foto ' + (i + 1));
+                (function(idx) {
+                    dot.addEventListener('click', function() {
+                        irA(idx, true);
+                    });
+                })(i);
+                dots.appendChild(dot);
+            });
+
+            moverA(0);
+            iniciarAuto();
+
+            // Botones flecha
+            var btnIzq = document.getElementById('car-izq');
+            var btnDer = document.getElementById('car-der');
+            if (btnIzq) btnIzq.onclick = function() { irA(carIdx - 1, true); };
+            if (btnDer) btnDer.onclick = function() { irA(carIdx + 1, true); };
+
+            // Swipe táctil
+            var startX = 0;
+            var carEl  = document.getElementById('res-carrusel');
+            if (carEl) {
+                carEl.addEventListener('touchstart', function(e) { startX = e.touches[0].clientX; }, { passive: true });
+                carEl.addEventListener('touchend',   function(e) {
+                    var dx = startX - e.changedTouches[0].clientX;
+                    if (dx >  40) irA(carIdx + 1, true);
+                    if (dx < -40) irA(carIdx - 1, true);
+                });
+            }
+        }
+
+        function moverA(i) {
+            var track = document.getElementById('res-carrusel-track');
+            if (track) track.style.transform = 'translateX(-' + (i * 100) + '%)';
+            var dots = document.querySelectorAll('.res-carrusel__dot');
+            dots.forEach(function(d, j) {
+                d.classList.toggle('activo', j === i);
+            });
+            carIdx = i;
+        }
+
+        function irA(i, manual) {
+            var total = carFotos.length;
+            if (total === 0) return;
+            i = ((i % total) + total) % total;
+            moverA(i);
+            if (manual) {
+                carManual = true;
+                reiniciarAuto();
+            }
+        }
+
+        function iniciarAuto() {
+            if (carTimer) clearInterval(carTimer);
+            carTimer = setInterval(function() {
+                if (!carManual) {
+                    irA(carIdx + 1, false);
+                }
+            }, 5000);
+        }
+
+        function reiniciarAuto() {
+            // Tras interacción manual, retoma el auto después de 8 seg
+            clearInterval(carTimer);
+            carTimer = setInterval(function() {
+                carManual = false;
+                irA(carIdx + 1, false);
+            }, 8000);
+        }
+
+        // Teclas ← → para el carrusel
+        document.addEventListener('keydown', function(e) {
+            if (carFotos.length === 0) return;
+            if (e.key === 'ArrowRight') irA(carIdx + 1, true);
+            if (e.key === 'ArrowLeft')  irA(carIdx - 1, true);
+        });
 
         function formatCOP(v) {
             return '$' + v.toLocaleString('es-CO');
@@ -581,13 +779,13 @@
             var noches  = parseInt(params.n || '0');
             var subtotal = noches * PRECIO_NOCHE;
 
-            // Títulos
+            // Títulos y carrusel
             var tituloEl = document.getElementById('res-titulo-aloj');
             var nombreEl = document.getElementById('res-nombre-aloj');
-            var imgEl    = document.getElementById('res-img-aloj');
             if (tituloEl) tituloEl.textContent = aloj;
             if (nombreEl) nombreEl.textContent = aloj;
-            if (imgEl && imagenes[aloj]) imgEl.src = imagenes[aloj];
+            if (imagenes[aloj]) initCarrusel(imagenes[aloj]);
+            else initCarrusel(['Imagenes/glamping1.jpg']);
 
             // Fechas
             var ciEl  = document.getElementById('res-checkin');
