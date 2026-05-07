@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservar · Villa AguaClara</title>
+    <link rel="icon" href="Imagenes/Logo_Aguaclara.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --agua-oscuro: #1a5f7a;
+            --agua-medio:  #2a8aaa;
+            --agua-claro:  #4db8d4;
+            --agua-suave:  #e8f6fa;
+            --crema:       #f4f1ec;
+            --blanco:      #ffffff;
+            --negro:       #1a1a1a;
+            --gris-suave:  #7a8a8a;
+            --dorado:      #c9a84c;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Jost', sans-serif;
+            background: var(--crema);
+            color: var(--negro);
+            font-weight: 300;
+            min-height: 100vh;
+        }
+
+        /* ── HEADER ── */
+        .res-header {
+            background: var(--blanco);
+            border-bottom: 1px solid rgba(0,0,0,0.07);
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .res-header__logo img {
+            height: 56px;
+        }
+
+        .res-header__volver {
+            font-size: 12px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--agua-oscuro);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: opacity 0.2s;
+        }
+
+        .res-header__volver:hover { opacity: 0.6; }
+
+        /* ── LAYOUT ── */
+        .res-wrap {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 48px 24px 80px;
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 32px;
+            align-items: start;
+        }
+
+        /* ── TÍTULO ── */
+        .res-titulo-bloque {
+            grid-column: 1 / -1;
+            margin-bottom: 8px;
+        }
+
+        .res-label {
+            font-size: 11px;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--agua-medio);
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .res-titulo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 42px;
+            font-weight: 300;
+            color: var(--agua-oscuro);
+            line-height: 1.1;
+        }
+
+        /* ═══════════════════════════
+           COLUMNA IZQUIERDA
+           ═══════════════════════════ */
+
+        /* ── CARD RESUMEN FECHAS ── */
+        .res-card {
+            background: var(--blanco);
+            padding: 32px;
+            margin-bottom: 20px;
+        }
+
+        .res-card__titulo {
+            font-size: 11px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--gris-suave);
+            margin-bottom: 20px;
+        }
+
+        .res-fechas {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .res-fecha-item {
+            padding: 18px 20px;
+        }
+
+        .res-fecha-item + .res-fecha-item {
+            border-left: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .res-fecha-label {
+            font-size: 10px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--gris-suave);
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .res-fecha-valor {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20px;
+            color: var(--agua-oscuro);
+            display: block;
+        }
+
+        .res-fecha-hora {
+            font-size: 11px;
+            color: var(--agua-medio);
+            display: block;
+            margin-top: 3px;
+            letter-spacing: 0.08em;
+        }
+
+        .res-noches {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 13px;
+            color: var(--gris-suave);
+            letter-spacing: 0.08em;
+        }
+
+        .res-noches strong {
+            color: var(--agua-oscuro);
+            font-weight: 400;
+        }
+
+        /* ── CARD DECORACIÓN ── */
+        .res-deco-titulo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 22px;
+            font-weight: 300;
+            color: var(--agua-oscuro);
+            margin-bottom: 4px;
+        }
+
+        .res-deco-sub {
+            font-size: 13px;
+            color: var(--gris-suave);
+            margin-bottom: 20px;
+        }
+
+        .res-deco-fotos {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .res-deco-foto {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .res-deco-foto img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.35s ease;
+        }
+
+        .res-deco-foto:hover img { transform: scale(1.06); }
+
+        .res-deco-foto span {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            background: linear-gradient(transparent, rgba(10,40,55,0.72));
+            color: #fff;
+            font-size: 11px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            text-align: center;
+            padding: 16px 4px 7px;
+        }
+
+        .res-deco-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--crema);
+            padding: 16px 20px;
+            cursor: pointer;
+            border: 1px solid rgba(0,0,0,0.08);
+            transition: background 0.2s;
+            user-select: none;
+        }
+
+        .res-deco-toggle:hover { background: var(--agua-suave); }
+
+        .res-deco-toggle.activo {
+            background: var(--agua-suave);
+            border-color: var(--agua-claro);
+        }
+
+        .res-deco-toggle__izq {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .res-deco-toggle__check {
+            width: 22px;
+            height: 22px;
+            border: 2px solid var(--agua-medio);
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: background 0.2s, border-color 0.2s;
+            font-size: 13px;
+            color: transparent;
+        }
+
+        .res-deco-toggle.activo .res-deco-toggle__check {
+            background: var(--agua-oscuro);
+            border-color: var(--agua-oscuro);
+            color: #fff;
+        }
+
+        .res-deco-toggle__texto {
+            font-size: 13px;
+            color: var(--negro);
+        }
+
+        .res-deco-toggle__precio {
+            font-size: 14px;
+            color: var(--agua-oscuro);
+            font-weight: 400;
+        }
+
+        /* ═══════════════════════════
+           COLUMNA DERECHA — RESUMEN
+           ═══════════════════════════ */
+        .res-resumen {
+            background: var(--blanco);
+            padding: 32px;
+            position: sticky;
+            top: 24px;
+        }
+
+        .res-resumen__nombre {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 24px;
+            font-weight: 300;
+            color: var(--agua-oscuro);
+            margin-bottom: 6px;
+        }
+
+        .res-resumen__img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            display: block;
+            margin-bottom: 24px;
+        }
+
+        .res-resumen__sep {
+            height: 1px;
+            background: rgba(0,0,0,0.08);
+            margin: 16px 0;
+        }
+
+        .res-resumen__linea {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+            font-size: 14px;
+        }
+
+        .res-resumen__linea--concepto {
+            color: var(--gris-suave);
+            font-weight: 300;
+        }
+
+        .res-resumen__linea--monto {
+            color: var(--negro);
+            font-weight: 400;
+        }
+
+        .res-resumen__linea--deco {
+            color: var(--agua-medio);
+            font-size: 13px;
+            display: none;
+        }
+
+        .res-resumen__linea--deco.visible {
+            display: flex;
+        }
+
+        .res-resumen__total {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-top: 8px;
+        }
+
+        .res-resumen__total-label {
+            font-size: 11px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--gris-suave);
+        }
+
+        .res-resumen__total-valor {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 34px;
+            font-weight: 400;
+            color: var(--agua-oscuro);
+        }
+
+        /* ── BOTÓN WHATSAPP ── */
+        .res-btn-wa {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            margin-top: 24px;
+            background: var(--agua-oscuro);
+            color: #fff;
+            font-family: 'Jost', sans-serif;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            text-decoration: none;
+            padding: 18px 24px;
+            cursor: pointer;
+            transition: background 0.25s, transform 0.2s;
+            border: none;
+        }
+
+        .res-btn-wa:hover {
+            background: #25d366;
+            transform: translateY(-2px);
+        }
+
+        .res-nota {
+            font-size: 11px;
+            color: var(--gris-suave);
+            text-align: center;
+            margin-top: 12px;
+            line-height: 1.6;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 760px) {
+            .res-header { padding: 16px 20px; }
+            .res-header__logo img { height: 44px; }
+
+            .res-wrap {
+                grid-template-columns: 1fr;
+                padding: 24px 16px 60px;
+                gap: 20px;
+            }
+
+            .res-titulo { font-size: 30px; }
+
+            .res-card { padding: 22px 18px; }
+
+            .res-resumen {
+                position: static;
+                order: -1;
+            }
+
+            .res-deco-fotos { gap: 6px; }
+            .res-deco-foto img { height: 88px; }
+
+            .res-resumen__img { height: 130px; }
+
+            .res-resumen__total-valor { font-size: 28px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="res-header">
+        <a class="res-header__logo" href="index.html">
+            <img src="Imagenes/Logo_Aguaclara.png" alt="Villa AguaClara">
+        </a>
+        <a class="res-header__volver" href="index.html">← Volver</a>
+    </header>
+
+    <!-- CONTENIDO -->
+    <div class="res-wrap">
+
+        <!-- TÍTULO -->
+        <div class="res-titulo-bloque">
+            <span class="res-label">Tu reserva · Villa AguaClara</span>
+            <h1 class="res-titulo" id="res-titulo-aloj">Confirma tu estadía</h1>
+        </div>
+
+        <!-- COL IZQUIERDA -->
+        <div>
+
+            <!-- FECHAS -->
+            <div class="res-card">
+                <p class="res-card__titulo">Fechas seleccionadas</p>
+                <div class="res-fechas">
+                    <div class="res-fecha-item">
+                        <span class="res-fecha-label">Check-in</span>
+                        <span class="res-fecha-valor" id="res-checkin">—</span>
+                        <span class="res-fecha-hora">desde las 3:00 PM</span>
+                    </div>
+                    <div class="res-fecha-item">
+                        <span class="res-fecha-label">Check-out</span>
+                        <span class="res-fecha-valor" id="res-checkout">—</span>
+                        <span class="res-fecha-hora">hasta las 12:00 PM</span>
+                    </div>
+                </div>
+                <p class="res-noches" id="res-noches-texto"></p>
+            </div>
+
+            <!-- DECORACIÓN -->
+            <div class="res-card">
+                <p class="res-deco-titulo">¿Deseas agregar decoración?</p>
+                <p class="res-deco-sub">Hazlo especial · $100.000 COP adicional</p>
+
+                <div class="res-deco-fotos">
+                    <div class="res-deco-foto">
+                        <img src="Imagenes/foto1.jpg" alt="Decoración romántica">
+                        <span>Romántica</span>
+                    </div>
+                    <div class="res-deco-foto">
+                        <img src="Imagenes/foto2.jpg" alt="Decoración especial">
+                        <span>Especial</span>
+                    </div>
+                    <div class="res-deco-foto">
+                        <img src="Imagenes/foto3.jpg" alt="Decoración festiva">
+                        <span>Festiva</span>
+                    </div>
+                </div>
+
+                <div class="res-deco-toggle" id="deco-toggle" onclick="toggleDeco()">
+                    <div class="res-deco-toggle__izq">
+                        <div class="res-deco-toggle__check" id="deco-check">✓</div>
+                        <span class="res-deco-toggle__texto">Agregar decoración especial</span>
+                    </div>
+                    <span class="res-deco-toggle__precio">+ $100.000</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- COL DERECHA — RESUMEN PRECIO -->
+        <div class="res-resumen">
+            <p class="res-label" style="margin-bottom:8px">Resumen</p>
+            <p class="res-resumen__nombre" id="res-nombre-aloj">—</p>
+            <img class="res-resumen__img" id="res-img-aloj" src="Imagenes/glamping1.jpg" alt="">
+
+            <div class="res-resumen__linea res-resumen__linea--concepto">
+                <span id="res-linea-noches">— noches</span>
+                <span class="res-resumen__linea--monto" id="res-linea-subtotal">—</span>
+            </div>
+
+            <div class="res-resumen__linea res-resumen__linea--deco" id="res-linea-deco">
+                <span>🎀 Decoración especial</span>
+                <span>+ $100.000</span>
+            </div>
+
+            <div class="res-resumen__sep"></div>
+
+            <div class="res-resumen__total">
+                <span class="res-resumen__total-label">Total estimado</span>
+                <span class="res-resumen__total-valor" id="res-total">—</span>
+            </div>
+
+            <a class="res-btn-wa" id="res-btn-wa" href="#">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                Confirmar por WhatsApp
+            </a>
+            <p class="res-nota">Te contactaremos para confirmar disponibilidad y coordinar el pago.</p>
+        </div>
+
+    </div>
+
+    <script>
+        var PRECIO_NOCHE = 250000;
+        var PRECIO_DECO  = 100000;
+        var decoActiva   = false;
+
+        // Imágenes por alojamiento
+        var imagenes = {
+            'Glamping Montaña': 'Imagenes/glamping1.jpg',
+            'Glamping Bosque':  'Imagenes/glamping2.jpg',
+            'Cabañas Alpinas':  'Imagenes/Cabañas.jpg'
+        };
+
+        function formatCOP(v) {
+            return '$' + v.toLocaleString('es-CO');
+        }
+
+        function toggleDeco() {
+            decoActiva = !decoActiva;
+            var toggle   = document.getElementById('deco-toggle');
+            var lineaDeco = document.getElementById('res-linea-deco');
+
+            if (decoActiva) {
+                toggle.classList.add('activo');
+                if (lineaDeco) lineaDeco.classList.add('visible');
+            } else {
+                toggle.classList.remove('activo');
+                if (lineaDeco) lineaDeco.classList.remove('visible');
+            }
+            actualizarTotal();
+        }
+
+        function actualizarTotal() {
+            var noches = parseInt(document.getElementById('res-noches-texto').dataset.noches || '0');
+            var subtotal = noches * PRECIO_NOCHE;
+            var total    = subtotal + (decoActiva ? PRECIO_DECO : 0);
+
+            document.getElementById('res-total').textContent = formatCOP(total);
+
+            // Actualizar link WhatsApp
+            var params  = JSON.parse(decodeURIComponent(new URLSearchParams(location.search).get('d') || '{}'));
+            var texto = encodeURIComponent(
+                'Hola, quiero reservar *' + (params.aloj || '') + '* en Villa AguaClara.\n' +
+                '\uD83D\uDCC5 Check-in: '  + (params.ci || '') + ' (desde las 3:00 PM)\n' +
+                '\uD83D\uDCC5 Check-out: ' + (params.co || '') + ' (hasta las 12:00 PM)\n' +
+                '\uD83C\uDF19 Noches: ' + noches + '\n' +
+                (decoActiva ? '\uD83C\uDF80 Decoración especial: $100.000\n' : '') +
+                '\uD83D\uDCB0 Total estimado: ' + formatCOP(total)
+            );
+            var btn = document.getElementById('res-btn-wa');
+            if (btn) btn.href = 'https://wa.me/573102879726?text=' + texto;
+        }
+
+        // Leer parámetros de la URL
+        (function init() {
+            var params = {};
+            try {
+                params = JSON.parse(decodeURIComponent(new URLSearchParams(location.search).get('d') || '{}'));
+            } catch(e) {}
+
+            var aloj    = params.aloj  || 'Tu alojamiento';
+            var ci      = params.ci    || '—';
+            var co      = params.co    || '—';
+            var noches  = parseInt(params.n || '0');
+            var subtotal = noches * PRECIO_NOCHE;
+
+            // Títulos
+            var tituloEl = document.getElementById('res-titulo-aloj');
+            var nombreEl = document.getElementById('res-nombre-aloj');
+            var imgEl    = document.getElementById('res-img-aloj');
+            if (tituloEl) tituloEl.textContent = aloj;
+            if (nombreEl) nombreEl.textContent = aloj;
+            if (imgEl && imagenes[aloj]) imgEl.src = imagenes[aloj];
+
+            // Fechas
+            var ciEl  = document.getElementById('res-checkin');
+            var coEl  = document.getElementById('res-checkout');
+            if (ciEl) ciEl.textContent = ci;
+            if (coEl) coEl.textContent = co;
+
+            // Noches
+            var nochesEl = document.getElementById('res-noches-texto');
+            if (nochesEl) {
+                nochesEl.textContent = noches + ' noche' + (noches !== 1 ? 's' : '') + ' en total';
+                nochesEl.dataset.noches = noches;
+            }
+
+            // Desglose
+            var linNochesEl  = document.getElementById('res-linea-noches');
+            var linSubtotalEl = document.getElementById('res-linea-subtotal');
+            if (linNochesEl)   linNochesEl.textContent   = noches + ' noche' + (noches !== 1 ? 's' : '') + ' × $250.000';
+            if (linSubtotalEl) linSubtotalEl.textContent = formatCOP(subtotal);
+
+            // Total inicial
+            var totalEl = document.getElementById('res-total');
+            if (totalEl) totalEl.textContent = formatCOP(subtotal);
+
+            // WhatsApp inicial
+            var texto = encodeURIComponent(
+                'Hola, quiero reservar *' + aloj + '* en Villa AguaClara.\n' +
+                '\uD83D\uDCC5 Check-in: '  + ci + ' (desde las 3:00 PM)\n' +
+                '\uD83D\uDCC5 Check-out: ' + co + ' (hasta las 12:00 PM)\n' +
+                '\uD83C\uDF19 Noches: ' + noches + '\n' +
+                '\uD83D\uDCB0 Total estimado: ' + formatCOP(subtotal)
+            );
+            var btn = document.getElementById('res-btn-wa');
+            if (btn) btn.href = 'https://wa.me/573102879726?text=' + texto;
+        })();
+    </script>
+
+</body>
+</html>
