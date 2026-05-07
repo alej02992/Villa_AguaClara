@@ -230,4 +230,4 @@ var PRECIO_NOCHE = 250000;
 
             /* Inicializar Wompi con el total base */
             actualizarWompi(subtotal);
-        })();
+        })(); 
