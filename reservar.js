@@ -6,21 +6,21 @@ var PRECIO_NOCHE = 250000;
         var imagenes = {
             'Glamping Montaña': [
                 'Imagenes/glamping1.jpg',
-                'Imagenes/Portada_2.jpg',
+                'Imagenes/portada_2.jpg',
                 'Imagenes/foto1.jpg',
                 'Imagenes/foto2.jpg',
                 'Imagenes/foto3.jpg'
             ],
             'Glamping Bosque': [
                 'Imagenes/glamping2.jpg',
-                'Imagenes/Portada_3.jpeg',
+                'Imagenes/portada_3.jpeg',
                 'Imagenes/foto4.jpg',
                 'Imagenes/foto5.jpeg',
                 'Imagenes/foto1.jpg'
             ],
             'Cabañas Alpinas': [
                 'Imagenes/Cabañas.jpg',
-                'Imagenes/Portada_2.jpg',
+                'Imagenes/portada_2.jpg',
                 'Imagenes/foto2.jpg',
                 'Imagenes/foto3.jpg',
                 'Imagenes/foto5.jpeg'
