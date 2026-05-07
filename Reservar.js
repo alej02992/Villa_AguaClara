@@ -143,18 +143,50 @@ var PRECIO_NOCHE = 250000;
             var subtotal = noches * PRECIO_NOCHE;
             var total    = subtotal + (decoActiva ? PRECIO_DECO : 0);
             document.getElementById('res-total').textContent = formatCOP(total);
+            actualizarWompi(total);
+        }
 
-            var params = JSON.parse(decodeURIComponent(new URLSearchParams(location.search).get('d') || '{}'));
-            var texto  = encodeURIComponent(
-                'Hola, quiero reservar *' + (params.aloj || '') + '* en Villa AguaClara.\n' +
-                '\uD83D\uDCC5 Check-in: '  + (params.ci || '') + ' (desde las 3:00 PM)\n' +
-                '\uD83D\uDCC5 Check-out: ' + (params.co || '') + ' (hasta las 12:00 PM)\n' +
-                '\uD83C\uDF19 Noches: ' + noches + '\n' +
-                (decoActiva ? '\uD83C\uDF80 Decoración especial: $100.000\n' : '') +
-                '\uD83D\uDCB0 Total estimado: ' + formatCOP(total)
-            );
-            var btn = document.getElementById('res-btn-wa');
-            if (btn) btn.href = 'https://wa.me/573102879726?text=' + texto;
+        /* ══ WOMPI ══ */
+        function generarReferencia(aloj, ci, co) {
+            var str = (aloj + ci + co + Date.now()).replace(/\s/g, '');
+            var hash = 0;
+            for (var i = 0; i < str.length; i++) {
+                hash = ((hash << 5) - hash + str.charCodeAt(i)) | 0;
+            }
+            return 'AGUACLARA-' + Math.abs(hash).toString(36).toUpperCase();
+        }
+
+        function actualizarWompi(totalCOP) {
+            var btn = document.getElementById('wompi-btn');
+            if (!btn) return;
+
+            var params = {};
+            try { params = JSON.parse(decodeURIComponent(new URLSearchParams(location.search).get('d') || '{}')); } catch(e) {}
+
+            var centavos   = totalCOP * 100;
+            var referencia = generarReferencia(params.aloj || '', params.ci || '', params.co || '');
+
+            btn.setAttribute('data-amount-in-cents', centavos);
+            btn.setAttribute('data-reference', referencia);
+            btn.setAttribute('data-redirect-url', location.origin + '/gracias.html');
+
+            /* Forzar re-render del widget Wompi si ya fue montado */
+            if (window.WidgetCheckout) {
+                var container = document.getElementById('wompi-container');
+                if (container) {
+                    container.innerHTML = '';
+                    var newBtn = document.createElement('script');
+                    newBtn.src = 'https://checkout.wompi.co/widget.js';
+                    newBtn.setAttribute('data-render', 'button');
+                    newBtn.setAttribute('data-public-key', btn.getAttribute('data-public-key'));
+                    newBtn.setAttribute('data-currency', 'COP');
+                    newBtn.setAttribute('data-amount-in-cents', centavos);
+                    newBtn.setAttribute('data-reference', referencia);
+                    newBtn.setAttribute('data-redirect-url', location.origin + '/gracias.html');
+                    newBtn.id = 'wompi-btn';
+                    container.appendChild(newBtn);
+                }
+            }
         }
 
         /* ══ INICIALIZACIÓN ══ */
@@ -196,13 +228,6 @@ var PRECIO_NOCHE = 250000;
             var totalEl = document.getElementById('res-total');
             if (totalEl) totalEl.textContent = formatCOP(subtotal);
 
-            var texto = encodeURIComponent(
-                'Hola, quiero reservar *' + aloj + '* en Villa AguaClara.\n' +
-                '\uD83D\uDCC5 Check-in: '  + ci + ' (desde las 3:00 PM)\n' +
-                '\uD83D\uDCC5 Check-out: ' + co + ' (hasta las 12:00 PM)\n' +
-                '\uD83C\uDF19 Noches: ' + noches + '\n' +
-                '\uD83D\uDCB0 Total estimado: ' + formatCOP(subtotal)
-            );
-            var btn = document.getElementById('res-btn-wa');
-            if (btn) btn.href = 'https://wa.me/573102879726?text=' + texto;
+            /* Inicializar Wompi con el total base */
+            actualizarWompi(subtotal);
         })();

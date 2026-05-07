@@ -2076,30 +2076,31 @@ body {
     color: var(--agua-oscuro);
 }
 
-/* ── BOTÓN WHATSAPP ── */
-.res-btn-wa {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    width: 100%;
+/* ── WOMPI WIDGET ── */
+.wompi-wrapper {
     margin-top: 24px;
-    background: var(--agua-oscuro);
-    color: #fff;
-    font-family: 'Jost', sans-serif;
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    text-decoration: none;
-    padding: 18px 24px;
-    cursor: pointer;
-    transition: background 0.25s, transform 0.2s;
-    border: none;
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
-.res-btn-wa:hover {
-    background: #25d366;
+.wompi-wrapper > script,
+.wompi-wrapper button,
+.wompi-wrapper [data-render="button"] {
+    width: 100% !important;
+    min-height: 52px;
+    border-radius: 0 !important;
+    font-family: 'Jost', sans-serif !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.2em !important;
+    text-transform: uppercase !important;
+    background: var(--agua-oscuro) !important;
+    transition: background 0.25s, transform 0.2s !important;
+}
+
+.wompi-wrapper button:hover {
+    background: var(--agua-claro) !important;
     transform: translateY(-2px);
 }
 
