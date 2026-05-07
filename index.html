@@ -12,7 +12,7 @@
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://villaaguaclara.netlify.app/">
 
-    <!-- ═══════════ OPEN GRAPH (WhatsApp, Facebook, redes) ═══════════ -->
+    <!-- ═══════════ OPEN GRAPH ═══════════ -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://villaaguaclara.netlify.app/">
     <meta property="og:title" content="Villa AguaClara – Glamping & Cabañas · Florián, Santander">
@@ -29,7 +29,7 @@
     <meta name="twitter:description" content="Glamping domo y cabañas alpinas en Florián, Santander. Tours a las Ventanas de Tisquizoque, Charco Azul y más.">
     <meta name="twitter:image" content="https://villaaguaclara.netlify.app/Imagenes/Portada_2.jpg">
 
-    <!-- ═══════════ SCHEMA.ORG (datos estructurados para Google) ═══════════ -->
+    <!-- ═══════════ SCHEMA.ORG ═══════════ -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -89,7 +89,7 @@
         <a href="#contacto">Contáctanos</a>
     </nav>
 
-    <!-- HERO GALERÍA HORIZONTAL -->
+    <!-- HERO -->
     <section class="hero-galeria" id="inicio">
         <div class="hero-slide">
             <img src="Imagenes/Portada_2.jpg" alt="Vista panorámica">
@@ -153,9 +153,9 @@
                     <div class="detalle-aloj__thumbs">
                         <img src="Imagenes/glamping1.jpg" alt="" class="thumb-activo" onclick="cambiarFoto('foto-montana', this)">
                         <img src="Imagenes/Portada_2.jpg" alt="" onclick="cambiarFoto('foto-montana', this)">
-                        <img src="Imagenes/foto1.jpg" alt="" onclick="cambiarFoto('foto-montana', this)">
-                        <img src="Imagenes/foto2.jpg" alt="" onclick="cambiarFoto('foto-montana', this)">
-                        <img src="Imagenes/foto3.jpg" alt="" onclick="cambiarFoto('foto-montana', this)">
+                        <img src="Imagenes/foto1.jpg"     alt="" onclick="cambiarFoto('foto-montana', this)">
+                        <img src="Imagenes/foto2.jpg"     alt="" onclick="cambiarFoto('foto-montana', this)">
+                        <img src="Imagenes/foto3.jpg"     alt="" onclick="cambiarFoto('foto-montana', this)">
                     </div>
                 </div>
                 <div class="detalle-aloj__info">
@@ -192,11 +192,11 @@
                 <div class="detalle-aloj__galeria">
                     <img class="detalle-aloj__foto-principal" id="foto-bosque" src="Imagenes/glamping2.jpg" alt="Glamping Bosque">
                     <div class="detalle-aloj__thumbs">
-                        <img src="Imagenes/glamping2.jpg" alt="" class="thumb-activo" onclick="cambiarFoto('foto-bosque', this)">
+                        <img src="Imagenes/glamping2.jpg"  alt="" class="thumb-activo" onclick="cambiarFoto('foto-bosque', this)">
                         <img src="Imagenes/Portada_3.jpeg" alt="" onclick="cambiarFoto('foto-bosque', this)">
-                        <img src="Imagenes/foto4.jpg" alt="" onclick="cambiarFoto('foto-bosque', this)">
-                        <img src="Imagenes/foto5.jpeg" alt="" onclick="cambiarFoto('foto-bosque', this)">
-                        <img src="Imagenes/foto1.jpg" alt="" onclick="cambiarFoto('foto-bosque', this)">
+                        <img src="Imagenes/foto4.jpg"      alt="" onclick="cambiarFoto('foto-bosque', this)">
+                        <img src="Imagenes/foto5.jpeg"     alt="" onclick="cambiarFoto('foto-bosque', this)">
+                        <img src="Imagenes/foto1.jpg"      alt="" onclick="cambiarFoto('foto-bosque', this)">
                     </div>
                 </div>
                 <div class="detalle-aloj__info">
@@ -233,11 +233,11 @@
                 <div class="detalle-aloj__galeria">
                     <img class="detalle-aloj__foto-principal" id="foto-cabanas" src="Imagenes/Cabañas.jpg" alt="Cabañas Alpinas">
                     <div class="detalle-aloj__thumbs">
-                        <img src="Imagenes/Cabañas.jpg" alt="" class="thumb-activo" onclick="cambiarFoto('foto-cabanas', this)">
-                        <img src="Imagenes/Portada_2.jpg" alt="" onclick="cambiarFoto('foto-cabanas', this)">
-                        <img src="Imagenes/foto2.jpg" alt="" onclick="cambiarFoto('foto-cabanas', this)">
-                        <img src="Imagenes/foto3.jpg" alt="" onclick="cambiarFoto('foto-cabanas', this)">
-                        <img src="Imagenes/foto5.jpeg" alt="" onclick="cambiarFoto('foto-cabanas', this)">
+                        <img src="Imagenes/Cabañas.jpg"    alt="" class="thumb-activo" onclick="cambiarFoto('foto-cabanas', this)">
+                        <img src="Imagenes/Portada_2.jpg"  alt="" onclick="cambiarFoto('foto-cabanas', this)">
+                        <img src="Imagenes/foto2.jpg"      alt="" onclick="cambiarFoto('foto-cabanas', this)">
+                        <img src="Imagenes/foto3.jpg"      alt="" onclick="cambiarFoto('foto-cabanas', this)">
+                        <img src="Imagenes/foto5.jpeg"     alt="" onclick="cambiarFoto('foto-cabanas', this)">
                     </div>
                 </div>
                 <div class="detalle-aloj__info">
@@ -273,7 +273,6 @@
     <div class="cal-overlay" id="cal-overlay" onclick="cerrarCalendario()"></div>
     <div class="cal-modal" id="cal-modal">
 
-        <!-- CABECERA -->
         <div class="cal-modal__header">
             <div>
                 <p class="section-label" style="margin-bottom:4px">Selecciona tus fechas</p>
@@ -282,10 +281,8 @@
             <button class="cal-modal__cerrar" onclick="cerrarCalendario()">&times;</button>
         </div>
 
-        <!-- CALENDARIO DOS MESES -->
         <div class="cal-meses" id="cal-meses"></div>
 
-        <!-- RESUMEN FECHAS -->
         <div class="cal-resumen">
             <div class="cal-resumen__item">
                 <span class="cal-resumen__label">Check-in</span>
@@ -300,10 +297,8 @@
             </div>
         </div>
 
-        <!-- BLOQUE DE PRECIO Y DECORACIÓN (oculto hasta elegir rango) -->
         <div class="cal-precio" id="cal-precio">
 
-            <!-- Desglose noches -->
             <div class="cal-precio__desglose">
                 <div class="cal-precio__linea">
                     <span id="cal-precio-detalle" class="cal-precio__concepto">—</span>
@@ -315,10 +310,8 @@
                 </div>
             </div>
 
-            <!-- SEPARADOR -->
             <div class="cal-precio__sep"></div>
 
-            <!-- DECORACIÓN -->
             <div class="cal-deco">
                 <div class="cal-deco__header">
                     <div class="cal-deco__texto">
@@ -345,10 +338,8 @@
                 </div>
             </div>
 
-            <!-- SEPARADOR -->
             <div class="cal-precio__sep"></div>
 
-            <!-- TOTAL -->
             <div class="cal-precio__total-fila">
                 <span class="cal-precio__total-label">Total estimado</span>
                 <span class="cal-precio__total-valor" id="cal-total">—</span>
@@ -356,7 +347,6 @@
 
         </div>
 
-        <!-- BOTÓN WHATSAPP -->
         <a class="cal-btn-wa" id="cal-btn-wa" href="#" target="_blank">
             Reservar
         </a>
@@ -481,10 +471,10 @@
         <p class="section-label">Momentos en Villa AguaClara</p>
         <h2 class="section-title">Nuestras habitaciones</h2>
         <div class="grid-fotos" id="grid-galeria">
-            <img src="Imagenes/foto1.jpg" alt="Foto 1">
-            <img src="Imagenes/foto2.jpg" alt="Foto 2">
-            <img src="Imagenes/foto3.jpg" alt="Foto 3">
-            <img src="Imagenes/foto4.jpg" alt="Foto 4">
+            <img src="Imagenes/foto1.jpg"  alt="Foto 1">
+            <img src="Imagenes/foto2.jpg"  alt="Foto 2">
+            <img src="Imagenes/foto3.jpg"  alt="Foto 3">
+            <img src="Imagenes/foto4.jpg"  alt="Foto 4">
             <img src="Imagenes/foto5.jpeg" alt="Foto 5">
         </div>
     </section>
@@ -517,12 +507,12 @@
         © 2025 Villa AguaClara · Glamping & Cabañas · Florián, Santander, Colombia
     </footer>
 
- <!-- INSTAGRAM FLOTANTE -->
-<a href="https://www.instagram.com/glamping_aguaclara?igsh=em13dXZ6cTF4aDBt" target="_blank" style="position:fixed;bottom:100px;right:28px;background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fd5949 45%,#d6249f 60%,#285AEB 90%);border-radius:50%;width:60px;height:60px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,0.25);z-index:1001;text-decoration:none;">
-    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="white">
-        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-    </svg>
-</a>
+    <!-- INSTAGRAM FLOTANTE -->
+    <a class="instagram-float" href="https://www.instagram.com/glamping_aguaclara?igsh=em13dXZ6cTF4aDBt" target="_blank">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="white">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+        </svg>
+    </a>
 
     <!-- WHATSAPP FLOTANTE -->
     <a class="whatsapp-float" href="https://wa.me/573102879726" target="_blank">
