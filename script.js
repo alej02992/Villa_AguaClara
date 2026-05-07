@@ -117,9 +117,7 @@ var calMes   = new Date().getMonth();
 var calInicio = null;
 var calFin    = null;
 var calAlojamiento = '';
-var calDecoActiva  = false;
 var PRECIO_NOCHE   = 250000;
-var PRECIO_DECO    = 100000;
 
 var meses = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
 
@@ -127,17 +125,6 @@ function formatCOP(valor) {
     return '$' + valor.toLocaleString('es-CO');
 }
 
-function toggleDecoracion() {
-    calDecoActiva = !calDecoActiva;
-    var btn       = document.getElementById('cal-deco-btn');
-    var lineaDeco = document.getElementById('cal-linea-deco');
-    if (btn) {
-        btn.textContent = calDecoActiva ? '✓ Agregado' : '+ Añadir';
-        btn.classList.toggle('activo', calDecoActiva);
-    }
-    if (lineaDeco) lineaDeco.style.display = calDecoActiva ? 'flex' : 'none';
-    actualizarPrecio();
-}
 
 function abrirCalendario(nombre) {
     calAlojamiento = nombre;
@@ -152,16 +139,12 @@ function abrirCalendario(nombre) {
     var checkout  = document.getElementById('cal-checkout');
     var btnWa     = document.getElementById('cal-btn-wa');
     var precio    = document.getElementById('cal-precio');
-    var decoBtn   = document.getElementById('cal-deco-btn');
-    var lineaDeco = document.getElementById('cal-linea-deco');
 
     if (titulo)   titulo.textContent   = nombre;
     if (checkin)  checkin.textContent  = '—';
     if (checkout) checkout.textContent = '—';
     if (btnWa)  { btnWa.classList.remove('listo'); btnWa.href = '#'; }
     if (precio)   precio.classList.remove('visible');
-    if (decoBtn) { decoBtn.textContent = '+ Añadir'; decoBtn.classList.remove('activo'); }
-    if (lineaDeco) lineaDeco.style.display = 'none';
 
     renderCalendario();
 
@@ -259,7 +242,7 @@ function actualizarPrecio() {
 
     var noches   = Math.round((calFin - calInicio) / (1000 * 60 * 60 * 24));
     var subtotal = noches * PRECIO_NOCHE;
-    var total    = subtotal + (calDecoActiva ? PRECIO_DECO : 0);
+    var total    = subtotal;
 
     var detalleEl  = document.getElementById('cal-precio-detalle');
     var subtotalEl = document.getElementById('cal-precio-subtotal');
@@ -276,13 +259,8 @@ function seleccionarDia(fecha) {
     if (!calInicio || (calInicio && calFin)) {
         calInicio = fecha;
         calFin    = null;
-        calDecoActiva = false;
-        var decoBtn   = document.getElementById('cal-deco-btn');
         var precioEl  = document.getElementById('cal-precio');
-        var lineaDeco = document.getElementById('cal-linea-deco');
-        if (decoBtn)  { decoBtn.textContent = '+ Añadir'; decoBtn.classList.remove('activo'); }
         if (precioEl)   precioEl.classList.remove('visible');
-        if (lineaDeco)  lineaDeco.style.display = 'none';
     } else {
         if (fecha <= calInicio) { calInicio = fecha; calFin = null; }
         else                    { calFin = fecha; }
