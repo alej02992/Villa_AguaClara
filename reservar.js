@@ -19,7 +19,7 @@ var PRECIO_NOCHE = 250000;
                 'Imagenes/foto1.jpg'
             ],
             'Cabañas Alpinas': [
-                'Imagenes/Cabañas.jpg',
+                'Imagenes/cabañas.jpg',
                 'Imagenes/portada_2.jpg',
                 'Imagenes/foto2.jpg',
                 'Imagenes/foto3.jpg',
