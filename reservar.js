@@ -158,8 +158,19 @@ var PRECIO_NOCHE = 250000;
         var wompiReferencia  = '';
         var wompiCentavos    = 0;
         var wompiPublicKey   = 'pub_test_YOUR_PUBLIC_KEY';
+        var wompiMontado     = false;
+        var guardadoEnBackend = false;
+
+        /* ── Overlay bloqueador sobre el botón Wompi cuando está deshabilitado ── */
+        function actualizarOverlayWompi(habilitado) {
+            var overlay = document.getElementById('wompi-overlay');
+            if (overlay) overlay.style.display = habilitado ? 'none' : 'flex';
+        }
 
         function montarWompiEnPopup(totalCOP) {
+            if (wompiMontado) return;
+            wompiMontado = true;
+
             var params = {};
             try { params = JSON.parse(decodeURIComponent(new URLSearchParams(location.search).get('d') || '{}')); } catch(e) {}
 
@@ -168,8 +179,9 @@ var PRECIO_NOCHE = 250000;
 
             var container = document.getElementById('popup-wompi-container');
             if (!container) return;
-            container.style.display = 'flex';
-            container.innerHTML = '';
+
+            /* Wrapper relativo para poder poner el overlay encima */
+            container.style.position = 'relative';
 
             var script = document.createElement('script');
             script.src = 'https://checkout.wompi.co/widget.js';
@@ -181,12 +193,37 @@ var PRECIO_NOCHE = 250000;
             script.setAttribute('data-redirect-url',     location.origin + '/gracias.html');
             script.id = 'wompi-btn';
             container.appendChild(script);
+
+            /* Overlay semitransparente que bloquea el clic mientras el form no sea válido */
+            var overlay = document.createElement('div');
+            overlay.id = 'wompi-overlay';
+            overlay.style.cssText = [
+                'position:absolute', 'inset:0',
+                'background:rgba(255, 255, 255, 0.65)',
+                'cursor:not-allowed',
+                'display:flex',
+                'align-items:center',
+                'justify-content:center',
+                'font-family:Jost,sans-serif',
+                'font-size:13px',
+                'color:#888',
+                'letter-spacing:.04em',
+                'z-index:10'
+            ].join(';');
+            overlay.textContent = ' ';
+            container.appendChild(overlay);
         }
 
         /* ══ POPUP ══ */
         function abrirPopup() {
             document.getElementById('popup-overlay').classList.add('activo');
             document.body.style.overflow = 'hidden';
+
+            /* Montar Wompi (deshabilitado) la primera vez que se abre el popup */
+            var noches = parseInt(document.getElementById('res-noches-texto').dataset.noches || '0');
+            var total  = noches * PRECIO_NOCHE + (decoActiva ? PRECIO_DECO : 0);
+            montarWompiEnPopup(total);
+
             setTimeout(function() {
                 var primer = document.getElementById('p-nombre');
                 if (primer) primer.focus();
@@ -220,36 +257,27 @@ var PRECIO_NOCHE = 250000;
             if (input) input.classList.add('error-campo');
         }
 
-        function validarYPagar() {
-            limpiarErrores();
-            var nombre   = document.getElementById('p-nombre').value.trim();
-            var correo   = document.getElementById('p-correo').value.trim();
-            var tel      = document.getElementById('p-tel').value.trim();
-            var ok = true;
-
-            if (!nombre || nombre.length < 3) {
-                marcarError('nombre', 'Por favor ingresa tu nombre completo.');
-                ok = false;
-            }
+        /* Devuelve true si el formulario es válido sin mostrar errores */
+        function formularioValido() {
+            var nombre  = document.getElementById('p-nombre').value.trim();
+            var correo  = document.getElementById('p-correo').value.trim();
+            var tel     = document.getElementById('p-tel').value.trim();
             var reCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!correo || !reCorreo.test(correo)) {
-                marcarError('correo', 'Ingresa un correo electrónico válido.');
-                ok = false;
-            }
-            if (!tel || tel.replace(/\D/g,'').length < 7) {
-                marcarError('tel', 'Ingresa un número de teléfono válido.');
-                ok = false;
-            }
+            return nombre.length >= 3 && reCorreo.test(correo) && tel.replace(/\D/g,'').length >= 7;
+        }
 
-            if (!ok) return;
+        /* Guarda en backend (una sola vez) y habilita el botón Wompi */
+        function habilitarPago() {
+            actualizarOverlayWompi(true);
 
-            /* Guardar en backend y luego mostrar Wompi */
-            var btn = document.getElementById('popup-btn-continuar');
-            btn.disabled    = true;
-            btn.textContent = 'Guardando…';
+            if (guardadoEnBackend) return;
+            guardadoEnBackend = true;
 
-            var noches = parseInt(document.getElementById('res-noches-texto').dataset.noches || '0');
-            var total  = noches * PRECIO_NOCHE + (decoActiva ? PRECIO_DECO : 0);
+            var nombre  = document.getElementById('p-nombre').value.trim();
+            var correo  = document.getElementById('p-correo').value.trim();
+            var tel     = document.getElementById('p-tel').value.trim();
+            var noches  = parseInt(document.getElementById('res-noches-texto').dataset.noches || '0');
+            var total   = noches * PRECIO_NOCHE + (decoActiva ? PRECIO_DECO : 0);
 
             var params = {};
             try { params = JSON.parse(decodeURIComponent(new URLSearchParams(location.search).get('d') || '{}')); } catch(e) {}
@@ -258,35 +286,69 @@ var PRECIO_NOCHE = 250000;
                 nombre:      nombre,
                 correo:      correo,
                 telefono:    tel,
-                alojamiento: params.aloj  || '',
-                checkin:     params.ci    || '',
-                checkout:    params.co    || '',
+                alojamiento: params.aloj || '',
+                checkin:     params.ci   || '',
+                checkout:    params.co   || '',
                 noches:      noches,
                 decoracion:  decoActiva,
                 total:       total,
-                referencia:  generarReferencia(params.aloj || '', params.ci || '', params.co || '')
+                referencia:  wompiReferencia
             };
 
             fetch('/api/reservas', {
                 method:  'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body:    JSON.stringify(payload)
-            })
-            .then(function(r) {
-                if (!r.ok) throw new Error('Error del servidor');
-                return r.json();
-            })
-            .then(function() {
-                /* Éxito: ocultar botón y mostrar Wompi */
-                btn.style.display = 'none';
-                montarWompiEnPopup(total);
-            })
-            .catch(function() {
-                /* Si el backend falla, igual permitir pagar (no bloquear al usuario) */
-                btn.style.display = 'none';
-                montarWompiEnPopup(total);
-            });
+            }).catch(function() { /* silencioso: el pago puede continuar igual */ });
         }
+
+        /* Validación en tiempo real: se llama en cada input/change de los campos */
+        function validarEnTiempoReal(campoId) {
+            /* Mostrar error inline solo si el campo ya perdió el foco al menos una vez */
+            var input = document.getElementById(campoId);
+            if (input && input.dataset.tocado) {
+                var campo = campoId.replace('p-', '');
+                validarCampo(campo);
+            }
+            if (formularioValido()) {
+                habilitarPago();
+            } else {
+                guardadoEnBackend = false; /* resetear si el usuario vuelve a editar */
+                actualizarOverlayWompi(false);
+            }
+        }
+
+        function validarCampo(campo) {
+            var valor    = document.getElementById('p-' + campo).value.trim();
+            var reCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            var errEl    = document.getElementById('err-' + campo);
+            var inputEl  = document.getElementById('p-' + campo);
+
+            var msg = '';
+            if (campo === 'nombre' && valor.length < 3)           msg = 'Por favor ingresa tu nombre completo.';
+            if (campo === 'correo' && !reCorreo.test(valor))      msg = 'Ingresa un correo electrónico válido.';
+            if (campo === 'tel'    && valor.replace(/\D/g,'').length < 7) msg = 'Ingresa un número de teléfono válido.';
+
+            if (errEl) errEl.textContent = msg;
+            if (inputEl) inputEl.classList.toggle('error-campo', !!msg);
+        }
+
+        /* Adjuntar listeners de validación en tiempo real */
+        document.addEventListener('DOMContentLoaded', function() {
+            ['nombre','correo','tel'].forEach(function(campo) {
+                var input = document.getElementById('p-' + campo);
+                if (!input) return;
+                input.addEventListener('blur', function() {
+                    input.dataset.tocado = '1';
+                    validarCampo(campo);
+                    if (formularioValido()) habilitarPago();
+                    else { guardadoEnBackend = false; actualizarOverlayWompi(false); }
+                });
+                input.addEventListener('input', function() {
+                    validarEnTiempoReal('p-' + campo);
+                });
+            });
+        });
 
         /* ══ INICIALIZACIÓN ══ */
         (function init() {
