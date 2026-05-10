@@ -2342,3 +2342,16 @@ body {
 
     .popup-titulo { font-size: 26px; }
 }
+
+/* ── Overlay Wompi con transición ── */
+#wompi-overlay {
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+    opacity: 1;
+    visibility: visible;
+}
+
+#wompi-overlay.habilitado {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}

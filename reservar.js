@@ -162,9 +162,16 @@ var PRECIO_NOCHE = 250000;
         var guardadoEnBackend = false;
 
         /* ── Overlay bloqueador sobre el botón Wompi cuando está deshabilitado ── */
+        
         function actualizarOverlayWompi(habilitado) {
-            var overlay = document.getElementById('wompi-overlay');
-            if (overlay) overlay.style.display = habilitado ? 'none' : 'flex';
+        var overlay = document.getElementById('wompi-overlay');
+        if (!overlay) return;
+
+        if (habilitado) {
+            overlay.classList.add('habilitado');
+            } else {
+            overlay.classList.remove('habilitado');
+            }
         }
 
         function montarWompiEnPopup(totalCOP) {
@@ -197,19 +204,21 @@ var PRECIO_NOCHE = 250000;
             /* Overlay semitransparente que bloquea el clic mientras el form no sea válido */
             var overlay = document.createElement('div');
             overlay.id = 'wompi-overlay';
+            
             overlay.style.cssText = [
-                'position:absolute', 'inset:0',
-                'background:rgba(255, 255, 255, 0.65)',
-                'cursor:not-allowed',
-                'display:flex',
-                'align-items:center',
-                'justify-content:center',
-                'font-family:Jost,sans-serif',
-                'font-size:13px',
-                'color:#888',
-                'letter-spacing:.04em',
-                'z-index:10'
+            'position:absolute', 'inset:0',
+            'background:rgba(255,255,255,0.55)',
+            'cursor:not-allowed',
+            'align-items:center',
+            'justify-content:center',
+            'font-family:Jost,sans-serif',
+            'font-size:13px',
+            'color:#888',
+            'letter-spacing:.04em',
+            'z-index:10',
+            'display:flex'   /* siempre flex, la visibilidad la maneja la clase */
             ].join(';');
+
             overlay.textContent = ' ';
             container.appendChild(overlay);
         }
