@@ -207,7 +207,7 @@ var PRECIO_NOCHE = 250000;
         });
 
         function limpiarErrores() {
-            ['nombre','correo','tel','personas'].forEach(function(campo) {
+            ['nombre','correo','tel'].forEach(function(campo) {
                 document.getElementById('err-' + campo).textContent = '';
                 var input = document.getElementById('p-' + campo);
                 if (input) input.classList.remove('error-campo');
@@ -225,7 +225,6 @@ var PRECIO_NOCHE = 250000;
             var nombre   = document.getElementById('p-nombre').value.trim();
             var correo   = document.getElementById('p-correo').value.trim();
             var tel      = document.getElementById('p-tel').value.trim();
-            var personas = document.getElementById('p-personas').value;
             var ok = true;
 
             if (!nombre || nombre.length < 3) {
@@ -239,10 +238,6 @@ var PRECIO_NOCHE = 250000;
             }
             if (!tel || tel.replace(/\D/g,'').length < 7) {
                 marcarError('tel', 'Ingresa un número de teléfono válido.');
-                ok = false;
-            }
-            if (!personas) {
-                marcarError('personas', 'Selecciona el número de personas.');
                 ok = false;
             }
 
@@ -263,8 +258,6 @@ var PRECIO_NOCHE = 250000;
                 nombre:      nombre,
                 correo:      correo,
                 telefono:    tel,
-                personas:    personas,
-                nota:        document.getElementById('p-nota').value.trim(),
                 alojamiento: params.aloj  || '',
                 checkin:     params.ci    || '',
                 checkout:    params.co    || '',
