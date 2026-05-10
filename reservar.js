@@ -143,7 +143,6 @@ var PRECIO_NOCHE = 250000;
             var subtotal = noches * PRECIO_NOCHE;
             var total    = subtotal + (decoActiva ? PRECIO_DECO : 0);
             document.getElementById('res-total').textContent = formatCOP(total);
-            actualizarWompi(total);
         }
 
         /* ══ WOMPI ══ */
@@ -156,37 +155,144 @@ var PRECIO_NOCHE = 250000;
             return 'AGUACLARA-' + Math.abs(hash).toString(36).toUpperCase();
         }
 
-        function actualizarWompi(totalCOP) {
-            var btn = document.getElementById('wompi-btn');
-            if (!btn) return;
+        var wompiReferencia  = '';
+        var wompiCentavos    = 0;
+        var wompiPublicKey   = 'pub_test_YOUR_PUBLIC_KEY';
+
+        function montarWompiEnPopup(totalCOP) {
+            var params = {};
+            try { params = JSON.parse(decodeURIComponent(new URLSearchParams(location.search).get('d') || '{}')); } catch(e) {}
+
+            wompiCentavos   = totalCOP * 100;
+            wompiReferencia = generarReferencia(params.aloj || '', params.ci || '', params.co || '');
+
+            var container = document.getElementById('popup-wompi-container');
+            if (!container) return;
+            container.style.display = 'flex';
+            container.innerHTML = '';
+
+            var script = document.createElement('script');
+            script.src = 'https://checkout.wompi.co/widget.js';
+            script.setAttribute('data-render',           'button');
+            script.setAttribute('data-public-key',       wompiPublicKey);
+            script.setAttribute('data-currency',         'COP');
+            script.setAttribute('data-amount-in-cents',  wompiCentavos);
+            script.setAttribute('data-reference',        wompiReferencia);
+            script.setAttribute('data-redirect-url',     location.origin + '/gracias.html');
+            script.id = 'wompi-btn';
+            container.appendChild(script);
+        }
+
+        /* ══ POPUP ══ */
+        function abrirPopup() {
+            document.getElementById('popup-overlay').classList.add('activo');
+            document.body.style.overflow = 'hidden';
+            setTimeout(function() {
+                var primer = document.getElementById('p-nombre');
+                if (primer) primer.focus();
+            }, 320);
+        }
+
+        function cerrarPopup() {
+            document.getElementById('popup-overlay').classList.remove('activo');
+            document.body.style.overflow = '';
+        }
+
+        function cerrarPopupOverlay(e) {
+            if (e.target === document.getElementById('popup-overlay')) cerrarPopup();
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') cerrarPopup();
+        });
+
+        function limpiarErrores() {
+            ['nombre','correo','tel','personas'].forEach(function(campo) {
+                document.getElementById('err-' + campo).textContent = '';
+                var input = document.getElementById('p-' + campo);
+                if (input) input.classList.remove('error-campo');
+            });
+        }
+
+        function marcarError(campo, msg) {
+            document.getElementById('err-' + campo).textContent = msg;
+            var input = document.getElementById('p-' + campo);
+            if (input) input.classList.add('error-campo');
+        }
+
+        function validarYPagar() {
+            limpiarErrores();
+            var nombre   = document.getElementById('p-nombre').value.trim();
+            var correo   = document.getElementById('p-correo').value.trim();
+            var tel      = document.getElementById('p-tel').value.trim();
+            var personas = document.getElementById('p-personas').value;
+            var ok = true;
+
+            if (!nombre || nombre.length < 3) {
+                marcarError('nombre', 'Por favor ingresa tu nombre completo.');
+                ok = false;
+            }
+            var reCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!correo || !reCorreo.test(correo)) {
+                marcarError('correo', 'Ingresa un correo electrónico válido.');
+                ok = false;
+            }
+            if (!tel || tel.replace(/\D/g,'').length < 7) {
+                marcarError('tel', 'Ingresa un número de teléfono válido.');
+                ok = false;
+            }
+            if (!personas) {
+                marcarError('personas', 'Selecciona el número de personas.');
+                ok = false;
+            }
+
+            if (!ok) return;
+
+            /* Guardar en backend y luego mostrar Wompi */
+            var btn = document.getElementById('popup-btn-continuar');
+            btn.disabled    = true;
+            btn.textContent = 'Guardando…';
+
+            var noches = parseInt(document.getElementById('res-noches-texto').dataset.noches || '0');
+            var total  = noches * PRECIO_NOCHE + (decoActiva ? PRECIO_DECO : 0);
 
             var params = {};
             try { params = JSON.parse(decodeURIComponent(new URLSearchParams(location.search).get('d') || '{}')); } catch(e) {}
 
-            var centavos   = totalCOP * 100;
-            var referencia = generarReferencia(params.aloj || '', params.ci || '', params.co || '');
+            var payload = {
+                nombre:      nombre,
+                correo:      correo,
+                telefono:    tel,
+                personas:    personas,
+                nota:        document.getElementById('p-nota').value.trim(),
+                alojamiento: params.aloj  || '',
+                checkin:     params.ci    || '',
+                checkout:    params.co    || '',
+                noches:      noches,
+                decoracion:  decoActiva,
+                total:       total,
+                referencia:  generarReferencia(params.aloj || '', params.ci || '', params.co || '')
+            };
 
-            btn.setAttribute('data-amount-in-cents', centavos);
-            btn.setAttribute('data-reference', referencia);
-            btn.setAttribute('data-redirect-url', location.origin + '/gracias.html');
-
-            /* Forzar re-render del widget Wompi si ya fue montado */
-            if (window.WidgetCheckout) {
-                var container = document.getElementById('wompi-container');
-                if (container) {
-                    container.innerHTML = '';
-                    var newBtn = document.createElement('script');
-                    newBtn.src = 'https://checkout.wompi.co/widget.js';
-                    newBtn.setAttribute('data-render', 'button');
-                    newBtn.setAttribute('data-public-key', btn.getAttribute('data-public-key'));
-                    newBtn.setAttribute('data-currency', 'COP');
-                    newBtn.setAttribute('data-amount-in-cents', centavos);
-                    newBtn.setAttribute('data-reference', referencia);
-                    newBtn.setAttribute('data-redirect-url', location.origin + '/gracias.html');
-                    newBtn.id = 'wompi-btn';
-                    container.appendChild(newBtn);
-                }
-            }
+            fetch('/api/reservas', {
+                method:  'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body:    JSON.stringify(payload)
+            })
+            .then(function(r) {
+                if (!r.ok) throw new Error('Error del servidor');
+                return r.json();
+            })
+            .then(function() {
+                /* Éxito: ocultar botón y mostrar Wompi */
+                btn.style.display = 'none';
+                montarWompiEnPopup(total);
+            })
+            .catch(function() {
+                /* Si el backend falla, igual permitir pagar (no bloquear al usuario) */
+                btn.style.display = 'none';
+                montarWompiEnPopup(total);
+            });
         }
 
         /* ══ INICIALIZACIÓN ══ */
@@ -227,7 +333,4 @@ var PRECIO_NOCHE = 250000;
 
             var totalEl = document.getElementById('res-total');
             if (totalEl) totalEl.textContent = formatCOP(subtotal);
-
-            /* Inicializar Wompi con el total base */
-            actualizarWompi(subtotal);
-        })(); 
+        })();

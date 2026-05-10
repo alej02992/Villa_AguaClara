@@ -135,23 +135,71 @@
                 <span class="res-resumen__total-valor" id="res-total">—</span>
             </div>
 
-            <!-- WOMPI PAYMENT WIDGET -->
-            <div id="wompi-container" class="wompi-wrapper">
-                <script
-                    src="https://checkout.wompi.co/widget.js"
-                    data-render="button"
-                    data-public-key="pub_test_YOUR_PUBLIC_KEY"
-                    data-currency="COP"
-                    data-amount-in-cents="0"
-                    data-reference=""
-                    data-redirect-url=""
-                    id="wompi-btn"
-                ></script>
-            </div>
+            <!-- BOTÓN RESERVAR -->
+            <button class="btn-reservar-principal" id="btn-abrir-popup" onclick="abrirPopup()">
+                Reservar ahora
+            </button>
             <p class="res-nota">Pago 100% seguro · Procesado por Wompi · Tarjeta, PSE, Nequi y más.</p>
         </div>
 
     </div>
+    <!-- ══ POPUP DATOS HUÉSPED ══ -->
+    <div class="popup-overlay" id="popup-overlay" onclick="cerrarPopupOverlay(event)">
+        <div class="popup-modal" role="dialog" aria-modal="true" aria-labelledby="popup-titulo">
+
+            <button class="popup-cerrar" onclick="cerrarPopup()" aria-label="Cerrar">✕</button>
+
+            <span class="res-label">Tu reserva · Villa AguaClara</span>
+            <h2 class="popup-titulo" id="popup-titulo">Completa tus datos</h2>
+            <p class="popup-sub">Necesitamos tus datos para confirmar la reserva y enviarte los detalles de tu estadía.</p>
+
+            <div class="popup-campo">
+                <label class="popup-label" for="p-nombre">Nombre completo</label>
+                <input class="popup-input" type="text" id="p-nombre" placeholder="Ej: María García" autocomplete="name">
+                <span class="popup-error" id="err-nombre"></span>
+            </div>
+
+            <div class="popup-campo">
+                <label class="popup-label" for="p-correo">Correo electrónico</label>
+                <input class="popup-input" type="email" id="p-correo" placeholder="Ej: maria@correo.com" autocomplete="email">
+                <span class="popup-error" id="err-correo"></span>
+            </div>
+
+            <div class="popup-campo">
+                <label class="popup-label" for="p-tel">Teléfono / WhatsApp</label>
+                <input class="popup-input" type="tel" id="p-tel" placeholder="Ej: +57 300 000 0000" autocomplete="tel">
+                <span class="popup-error" id="err-tel"></span>
+            </div>
+
+            <div class="popup-campo">
+                <label class="popup-label" for="p-personas">Número de personas</label>
+                <select class="popup-input popup-select" id="p-personas">
+                    <option value="">Selecciona</option>
+                    <option value="1">1 persona</option>
+                    <option value="2">2 personas</option>
+                    <option value="3">3 personas</option>
+                    <option value="4">4 personas</option>
+                    <option value="5">5 o más</option>
+                </select>
+                <span class="popup-error" id="err-personas"></span>
+            </div>
+
+            <div class="popup-campo">
+                <label class="popup-label" for="p-nota">Nota especial <span class="popup-opcional">(opcional)</span></label>
+                <textarea class="popup-input popup-textarea" id="p-nota" placeholder="Alergias, celebraciones, solicitudes especiales…" rows="3"></textarea>
+            </div>
+
+            <div id="popup-wompi-container" class="wompi-wrapper popup-wompi" style="display:none;"></div>
+
+            <button class="popup-btn-continuar" id="popup-btn-continuar" onclick="validarYPagar()">
+                Continuar al pago
+            </button>
+
+            <p class="res-nota" style="margin-top:16px;">Tus datos están protegidos y solo se usan para gestionar tu reserva.</p>
+
+        </div>
+    </div>
+
     <script src="reservar.js"></script>
 
 </body>
