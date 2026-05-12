@@ -19,3 +19,7 @@ npm-debug.log*
 # Sistema operativo
 .DS_Store
 Thumbs.db
+
+# PostGresql
+
+/pgsql_tools/
