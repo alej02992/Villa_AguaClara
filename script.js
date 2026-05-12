@@ -3,6 +3,9 @@
    Lightbox · Alojamientos · Calendario
    ═══════════════════════════════════════ */
 
+const API = 'https://villa-aguaclara-1.onrender.com';
+const res = await fetch(`${API}/reservas`);
+
 document.addEventListener('DOMContentLoaded', function () {
 
     /* ── LIGHTBOX ── */
