@@ -35,7 +35,7 @@ app.use(express.json());
 app.get('/', (_req, res) => res.json({ ok: true, msg: 'Backend Villa AguaClara 🚀' }));
 
 // ── POST /api/reservas — crear reserva (estado: pendiente) ─────────────────
-app.post('/api/reservas', async (req, res) => {
+app.post('https://villa-aguaclara-1.onrender.com/api/reservas', async (req, res) => {
     const { nombre, correo, telefono, alojamiento,
             checkin, checkout, noches, decoracion, total, referencia } = req.body;
 
@@ -69,7 +69,7 @@ app.post('/api/reservas', async (req, res) => {
 });
 
 // ── GET /api/reservas — listar (solo uso interno / admin) ──────────────────
-app.get('/api/reservas', async (_req, res) => {
+app.get('https://villa-aguaclara-1.onrender.com/api/reservas', async (_req, res) => {
     try {
         const r = await pool.query(
             'SELECT * FROM reservas ORDER BY fecha_entrada ASC'
@@ -81,7 +81,7 @@ app.get('/api/reservas', async (_req, res) => {
 });
 
 // ── GET /api/disponibilidad?alojamiento=X — fechas bloqueadas ─────────────
-app.get('/api/disponibilidad', async (req, res) => {
+app.get('https://villa-aguaclara-1.onrender.com/api/disponibilidad', async (req, res) => {
     const { alojamiento } = req.query;
     if (!alojamiento) return res.status(400).json({ error: 'Falta alojamiento' });
 
