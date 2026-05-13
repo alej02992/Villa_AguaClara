@@ -6,14 +6,6 @@
 const API = 'https://villa-aguaclara-1.onrender.com';
 // El fetch a reservas se hace solo cuando se necesita, no aquí
 
-async function cargarReservas() {
-    try {
-        const res = await fetch(`${API}/api/reservas`);
-        return await res.json();
-    } catch(e) {
-        console.error('Error cargando reservas:', e);
-    }
-}
 
 // Llamamos a la función
 cargarReservas();
