@@ -97,8 +97,8 @@ function abrirAlojamiento(id) {
     detalleActivo = id;
 
     setTimeout(function() {
-        panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 80);
+        panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 400);
 }
 
 function cerrarAlojamiento(id, scroll) {
