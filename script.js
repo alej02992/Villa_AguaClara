@@ -314,3 +314,188 @@ function seleccionarDia(fecha) {
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') cerrarCalendario();
 });
+
+/* ═══════════════════════════════════════════════════════
+   ANIMACIONES DE SCROLL — VILLA AGUACLARA
+   IntersectionObserver · Reveal · Stagger
+   ═══════════════════════════════════════════════════════ */
+
+(function () {
+    'use strict';
+
+    /* ── 1. MARCAR ELEMENTOS PARA ANIMAR ── */
+    function marcarElementos() {
+
+        /* Section labels */
+        document.querySelectorAll('.section-label').forEach(function (el) {
+            el.classList.add('reveal');
+        });
+
+        /* Títulos de sección */
+        document.querySelectorAll('.section-title').forEach(function (el) {
+            el.classList.add('reveal');
+            el.style.transitionDelay = '0.12s';
+        });
+
+        /* Cards de alojamiento — stagger */
+        document.querySelectorAll('.card-aloj').forEach(function (el, i) {
+            el.classList.add('reveal-scale', 'delay-' + (i + 1));
+        });
+
+        /* Tours — alternando izquierda / derecha */
+        document.querySelectorAll('.tour-item').forEach(function (el, i) {
+            var invertido = el.classList.contains('tour-item--invertido');
+            el.classList.add(invertido ? 'reveal-right' : 'reveal-left');
+        });
+
+        /* Fotos de galería — stagger */
+        document.querySelectorAll('#grid-galeria img').forEach(function (el, i) {
+            el.classList.add('reveal-scale', 'delay-' + Math.min(i + 1, 6));
+        });
+
+        /* Sección contacto */
+        var secContacto = document.querySelector('.section-contacto');
+        if (secContacto) {
+            secContacto.querySelectorAll('p, h2, .btn-wa').forEach(function (el, i) {
+                el.classList.add('reveal');
+                el.style.transitionDelay = (0.1 * (i + 1)) + 's';
+            });
+        }
+
+        /* Sección ubicación */
+        var secUbicacion = document.querySelector('.section-ubicacion');
+        if (secUbicacion) {
+            secUbicacion.querySelectorAll('iframe').forEach(function (el) {
+                el.classList.add('reveal-scale');
+                el.style.transitionDelay = '0.2s';
+            });
+        }
+
+        /* Top bar */
+        var topBar = document.querySelector('.top-bar');
+        if (topBar) {
+            topBar.style.opacity = '0';
+            topBar.style.transform = 'translateY(-12px)';
+            topBar.style.transition = 'opacity 0.6s ease 0.15s, transform 0.6s ease 0.15s';
+            requestAnimationFrame(function () {
+                topBar.style.opacity = '1';
+                topBar.style.transform = 'translateY(0)';
+            });
+        }
+    }
+
+    /* ── 2. INTERSECTION OBSERVER ── */
+    function initObserver() {
+        if (!('IntersectionObserver' in window)) {
+            /* Fallback: mostrar todo de inmediato */
+            document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale')
+                .forEach(function (el) { el.classList.add('visible'); });
+            return;
+        }
+
+        var opciones = {
+            threshold: 0.12,
+            rootMargin: '0px 0px -40px 0px'
+        };
+
+        var observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target); /* una sola vez */
+                }
+            });
+        }, opciones);
+
+        document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale')
+            .forEach(function (el) { observer.observe(el); });
+    }
+
+    /* ── 3. SMOOTH IMAGE LOADING ── */
+    function initImageLoad() {
+        document.querySelectorAll('img').forEach(function (img) {
+            if (img.complete) {
+                img.classList.add('loaded');
+            } else {
+                img.addEventListener('load', function () {
+                    img.classList.add('loaded');
+                });
+            }
+        });
+    }
+
+    /* ── 4. PARALLAX SUAVE EN EL HERO ── */
+    function initParallaxHero() {
+        var hero = document.querySelector('.hero-galeria');
+        if (!hero) return;
+
+        var ticking = false;
+        window.addEventListener('scroll', function () {
+            if (!ticking) {
+                requestAnimationFrame(function () {
+                    var scrollY = window.pageYOffset;
+                    var factor  = scrollY * 0.25;
+                    hero.querySelectorAll('.hero-slide img').forEach(function (img) {
+                        img.style.transform = 'translateY(' + factor + 'px) scale(1.04)';
+                    });
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+    }
+
+    /* ── 5. NAV — resaltar sección activa ── */
+    function initNavActiva() {
+        var enlaces = document.querySelectorAll('nav.main-nav a[href^="#"]');
+        var secciones = [];
+
+        enlaces.forEach(function (a) {
+            var id  = a.getAttribute('href').substring(1);
+            var sec = document.getElementById(id);
+            if (sec) secciones.push({ el: sec, a: a });
+        });
+
+        var tickNav = false;
+        window.addEventListener('scroll', function () {
+            if (tickNav) return;
+            tickNav = true;
+            requestAnimationFrame(function () {
+                var scrollMid = window.pageYOffset + window.innerHeight / 2;
+                secciones.forEach(function (s) {
+                    var top = s.el.offsetTop;
+                    var bot = top + s.el.offsetHeight;
+                    if (scrollMid >= top && scrollMid < bot) {
+                        enlaces.forEach(function (a) { a.style.color = ''; });
+                        s.a.style.color = '#fff';
+                        s.a.style.fontWeight = '500';
+                    } else {
+                        s.a.style.fontWeight = '';
+                    }
+                });
+                tickNav = false;
+            });
+        });
+    }
+
+    /* ── 6. NÚMERO ANIMADO AL ENTRAR EN VISTA ── */
+    /* (preparado para futuras stats/métricas) */
+
+    /* ── INIT ── */
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function () {
+            marcarElementos();
+            initObserver();
+            initImageLoad();
+            initParallaxHero();
+            initNavActiva();
+        });
+    } else {
+        marcarElementos();
+        initObserver();
+        initImageLoad();
+        initParallaxHero();
+        initNavActiva();
+    }
+
+})();
