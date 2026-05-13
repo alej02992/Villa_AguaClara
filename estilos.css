@@ -129,6 +129,11 @@ nav.main-nav a.reservar:hover {
     flex: 3.5;
 }
 
+.hero-slide:hover, 
+.hero-slide.active-auto {
+    flex: 3.5; /* El mismo valor que ya tienes en el hover */
+}
+
 .hero-slide img {
     width: 100%;
     height: 100%;

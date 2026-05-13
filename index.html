@@ -113,6 +113,44 @@
         </div>
     </section>
 
+    <script>
+        
+        const slides = document.querySelectorAll('.hero-slide');
+        let currentIndex = 0;
+        let autoPlayInterval;
+
+        function nextSlide() {
+            // Quitamos la clase 'active' de todos (si la tuvieran)
+            slides.forEach(slide => slide.classList.remove('active-auto'));
+            
+            // Avanzamos al siguiente índice
+            currentIndex = (currentIndex + 1) % slides.length;
+            
+            // Añadimos la clase al slide actual
+            slides[currentIndex].classList.add('active-auto');
+        }
+
+        function startAutoPlay() {
+            autoPlayInterval = setInterval(nextSlide, 3000); // Cambia cada 3 segundos
+        }
+
+        function stopAutoPlay() {
+            clearInterval(autoPlayInterval);
+            // Al detener, quitamos el efecto automático para que el :hover del mouse mande
+            slides.forEach(slide => slide.classList.remove('active-auto'));
+        }
+
+        // Iniciar el ciclo automático
+        startAutoPlay();
+
+        // Detener el ciclo si el mouse entra a la sección HERO
+        const heroSection = document.querySelector('.hero-galeria');
+        heroSection.addEventListener('mouseenter', stopAutoPlay);
+
+        // Reanudar el ciclo si el mouse sale de la sección HERO
+        heroSection.addEventListener('mouseleave', startAutoPlay);
+    </script>
+
     <!-- ALOJAMIENTOS -->
     <section class="section-alojamientos" id="alojamientos">
         <p class="section-label">Nuestros espacios</p>
