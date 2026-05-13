@@ -2360,3 +2360,26 @@ body {
     visibility: hidden;
     pointer-events: none;
 }
+
+/* Busca tu media query para móviles */
+@media (max-width: 768px) {
+    .res-wrap {
+        display: flex;
+        /* Asegura que sigan el orden del HTML (Título -> Datos -> Resumen) */
+        flex-direction: column !important; 
+    }
+
+    .res-resumen {
+        /* Fuerza a que el resumen sea el último elemento visual */
+        order: 3; 
+    }
+    
+    .res-titulo-bloque {
+        order: 1;
+    }
+    
+    /* La columna de la izquierda (fechas/deco) */
+    .res-wrap > div:not(.res-resumen):not(.res-titulo-bloque) {
+        order: 2;
+    }
+}
