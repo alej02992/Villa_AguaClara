@@ -304,7 +304,7 @@ var PRECIO_NOCHE = 250000;
                 referencia:  wompiReferencia
             };
 
-            fetch('https://villa-aguaclara-1.onrender.com/api/reservas', {
+            fetch('https://villa-aguaclara.onrender.com/api/reservas', {
                 method:  'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body:    JSON.stringify(payload)

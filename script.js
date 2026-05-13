@@ -3,7 +3,7 @@
    Lightbox · Alojamientos · Calendario
    ═══════════════════════════════════════ */
 
-const API = 'https://villa-aguaclara-1.onrender.com';
+const API = 'https://villa-aguaclara.onrender.com';
 // ✅ CORRECCIÓN: eliminada llamada a cargarReservas() que no existe en este archivo.
 // Si necesitas cargar reservas, defínela aquí o impórtala desde reservar.js
 
