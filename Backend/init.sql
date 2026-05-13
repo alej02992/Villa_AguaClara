@@ -13,9 +13,9 @@ CREATE TABLE IF NOT EXISTS alojamientos (
 );
 
 INSERT INTO alojamientos (nombre, descripcion, capacidad, precio_noche) VALUES
-    ('Glamping Montaña', 'Domo con vista a la montaña y cielo abierto', 2, 250000),
+    ('Glamping Montana', 'Domo con vista a la montaña y cielo abierto', 2, 250000),
     ('Glamping Bosque',  'Domo ecológico entre árboles nativos',        2, 250000),
-    ('Cabañas Alpinas',  'Cabaña de madera con jacuzzi privado',        4, 250000)
+    ('Cabanas Alpinas',  'Cabaña de madera con jacuzzi privado',        4, 250000)
 ON CONFLICT (nombre) DO NOTHING;
 
 -- ── Reservas ──────────────────────────────────────
