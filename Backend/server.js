@@ -4,7 +4,7 @@ const express = require('express');
 const cors    = require('cors');
 const helmet  = require('helmet');
 const crypto  = require('crypto');
-const pool    = require('./config/db');   // ← ajustado a tu estructura de carpetas
+const pool    = require('./config/db');
 
 const app = express();
 
@@ -19,7 +19,9 @@ const allowedOrigins = [
 
 app.use(cors({
     origin: (origin, cb) => {
-        if (!origin && process.env.NODE_ENV !== 'production') return cb(null, true);
+        // ✅ CORRECCIÓN: permitir requests sin origin (Render health checks,
+        // Wompi webhook, curl, etc.) tanto en dev como en producción
+        if (!origin) return cb(null, true);
         if (allowedOrigins.includes(origin)) return cb(null, true);
         cb(new Error(`CORS bloqueado: ${origin}`));
     },
@@ -35,7 +37,8 @@ app.use(express.json());
 app.get('/', (_req, res) => res.json({ ok: true, msg: 'Backend Villa AguaClara 🚀' }));
 
 // ── POST /api/reservas — crear reserva (estado: pendiente) ─────────────────
-app.post('https://villa-aguaclara-1.onrender.com/api/reservas', async (req, res) => {
+// ✅ CORRECCIÓN: ruta solo con el path, no la URL completa
+app.post('/api/reservas', async (req, res) => {
     const { nombre, correo, telefono, alojamiento,
             checkin, checkout, noches, decoracion, total, referencia } = req.body;
 
@@ -44,8 +47,8 @@ app.post('https://villa-aguaclara-1.onrender.com/api/reservas', async (req, res)
         return res.status(400).json({ error: 'Faltan campos obligatorios' });
     }
 
-    const deco     = decoracion ? true : false;
-    const subtotal = noches * 250000;
+    const deco       = decoracion ? true : false;
+    const subtotal   = noches * 250000;
     const totalFinal = deco ? subtotal + 100000 : subtotal;
 
     try {
@@ -69,7 +72,8 @@ app.post('https://villa-aguaclara-1.onrender.com/api/reservas', async (req, res)
 });
 
 // ── GET /api/reservas — listar (solo uso interno / admin) ──────────────────
-app.get('https://villa-aguaclara-1.onrender.com/api/reservas', async (_req, res) => {
+// ✅ CORRECCIÓN: ruta solo con el path
+app.get('/api/reservas', async (_req, res) => {
     try {
         const r = await pool.query(
             'SELECT * FROM reservas ORDER BY fecha_entrada ASC'
@@ -81,7 +85,8 @@ app.get('https://villa-aguaclara-1.onrender.com/api/reservas', async (_req, res)
 });
 
 // ── GET /api/disponibilidad?alojamiento=X — fechas bloqueadas ─────────────
-app.get('https://villa-aguaclara-1.onrender.com/api/disponibilidad', async (req, res) => {
+// ✅ CORRECCIÓN: ruta solo con el path
+app.get('/api/disponibilidad', async (req, res) => {
     const { alojamiento } = req.query;
     if (!alojamiento) return res.status(400).json({ error: 'Falta alojamiento' });
 
@@ -101,7 +106,6 @@ app.get('https://villa-aguaclara-1.onrender.com/api/disponibilidad', async (req,
 });
 
 // ── POST /api/wompi/webhook — confirmar pago ───────────────────────────────
-// Wompi firma el body con HMAC-SHA256 usando tu "llave de eventos"
 app.post('/api/wompi/webhook', (req, res) => {
     const signature = req.headers['x-event-checksum'];
     const secret    = process.env.WOMPI_EVENTS_SECRET;
@@ -109,7 +113,7 @@ app.post('/api/wompi/webhook', (req, res) => {
     if (secret && signature) {
         const expected = crypto
             .createHmac('sha256', secret)
-            .update(req.body)           // body crudo (Buffer)
+            .update(req.body)
             .digest('hex');
         if (signature !== expected) {
             return res.status(401).json({ error: 'Firma inválida' });
@@ -121,7 +125,7 @@ app.post('/api/wompi/webhook', (req, res) => {
     catch { return res.status(400).json({ error: 'JSON inválido' }); }
 
     const tx = evento?.data?.transaction;
-    if (!tx) return res.sendStatus(200); // evento no relevante
+    if (!tx) return res.sendStatus(200);
 
     const { reference, id: txId, status } = tx;
     const estadoMap = { APPROVED: 'pagada', DECLINED: 'cancelada', VOIDED: 'cancelada' };
