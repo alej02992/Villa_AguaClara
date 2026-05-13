@@ -22,5 +22,5 @@ Thumbs.db
 
 # PostGresql
 
-pgsql_tools/
+psql_tools/
 
