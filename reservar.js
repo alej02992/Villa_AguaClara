@@ -4,7 +4,7 @@ var PRECIO_NOCHE = 250000;
 
         /* ── IMÁGENES POR ALOJAMIENTO ── */
         var imagenes = {
-            'Glamping Montaña': [
+            'Glamping Montana': [
                 'Imagenes/glamping1.jpg',
                 'Imagenes/portada_2.jpg',
                 'Imagenes/foto1.jpg',
@@ -18,8 +18,8 @@ var PRECIO_NOCHE = 250000;
                 'Imagenes/foto5.jpeg',
                 'Imagenes/foto1.jpg'
             ],
-            'Cabañas Alpinas': [
-                'Imagenes/cabañas.jpg',
+            'Cabanas Alpinas': [
+                'Imagenes/cabanas.jpg',
                 'Imagenes/portada_2.jpg',
                 'Imagenes/foto2.jpg',
                 'Imagenes/foto3.jpg',
