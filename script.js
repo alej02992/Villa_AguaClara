@@ -4,7 +4,22 @@
    ═══════════════════════════════════════ */
 
 const API = 'https://villa-aguaclara-1.onrender.com';
-const res = await fetch(`${API}/reservas`);
+
+// Envolvemos la petición en una función asíncrona
+async function cargarReservas() {
+    try {
+        const res = await fetch(`${API}/reservas`);
+        const data = await res.json();
+        console.log("Reservas cargadas:", data);
+        // Aquí puedes manejar la información de las reservas más adelante
+    } catch (error) {
+        console.error("Error cargando la API de reservas:", error);
+    }
+}
+
+// Llamamos a la función
+cargarReservas();
+
 
 document.addEventListener('DOMContentLoaded', function () {
 
