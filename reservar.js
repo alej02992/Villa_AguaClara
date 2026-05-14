@@ -493,12 +493,3 @@ document.addEventListener('DOMContentLoaded', function() {
    El widget dispara un click en su botón interno → detectamos
    ese momento y cerramos nuestro modal para que el iframe
    de Wompi tenga z-index libre y se vea completo.          */
-document.addEventListener('click', function(e) {
-    var btn = e.target.closest('#popup-wompi-container button');
-    if (btn) {
-        /* Pequeño delay para que Wompi registre el click primero */
-        setTimeout(function() {
-            cerrarPopup();
-        }, 80);
-    }
-}, true); /* useCapture: true para capturar antes que Wompi */
