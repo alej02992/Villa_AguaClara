@@ -312,10 +312,38 @@ function seleccionarDia(fecha) {
             calInicio = fecha;
             calFin    = null;
         } else {
-            calFin = fecha;
+            // Verificar que no haya fechas bloqueadas dentro del rango
+            const hayConflicto = (window.fechasBloqueadas || []).some(r => {
+                const [inY, inM, inD]   = r.fecha_entrada.split('T')[0].split('-');
+                const [outY, outM, outD] = r.fecha_salida.split('T')[0].split('-');
+                const entrada = new Date(inY, inM - 1, inD);
+                const salida  = new Date(outY, outM - 1, outD);
+                entrada.setHours(0,0,0,0);
+                salida.setHours(0,0,0,0);
+                // ¿Alguna reserva existente se cruza con el rango seleccionado?
+                return entrada < fecha && salida > calInicio;
+            });
+
+            if (hayConflicto) {
+                mostrarAlertaFechas();
+                calInicio = fecha; // Reinicia la selección desde la fecha clicada
+                calFin    = null;
+            } else {
+                calFin = fecha;
+            }
         }
     }
     actualizarResumen();
+}
+
+function mostrarAlertaFechas() {
+    var overlay = document.getElementById('alerta-overlay');
+    if (overlay) { overlay.style.display = 'flex'; }
+}
+
+function cerrarAlertaFechas() {
+    var overlay = document.getElementById('alerta-overlay');
+    if (overlay) { overlay.style.display = 'none'; }
 }
 
 function actualizarPrecio() {

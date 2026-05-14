@@ -2656,3 +2656,23 @@ img.loaded {
     from { opacity: 0; transform: translateY(16px); }
     to   { opacity: 1; transform: translateY(0); }
 }
+
+.btn-confirmar-datos {
+    display: block;
+    width: 100%;
+    margin: 1.2rem 0 0.5rem;
+    padding: 14px;
+    background: #2c6e4f;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Jost', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.btn-confirmar-datos:hover {
+    background: #1e4f38;
+}

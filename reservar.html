@@ -146,7 +146,7 @@
 
             <!-- BOTÓN RESERVAR -->
             <button class="btn-reservar-principal" id="btn-abrir-popup" onclick="abrirPopup()">
-                Reservar ahora
+                Continuar con la reserva
             </button>
             <p class="res-nota">Pago 100% seguro · Procesado por Wompi · Tarjeta, PSE, Nequi y más.</p>
         </div>
@@ -192,7 +192,14 @@
                 Un overlay semitransparente (#wompi-overlay) bloquea el botón
                 hasta que el formulario sea válido.
             -->
-            <div id="popup-wompi-container" class="wompi-wrapper popup-wompi"></div>
+           <!-- BOTÓN CONFIRMAR DATOS — visible antes de Wompi -->
+            <button class="btn-confirmar-datos" id="btn-confirmar-datos" onclick="confirmarDatos()">
+                Confirmar datos y pagar
+            </button>
+
+            <!-- WOMPI — oculto hasta que el usuario confirme -->
+            <div id="popup-wompi-container" class="wompi-wrapper popup-wompi" style="display:none;"></div>
+
 
             <p class="res-nota" style="margin-top:16px;">
                 Tus datos están protegidos y solo se usan para gestionar tu reserva.

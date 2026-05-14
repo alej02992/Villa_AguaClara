@@ -319,14 +319,49 @@ function montarWompiEnPopup(totalCOP) {
 }
 
 /* ══ POPUP ══════════════════════════════════════════════════════════════════ */
+
+function confirmarDatos() {
+    limpiarErrores();
+
+    ['nombre','correo','tel'].forEach(function(campo) {
+        var input = document.getElementById('p-' + campo);
+        if (input) {
+            input.dataset.tocado = '1';
+            validarCampo(campo);
+        }
+    });
+
+    if (!formularioValido()) return;
+
+    var btnConfirmar   = document.getElementById('btn-confirmar-datos');
+    var wompiContainer = document.getElementById('popup-wompi-container');
+
+    if (btnConfirmar)   btnConfirmar.style.display = 'none';
+    if (wompiContainer) wompiContainer.style.display = 'block';
+
+    // Importante: resetear wompiMontado SOLO si el contenedor está vacío
+    if (wompiContainer && wompiContainer.children.length === 0) {
+        wompiMontado = false;
+    }
+
+    var noches = parseInt(document.getElementById('res-noches-texto').dataset.noches || '0');
+    var total  = noches * PRECIO_NOCHE + (decoActiva ? PRECIO_DECO : 0);
+    montarWompiEnPopup(total);
+    habilitarPago();
+}
+
 function abrirPopup() {
     document.getElementById('popup-overlay').classList.add('activo');
     document.body.style.overflow = 'hidden';
 
-    /* Montar Wompi (deshabilitado) la primera vez que se abre el popup */
-    var noches = parseInt(document.getElementById('res-noches-texto').dataset.noches || '0');
-    var total  = noches * PRECIO_NOCHE + (decoActiva ? PRECIO_DECO : 0);
-    montarWompiEnPopup(total);
+    // Resetear vista: mostrar botón confirmar, ocultar Wompi
+    var btnConfirmar   = document.getElementById('btn-confirmar-datos');
+    var wompiContainer = document.getElementById('popup-wompi-container');
+    if (btnConfirmar)   btnConfirmar.style.display = 'block';
+    if (wompiContainer) wompiContainer.style.display = 'none';
+
+    // Resetear estado por si el popup se abre de nuevo
+    guardadoEnBackend = false;
 
     setTimeout(function() {
         var primer = document.getElementById('p-nombre');

@@ -67,6 +67,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="estilos.css">
 </head>
+
 <body>
 
     <!-- TOP BAR -->
@@ -471,6 +472,20 @@
 
         </div>
     </section>
+
+    <div id="alerta-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:9999; align-items:center; justify-content:center;">
+  <div style="background:var(--color-background-primary,#fff); border-radius:12px; padding:2rem; max-width:340px; width:90%; text-align:center; border:0.5px solid rgba(0,0,0,0.1);">
+            <div style="width:52px;height:52px;border-radius:50%;background:#faeeda;display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ba7517" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+            </div>
+            <p style="font-size:16px;font-weight:500;margin:0 0 0.5rem;">Fechas no disponibles</p>
+            <p style="font-size:14px;color:#888;margin:0 0 1.5rem;line-height:1.6;">El rango seleccionado incluye fechas que ya están reservadas. Por favor elige otras fechas.</p>
+            <button onclick="cerrarAlertaFechas()" style="width:100%;padding:10px;background:#faeeda;color:#ba7517;border:0.5px solid #f0b85e;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;">
+            Entendido, elegir otras fechas
+            </button>
+            </div>
+    </div>
+
 
     <!-- GALERÍA -->
     <section class="section-galeria" id="galeria">
