@@ -9,10 +9,10 @@ var decoActiva   = false;
 
 /* ── IMPORTANTE: reemplaza con tu llave pública real de Wompi ──
    Pruebas:     pub_test_XXXXXXXXXXXXXXXX
-   Producción:  pub_prod_XXXXXXXXXXXXXXXX
+   Producción:  pub_prod_EDGKnGR5aiuG1n3XmYesXEVjNZeZEe6g
    La encuentras en: https://dashboard.wompi.co → Desarrolladores → Llaves de API
    ─────────────────────────────────────────────────────────────── */
-var WOMPI_PUBLIC_KEY = 'pub_test_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
+var WOMPI_PUBLIC_KEY = 'pub_prod_EDGKnGR5aiuG1n3XmYesXEVjNZeZEe6g';
 
 /* URL del backend en Render */
 var BACKEND_URL = 'https://villa-aguaclara.onrender.com';
