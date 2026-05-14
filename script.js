@@ -82,10 +82,6 @@ function abrirAlojamiento(id) {
     panel.classList.add('visible');
     if (card) card.classList.add('activa');
     detalleActivo = id;
-
-    setTimeout(function() {
-        panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 400);
 }
 
 function cerrarAlojamiento(id, scroll) {
@@ -219,8 +215,8 @@ function crearMes(anio, mes, offset) {
                 celda.addEventListener('click', function() { seleccionarDia(fecha); });
             }
 
-            if (calInicio && fecha.getTime() === calInicio.getTime()) celda.classList.add('cal-dia--inicio');
-            if (calFin    && fecha.getTime() === calFin.getTime())    celda.classList.add('cal-dia--fin');
+            if (calInicio && fecha.getTime() === calInicio.getTime()) celda.classList.add('cal-dia--checkin');
+            if (calFin    && fecha.getTime() === calFin.getTime())    celda.classList.add('cal-dia--checkout');
             if (calInicio && calFin && fecha > calInicio && fecha < calFin) celda.classList.add('cal-dia--rango');
 
             celda.textContent = dia;
