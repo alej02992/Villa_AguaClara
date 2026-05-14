@@ -146,7 +146,7 @@ app.get('/ping', async (_req, res) => {
         });
 
 // ── GET /api/reservas — listar (solo uso interno / admin) ──────────────────
-// ✅ CORRECCIÓN: ruta solo con el path
+
 app.get('/api/reservas', async (_req, res) => {
     try {
         const r = await pool.query(
@@ -159,7 +159,7 @@ app.get('/api/reservas', async (_req, res) => {
 });
 
 // ── GET /api/disponibilidad?alojamiento=X — fechas bloqueadas ─────────────
-// ✅ CORRECCIÓN: ruta solo con el path
+
 app.get('/api/disponibilidad', async (req, res) => {
     const { alojamiento } = req.query;
     if (!alojamiento) return res.status(400).json({ error: 'Falta alojamiento' });
@@ -175,6 +175,29 @@ app.get('/api/disponibilidad', async (req, res) => {
         );
         res.json(r.rows);
     } catch (err) {
+        res.status(500).json({ error: 'Error interno' });
+    }
+});
+
+// ── PUT /api/reservas/:referencia — actualizar estado (solo pruebas/admin) ─
+app.put('/api/reservas/:referencia', async (req, res) => {
+    const { referencia } = req.params;
+    const { estado_pago } = req.body;
+
+    const estadosValidos = ['pendiente', 'pagada', 'cancelada'];
+    if (!estadosValidos.includes(estado_pago)) {
+        return res.status(400).json({ error: 'Estado inválido' });
+    }
+
+    try {
+        const r = await pool.query(
+            `UPDATE reservas SET estado_pago = $1 WHERE referencia = $2 RETURNING id, referencia, estado_pago`,
+            [estado_pago, referencia]
+        );
+        if (r.rows.length === 0) return res.status(404).json({ error: 'Reserva no encontrada' });
+        res.json(r.rows[0]);
+    } catch (err) {
+        console.error('PUT /api/reservas:', err.message);
         res.status(500).json({ error: 'Error interno' });
     }
 });
