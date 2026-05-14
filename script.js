@@ -94,12 +94,6 @@ function cerrarAlojamiento(id, scroll) {
     if (card)  card.classList.remove('activa');
     if (detalleActivo === id) detalleActivo = null;
 
-    if (scroll) {
-        setTimeout(function() {
-            var sec = document.getElementById('alojamientos');
-            if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 80);
-    }
 }
 
 function cambiarFoto(idImg, thumb) {

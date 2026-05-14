@@ -550,33 +550,29 @@ footer {
 }
 
 /* ═══════════════════════════════════════
-   CARD — VER DETALLES LABEL
+   CARD — VER DETALLES LABEL (RECUADRO AZUL)
    ═══════════════════════════════════════ */
-.card-aloj {
-    cursor: pointer;
-}
-
 .card-aloj-ver {
     display: inline-block;
     margin-top: 14px;
     font-size: 12px;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--agua-medio);
+    
+    /* Colores y forma del recuadro */
+    color: var(--blanco) !important;       /* Letras blancas */
+    background-color: var(--agua-medio);  /* Fondo azul principal (#2a8aaa) */
+    padding: 10px 22px;                   /* Relleno interno para crear el recuadro */
+    border-radius: 4px;                   /* Bordes ligeramente redondeados */
     font-weight: 500;
-    transition: color 0.2s;
+    
+    transition: background-color 0.25s, transform 0.2s;
 }
 
+/* Efecto al pasar el cursor por encima de la tarjeta */
 .card-aloj:hover .card-aloj-ver {
-    color: var(--dorado);
-}
-
-.card-aloj.activa {
-    box-shadow: 0 0 0 2px var(--agua-claro), 0 12px 32px rgba(26, 95, 122, 0.18);
-}
-
-.card-aloj.activa .card-aloj-ver::after {
-    content: ' ↑';
+    background-color: var(--agua-oscuro); /* Cambia a un azul más profundo (#1a5f7a) */
+    transform: translateY(-2px);          /* Efecto sutil de elevación */
 }
 
 /* ═══════════════════════════════════════
