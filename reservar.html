@@ -7,6 +7,15 @@
     <link rel="icon" href="Imagenes/Logo_Aguaclara.png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="estilos.css">
+
+    <!--
+        ════════════════════════════════════════════════════════════
+        WOMPI: NO cargar el widget aquí en el <head>.
+        Se inyecta dinámicamente desde reservar.js cuando el popup
+        se abre por primera vez. Esto evita errores de timing y
+        permite pasar los datos del cliente al widget.
+        ════════════════════════════════════════════════════════════
+    -->
 </head>
 <body>
 
@@ -143,6 +152,7 @@
         </div>
 
     </div>
+
     <!-- ══ POPUP DATOS HUÉSPED ══ -->
     <div class="popup-overlay" id="popup-overlay" onclick="cerrarPopupOverlay(event)">
         <div class="popup-modal" role="dialog" aria-modal="true" aria-labelledby="popup-titulo">
@@ -151,29 +161,42 @@
 
             <span class="res-label">Tu reserva · Villa AguaClara</span>
             <h2 class="popup-titulo" id="popup-titulo">Completa tus datos</h2>
-            <p class="popup-sub">Necesitamos tus datos para confirmar la reserva y enviarte los detalles de tu estadía.</p>
+            <p class="popup-sub">
+                Necesitamos tus datos para confirmar la reserva y enviarte los detalles de tu estadía.
+            </p>
 
             <div class="popup-campo">
                 <label class="popup-label" for="p-nombre">Nombre completo</label>
-                <input class="popup-input" type="text" id="p-nombre" placeholder="Ej: María García" autocomplete="name">
+                <input class="popup-input" type="text" id="p-nombre"
+                       placeholder="Ej: María García" autocomplete="name">
                 <span class="popup-error" id="err-nombre"></span>
             </div>
 
             <div class="popup-campo">
                 <label class="popup-label" for="p-correo">Correo electrónico</label>
-                <input class="popup-input" type="email" id="p-correo" placeholder="Ej: maria@correo.com" autocomplete="email">
+                <input class="popup-input" type="email" id="p-correo"
+                       placeholder="Ej: maria@correo.com" autocomplete="email">
                 <span class="popup-error" id="err-correo"></span>
             </div>
 
             <div class="popup-campo">
                 <label class="popup-label" for="p-tel">Teléfono / WhatsApp</label>
-                <input class="popup-input" type="tel" id="p-tel" placeholder="Ej: +57 300 000 0000" autocomplete="tel">
+                <input class="popup-input" type="tel" id="p-tel"
+                       placeholder="Ej: +57 300 000 0000" autocomplete="tel">
                 <span class="popup-error" id="err-tel"></span>
             </div>
 
+            <!--
+                WOMPI WIDGET:
+                El script de Wompi se inyecta dinámicamente aquí desde reservar.js.
+                Un overlay semitransparente (#wompi-overlay) bloquea el botón
+                hasta que el formulario sea válido.
+            -->
             <div id="popup-wompi-container" class="wompi-wrapper popup-wompi"></div>
 
-            <p class="res-nota" style="margin-top:16px;">Tus datos están protegidos y solo se usan para gestionar tu reserva.</p>
+            <p class="res-nota" style="margin-top:16px;">
+                Tus datos están protegidos y solo se usan para gestionar tu reserva.
+            </p>
 
         </div>
     </div>

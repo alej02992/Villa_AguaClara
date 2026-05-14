@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmación · Villa AguaClara</title>
+    <link rel="icon" href="Imagenes/Logo_Aguaclara.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="estilos.css">
+    <style>
+        /* ── Estilos propios de la página de confirmación ── */
+        .conf-wrap {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 48px 24px;
+            text-align: center;
+        }
+
+        .conf-icono {
+            font-size: 64px;
+            margin-bottom: 24px;
+            animation: bounceIn .6s ease;
+        }
+
+        .conf-titulo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 300;
+            letter-spacing: .04em;
+            margin: 0 0 12px;
+        }
+
+        .conf-subtitulo {
+            font-family: 'Jost', sans-serif;
+            font-size: 1rem;
+            font-weight: 300;
+            color: #666;
+            max-width: 480px;
+            line-height: 1.7;
+            margin: 0 auto 32px;
+        }
+
+        .conf-referencia {
+            font-family: 'Jost', monospace;
+            font-size: .85rem;
+            letter-spacing: .1em;
+            color: #999;
+            margin-bottom: 40px;
+        }
+
+        .conf-btn {
+            display: inline-block;
+            padding: 14px 40px;
+            background: #1a1a1a;
+            color: #fff;
+            font-family: 'Jost', sans-serif;
+            font-size: .85rem;
+            font-weight: 400;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: background .2s;
+        }
+        .conf-btn:hover { background: #333; }
+
+        .conf-estado-pendiente { color: #b45309; }
+        .conf-estado-error     { color: #991b1b; }
+        .conf-estado-ok        { color: #166534; }
+
+        @keyframes bounceIn {
+            0%   { transform: scale(0); opacity: 0; }
+            60%  { transform: scale(1.15); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+
+        .conf-logo {
+            width: 80px;
+            margin-bottom: 32px;
+            opacity: .7;
+        }
+
+        .conf-detalles {
+            background: #fafaf8;
+            border: 1px solid #e8e4dc;
+            padding: 20px 32px;
+            margin-bottom: 32px;
+            text-align: left;
+            min-width: 280px;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .conf-detalles p {
+            font-family: 'Jost', sans-serif;
+            font-size: .88rem;
+            color: #555;
+            margin: 6px 0;
+            font-weight: 300;
+        }
+
+        .conf-detalles strong {
+            color: #222;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="conf-wrap">
+
+        <img src="Imagenes/Logo_Aguaclara.png" alt="Villa AguaClara" class="conf-logo">
+
+        <!-- El contenido se rellena según el estado que Wompi pasa en la URL -->
+        <div id="conf-icono"    class="conf-icono">⏳</div>
+        <h1  id="conf-titulo"   class="conf-titulo">Verificando tu pago…</h1>
+        <p   id="conf-sub"      class="conf-subtitulo">Un momento, estamos confirmando tu transacción.</p>
+
+        <div id="conf-detalles" class="conf-detalles" style="display:none">
+            <p>Referencia: <strong id="det-ref">—</strong></p>
+            <p>ID transacción: <strong id="det-tx">—</strong></p>
+        </div>
+
+        <p id="conf-ref" class="conf-referencia"></p>
+
+        <a href="index.html" class="conf-btn">Volver al inicio</a>
+
+    </div>
+
+    <script>
+    /* ══════════════════════════════════════════════════════
+       Wompi redirige aquí con estos query params:
+         ?id=<transaction_id>
+         &status=APPROVED | DECLINED | VOIDED | PENDING
+         &reference=<tu_referencia>
+       ══════════════════════════════════════════════════════ */
+
+    (function() {
+        var sp        = new URLSearchParams(location.search);
+        var status    = sp.get('status')    || '';
+        var reference = sp.get('reference') || '';
+        var txId      = sp.get('id')        || '';
+
+        var elIcono  = document.getElementById('conf-icono');
+        var elTitulo = document.getElementById('conf-titulo');
+        var elSub    = document.getElementById('conf-sub');
+        var elRef    = document.getElementById('conf-ref');
+        var elDets   = document.getElementById('conf-detalles');
+        var elDetRef = document.getElementById('det-ref');
+        var elDetTx  = document.getElementById('det-tx');
+
+        if (reference) {
+            elRef.textContent = 'Referencia: ' + reference;
+            if (elDetRef) elDetRef.textContent = reference;
+        }
+        if (txId && elDetTx) {
+            elDetTx.textContent = txId;
+        }
+        if ((reference || txId) && elDets) {
+            elDets.style.display = 'block';
+        }
+
+        /* ── Mapeo de estado ── */
+        if (status === 'APPROVED') {
+            elIcono.textContent       = '✅';
+            elTitulo.textContent      = '¡Reserva confirmada!';
+            elTitulo.className        = 'conf-titulo conf-estado-ok';
+            elSub.textContent         = 'Tu pago fue procesado exitosamente. En breve recibirás un correo con los detalles de tu estadía en Villa AguaClara. ¡Te esperamos!';
+
+        } else if (status === 'DECLINED') {
+            elIcono.textContent       = '❌';
+            elTitulo.textContent      = 'Pago rechazado';
+            elTitulo.className        = 'conf-titulo conf-estado-error';
+            elSub.textContent         = 'Tu pago no pudo procesarse. Por favor intenta con otro método de pago o contacta a tu banco. Tu reserva fue cancelada automáticamente.';
+
+        } else if (status === 'VOIDED') {
+            elIcono.textContent       = '↩️';
+            elTitulo.textContent      = 'Pago anulado';
+            elTitulo.className        = 'conf-titulo conf-estado-error';
+            elSub.textContent         = 'La transacción fue anulada. Si tienes dudas, contáctanos por WhatsApp.';
+
+        } else if (status === 'PENDING') {
+            elIcono.textContent       = '⏳';
+            elTitulo.textContent      = 'Pago pendiente';
+            elTitulo.className        = 'conf-titulo conf-estado-pendiente';
+            elSub.textContent         = 'Tu pago está siendo procesado (puede tomar unos minutos con PSE o transferencia). Te notificaremos por correo cuando se confirme.';
+
+        } else {
+            /* Sin parámetros — acceso directo a la página */
+            elIcono.textContent       = '🌿';
+            elTitulo.textContent      = 'Página de confirmación';
+            elSub.textContent         = 'Esta página muestra el resultado de tu pago al regresar desde Wompi.';
+        }
+    })();
+    </script>
+
+</body>
+</html>
