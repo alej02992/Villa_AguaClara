@@ -258,19 +258,23 @@ function crearMes(anio, mes, offset) {
             let bloqueada = false;
 
             if (window.fechasBloqueadas) {
-
                 bloqueada = window.fechasBloqueadas.some(r => {
+                    // Separar el string "YYYY-MM-DD" para evitar el desfase de zona horaria
+                    const [inYear, inMonth, inDay] = r.fecha_entrada.split('-');
+                    const [outYear, outMonth, outDay] = r.fecha_salida.split('-');
 
-                    const entrada = new Date(r.fecha_entrada);
-                    const salida  = new Date(r.fecha_salida);
+                    // Al pasar los números separados, JS asume zona horaria local.
+                    // Nota: El mes en JS empieza en 0 (Enero = 0, Junio = 5), por eso restamos 1.
+                    const entrada = new Date(inYear, inMonth - 1, inDay);
+                    const salida = new Date(outYear, outMonth - 1, outDay);
 
+                    // Ya nacen a las 00:00:00 locales, así que setHours(0,0,0,0) es opcional, 
+                    // pero lo dejamos por seguridad.
                     entrada.setHours(0,0,0,0);
                     salida.setHours(0,0,0,0);
 
                     return fecha >= entrada && fecha < salida;
-
                 });
-
             }
 
             if (fecha < hoy || bloqueada) {
