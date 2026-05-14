@@ -259,17 +259,18 @@ function crearMes(anio, mes, offset) {
 
             if (window.fechasBloqueadas) {
                 bloqueada = window.fechasBloqueadas.some(r => {
-                    // Separar el string "YYYY-MM-DD" para evitar el desfase de zona horaria
-                    const [inYear, inMonth, inDay] = r.fecha_entrada.split('-');
-                    const [outYear, outMonth, outDay] = r.fecha_salida.split('-');
+                    // 1. Cortamos en la 'T' para ignorar la hora (ej. '2026-06-10T00:00:00.000Z' -> '2026-06-10')
+                    const fechaInText = r.fecha_entrada.split('T')[0];
+                    const fechaOutText = r.fecha_salida.split('T')[0];
 
-                    // Al pasar los números separados, JS asume zona horaria local.
-                    // Nota: El mes en JS empieza en 0 (Enero = 0, Junio = 5), por eso restamos 1.
+                    // 2. Separamos año, mes y día
+                    const [inYear, inMonth, inDay] = fechaInText.split('-');
+                    const [outYear, outMonth, outDay] = fechaOutText.split('-');
+
+                    // 3. Creamos la fecha local (restamos 1 al mes porque en JS enero es 0)
                     const entrada = new Date(inYear, inMonth - 1, inDay);
                     const salida = new Date(outYear, outMonth - 1, outDay);
 
-                    // Ya nacen a las 00:00:00 locales, así que setHours(0,0,0,0) es opcional, 
-                    // pero lo dejamos por seguridad.
                     entrada.setHours(0,0,0,0);
                     salida.setHours(0,0,0,0);
 
