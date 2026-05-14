@@ -256,12 +256,13 @@ function montarWompiEnPopup(totalCOP) {
 
     container.appendChild(script);
 
+    /* Auto-scroll: cuando Wompi cargue, bajar el modal hasta el botón */
     script.addEventListener('load', function() {
-    setTimeout(function() {
-        var modal   = document.querySelector('.popup-modal');
-        var wompiEl = document.getElementById('popup-wompi-container');
-        if (modal && wompiEl) {
-            modal.scrollTo({ top: wompiEl.offsetTop - 20, behavior: 'smooth' });
+        setTimeout(function() {
+            var modal   = document.querySelector('.popup-modal');
+            var wompiEl = document.getElementById('popup-wompi-container');
+            if (modal && wompiEl) {
+                modal.scrollTo({ top: wompiEl.offsetTop - 20, behavior: 'smooth' });
             }
         }, 300);
     });
@@ -285,6 +286,36 @@ function montarWompiEnPopup(totalCOP) {
     ].join(';');
     overlay.textContent = 'Completa tus datos para continuar';
     container.appendChild(overlay);
+
+    /* ══ FIX WOMPI IFRAME ══════════════════════════════════════════
+       El iframe de Wompi usa position:fixed, pero queda atrapado dentro
+       del stacking context del popup-overlay.
+       Solución: cuando el usuario hace clic en el botón de Wompi,
+       ocultamos visualmente el popup (opacity:0, sin destruirlo)
+       para que el iframe flote libre sobre la página.
+       Cuando Wompi cierra su checkout (el iframe desaparece del DOM),
+       restauramos el popup.
+    ══════════════════════════════════════════════════════════════ */
+    container.addEventListener('click', function(e) {
+        var btn = e.target.closest('button');
+        if (!btn) return;
+
+        var popupEl = document.getElementById('popup-overlay');
+        popupEl.classList.add('wompi-abierto');   /* oculta sin destruir */
+        document.body.style.overflow = '';        /* libera scroll del body */
+
+        /* Vigilar cuándo Wompi cierra su iframe para restaurar el popup */
+        var observer = new MutationObserver(function() {
+            var iframes = document.querySelectorAll('iframe[src*="checkout.wompi"], iframe[src*="wompi.co"]');
+            if (iframes.length === 0) {
+                /* Wompi cerró → restaurar popup */
+                popupEl.classList.remove('wompi-abierto');
+                document.body.style.overflow = 'hidden';
+                observer.disconnect();
+            }
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+    }, true);
 }
 
 /* ══ POPUP ══════════════════════════════════════════════════════════════════ */
@@ -488,8 +519,3 @@ document.addEventListener('DOMContentLoaded', function() {
     var totalEl = document.getElementById('res-total');
     if (totalEl) totalEl.textContent = formatCOP(subtotal);
 })();
-
-/* ══ FIX: cerrar popup cuando Wompi abre su checkout ══
-   El widget dispara un click en su botón interno → detectamos
-   ese momento y cerramos nuestro modal para que el iframe
-   de Wompi tenga z-index libre y se vea completo.          */

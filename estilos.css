@@ -2140,11 +2140,18 @@ body {
     justify-content: center;
     align-items: center;
     padding: 20px;
-    backdrop-filter: blur(4px);
+    /* SIN backdrop-filter: crea un stacking context que atrapa el iframe de Wompi */
 }
 
 .popup-overlay.activo {
     display: flex;
+}
+
+/* Cuando Wompi abre su checkout: ocultamos el overlay visualmente
+   pero lo dejamos en el DOM para no destruir el widget */
+.popup-overlay.wompi-abierto {
+    opacity: 0;
+    pointer-events: none;
 }
 
 .popup-modal {
@@ -2652,4 +2659,3 @@ img.loaded {
     from { opacity: 0; transform: translateY(16px); }
     to   { opacity: 1; transform: translateY(0); }
 }
-

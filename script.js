@@ -523,3 +523,12 @@ document.addEventListener('keydown', function(e) {
     }
 
 })();
+
+script.addEventListener('load', function() {
+    setTimeout(function() {
+        var modal = document.querySelector('.popup-modal');
+        if (modal) {
+            modal.scrollTo({ top: modal.scrollHeight, behavior: 'smooth' });
+        }
+    }, 300);
+});
