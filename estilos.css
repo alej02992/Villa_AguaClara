@@ -2097,8 +2097,7 @@ body {
 .wompi-wrapper {
     margin-top: 24px;
     width: 100%;
-    display: flex;
-    justify-content: center;
+    display: block;   /* era flex → causaba que el iframe se saliera del contenedor */
 }
 
 .wompi-wrapper > script,
@@ -2152,12 +2151,14 @@ body {
     background: var(--blanco);
     width: 100%;
     max-width: 520px;
-    max-height: 90vh;
+    max-height: 92vh;
     overflow-y: auto;
+    overflow-x: hidden;       /* evita scroll horizontal del iframe de Wompi */
     padding: 44px 40px 36px;
     position: relative;
     box-shadow: 0 24px 64px rgba(10, 40, 55, 0.28);
     animation: popup-entrar 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    scroll-behavior: smooth;  /* para el auto-scroll al botón de Wompi */
 }
 
 @keyframes popup-entrar {
@@ -2294,8 +2295,10 @@ body {
 }
 
 .popup-wompi {
-    margin-top: 0;
-    margin-bottom: 12px;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    width: 100%;
+    min-height: 60px;
 }
 
 /* ── BOTÓN RESERVAR PRINCIPAL ── */
@@ -2648,4 +2651,15 @@ img.loaded {
 @keyframes detalleEntrar {
     from { opacity: 0; transform: translateY(16px); }
     to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Fix z-index checkout Wompi ── */
+iframe[src*="wompi"],
+iframe[src*="checkout.wompi"] {
+    z-index: 99999 !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
 }

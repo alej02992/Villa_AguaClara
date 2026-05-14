@@ -256,6 +256,16 @@ function montarWompiEnPopup(totalCOP) {
 
     container.appendChild(script);
 
+    script.addEventListener('load', function() {
+    setTimeout(function() {
+        var modal   = document.querySelector('.popup-modal');
+        var wompiEl = document.getElementById('popup-wompi-container');
+        if (modal && wompiEl) {
+            modal.scrollTo({ top: wompiEl.offsetTop - 20, behavior: 'smooth' });
+            }
+        }, 300);
+    });
+
     /* ── Overlay bloqueador (semitransparente, encima del botón) ── */
     var overlay = document.createElement('div');
     overlay.id  = 'wompi-overlay';
@@ -478,3 +488,17 @@ document.addEventListener('DOMContentLoaded', function() {
     var totalEl = document.getElementById('res-total');
     if (totalEl) totalEl.textContent = formatCOP(subtotal);
 })();
+
+/* ══ FIX: cerrar popup cuando Wompi abre su checkout ══
+   El widget dispara un click en su botón interno → detectamos
+   ese momento y cerramos nuestro modal para que el iframe
+   de Wompi tenga z-index libre y se vea completo.          */
+document.addEventListener('click', function(e) {
+    var btn = e.target.closest('#popup-wompi-container button');
+    if (btn) {
+        /* Pequeño delay para que Wompi registre el click primero */
+        setTimeout(function() {
+            cerrarPopup();
+        }, 80);
+    }
+}, true); /* useCapture: true para capturar antes que Wompi */
