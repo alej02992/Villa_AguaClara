@@ -921,6 +921,13 @@ footer {
     color: var(--agua-medio);
 }
 
+.cal-dia--bloqueado {
+    background: #fde8e8;
+    color: #e57373;
+    cursor: not-allowed;
+    text-decoration: line-through;
+}
+
 .cal-dia--checkin,
 .cal-dia--checkout {
     background: var(--agua-oscuro) !important;

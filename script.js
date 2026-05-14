@@ -3,9 +3,12 @@
    Lightbox · Alojamientos · Calendario
    ═══════════════════════════════════════ */
 
-const API = 'https://villa-aguaclara.onrender.com';
-// ✅ CORRECCIÓN: eliminada llamada a cargarReservas() que no existe en este archivo.
-// Si necesitas cargar reservas, defínela aquí o impórtala desde reservar.js
+const API = 'https://villa-aguaclara-1.onrender.com';
+// El fetch a reservas se hace solo cuando se necesita, no aquí
+
+
+// Llamamos a la función
+cargarReservas();
 
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -82,6 +85,10 @@ function abrirAlojamiento(id) {
     panel.classList.add('visible');
     if (card) card.classList.add('activa');
     detalleActivo = id;
+
+    setTimeout(function() {
+        panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 400);
 }
 
 function cerrarAlojamiento(id, scroll) {
@@ -117,8 +124,9 @@ var calAnio  = new Date().getFullYear();
 var calMes   = new Date().getMonth();
 var calInicio = null;
 var calFin    = null;
-var calAlojamiento = '';
-var PRECIO_NOCHE   = 250000;
+var calAlojamiento  = '';
+var PRECIO_NOCHE    = 250000;
+var calFechasBloqueadas = []; // rangos [{entrada, salida}] del alojamiento actual
 
 var meses = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
 
@@ -147,12 +155,26 @@ function abrirCalendario(nombre) {
     if (btnWa)  { btnWa.classList.remove('listo'); btnWa.href = '#'; }
     if (precio)   precio.classList.remove('visible');
 
-    renderCalendario();
-
     var overlay = document.getElementById('cal-overlay');
     var modal   = document.getElementById('cal-modal');
     if (overlay) overlay.classList.add('visible');
     if (modal)   modal.classList.add('visible');
+
+    // Consultar fechas ocupadas al backend
+    calFechasBloqueadas = [];
+    fetch(API + '/api/disponibilidad?alojamiento=' + encodeURIComponent(nombre))
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            calFechasBloqueadas = data.map(function(r) {
+                return {
+                    entrada: new Date(r.fecha_entrada + 'T00:00:00'),
+                    salida:  new Date(r.fecha_salida  + 'T00:00:00')
+                };
+            });
+            // Solo re-renderizar si el usuario aún no seleccionó fechas
+            if (!calInicio && !calFin) renderCalendario();
+        })
+        .catch(function() {});
 }
 
 function cerrarCalendario() {
@@ -208,10 +230,19 @@ function crearMes(anio, mes, offset) {
             fecha.setHours(0,0,0,0);
             var celda = document.createElement('div');
             celda.className = 'cal-dia';
+            celda.textContent = dia;
 
-            if (fecha < hoy) {
-                celda.classList.add('cal-dia--pasado');
-            } else {
+            var esHoy      = fecha.getTime() === hoy.getTime();
+            var esPasado   = fecha < hoy;
+            var esBloqueado = calFechasBloqueadas.some(function(r) {
+                return fecha >= r.entrada && fecha < r.salida;
+            });
+
+            if (esPasado)    celda.classList.add('cal-dia--pasado');
+            if (esHoy)       celda.classList.add('cal-dia--hoy');
+            if (esBloqueado) celda.classList.add('cal-dia--bloqueado');
+
+            if (!esPasado && !esBloqueado) {
                 celda.addEventListener('click', function() { seleccionarDia(fecha); });
             }
 
@@ -219,7 +250,6 @@ function crearMes(anio, mes, offset) {
             if (calFin    && fecha.getTime() === calFin.getTime())    celda.classList.add('cal-dia--checkout');
             if (calInicio && calFin && fecha > calInicio && fecha < calFin) celda.classList.add('cal-dia--rango');
 
-            celda.textContent = dia;
             grid.appendChild(celda);
         })(d);
     }
@@ -229,43 +259,40 @@ function crearMes(anio, mes, offset) {
 
 function navegarCal(dir) {
     calMes += dir;
-    if (calMes > 11) { calMes = 0; calAnio++; }
     if (calMes < 0)  { calMes = 11; calAnio--; }
+    if (calMes > 11) { calMes = 0;  calAnio++; }
     renderCalendario();
+}
+
+function actualizarPrecio() {
+    if (!calInicio || !calFin) return;
+
+    var noches   = Math.round((calFin - calInicio) / (1000 * 60 * 60 * 24));
+    var subtotal = noches * PRECIO_NOCHE;
+    var total    = subtotal;
+
+    var detalleEl  = document.getElementById('cal-precio-detalle');
+    var subtotalEl = document.getElementById('cal-precio-subtotal');
+    var totalEl    = document.getElementById('cal-total');
+    var precioEl   = document.getElementById('cal-precio');
+
+    if (detalleEl)  detalleEl.textContent  = noches + ' noche' + (noches > 1 ? 's' : '') + ' × ' + formatCOP(PRECIO_NOCHE);
+    if (subtotalEl) subtotalEl.textContent = formatCOP(subtotal);
+    if (totalEl)    totalEl.textContent    = formatCOP(total);
+    if (precioEl)   precioEl.classList.add('visible');
 }
 
 function seleccionarDia(fecha) {
     if (!calInicio || (calInicio && calFin)) {
         calInicio = fecha;
         calFin    = null;
+        var precioEl  = document.getElementById('cal-precio');
+        if (precioEl)   precioEl.classList.remove('visible');
     } else {
-        if (fecha <= calInicio) {
-            calInicio = fecha;
-            calFin    = null;
-        } else {
-            calFin = fecha;
-        }
+        if (fecha <= calInicio) { calInicio = fecha; calFin = null; }
+        else                    { calFin = fecha; }
     }
-    actualizarResumen();
-}
 
-function actualizarPrecio() {
-    var precio = document.getElementById('cal-precio');
-    if (!precio || !calInicio || !calFin) return;
-
-    var noches = Math.round((calFin - calInicio) / (1000 * 60 * 60 * 24));
-    var subtotal = noches * PRECIO_NOCHE;
-    var deco = typeof calDecoActiva !== 'undefined' && calDecoActiva ? 100000 : 0;
-    var total = subtotal + deco;
-
-    precio.innerHTML =
-        '<span>' + noches + ' noche' + (noches > 1 ? 's' : '') + '</span>' +
-        (deco ? '<span>Decoración: ' + formatCOP(deco) + '</span>' : '') +
-        '<strong>Total: ' + formatCOP(total) + '</strong>';
-    precio.classList.add('visible');
-}
-
-function actualizarResumen() {
     var checkin  = document.getElementById('cal-checkin');
     var checkout = document.getElementById('cal-checkout');
     if (checkin)  checkin.textContent  = calInicio ? (calInicio.getDate() + ' ' + meses[calInicio.getMonth()] + ' ' + calInicio.getFullYear()) : '—';
@@ -307,24 +334,37 @@ document.addEventListener('keydown', function(e) {
 (function () {
     'use strict';
 
+    /* ── 1. MARCAR ELEMENTOS PARA ANIMAR ── */
     function marcarElementos() {
+
+        /* Section labels */
         document.querySelectorAll('.section-label').forEach(function (el) {
             el.classList.add('reveal');
         });
+
+        /* Títulos de sección */
         document.querySelectorAll('.section-title').forEach(function (el) {
             el.classList.add('reveal');
             el.style.transitionDelay = '0.12s';
         });
+
+        /* Cards de alojamiento — stagger */
         document.querySelectorAll('.card-aloj').forEach(function (el, i) {
             el.classList.add('reveal-scale', 'delay-' + (i + 1));
         });
-        document.querySelectorAll('.tour-item').forEach(function (el) {
+
+        /* Tours — alternando izquierda / derecha */
+        document.querySelectorAll('.tour-item').forEach(function (el, i) {
             var invertido = el.classList.contains('tour-item--invertido');
             el.classList.add(invertido ? 'reveal-right' : 'reveal-left');
         });
+
+        /* Fotos de galería — stagger */
         document.querySelectorAll('#grid-galeria img').forEach(function (el, i) {
             el.classList.add('reveal-scale', 'delay-' + Math.min(i + 1, 6));
         });
+
+        /* Sección contacto */
         var secContacto = document.querySelector('.section-contacto');
         if (secContacto) {
             secContacto.querySelectorAll('p, h2, .btn-wa').forEach(function (el, i) {
@@ -332,6 +372,8 @@ document.addEventListener('keydown', function(e) {
                 el.style.transitionDelay = (0.1 * (i + 1)) + 's';
             });
         }
+
+        /* Sección ubicación */
         var secUbicacion = document.querySelector('.section-ubicacion');
         if (secUbicacion) {
             secUbicacion.querySelectorAll('iframe').forEach(function (el) {
@@ -339,6 +381,8 @@ document.addEventListener('keydown', function(e) {
                 el.style.transitionDelay = '0.2s';
             });
         }
+
+        /* Top bar */
         var topBar = document.querySelector('.top-bar');
         if (topBar) {
             topBar.style.opacity = '0';
@@ -351,25 +395,34 @@ document.addEventListener('keydown', function(e) {
         }
     }
 
+    /* ── 2. INTERSECTION OBSERVER ── */
     function initObserver() {
         if (!('IntersectionObserver' in window)) {
+            /* Fallback: mostrar todo de inmediato */
             document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale')
                 .forEach(function (el) { el.classList.add('visible'); });
             return;
         }
-        var opciones = { threshold: 0.12, rootMargin: '0px 0px -40px 0px' };
+
+        var opciones = {
+            threshold: 0.12,
+            rootMargin: '0px 0px -40px 0px'
+        };
+
         var observer = new IntersectionObserver(function (entries) {
             entries.forEach(function (entry) {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
-                    observer.unobserve(entry.target);
+                    observer.unobserve(entry.target); /* una sola vez */
                 }
             });
         }, opciones);
+
         document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale')
             .forEach(function (el) { observer.observe(el); });
     }
 
+    /* ── 3. SMOOTH IMAGE LOADING ── */
     function initImageLoad() {
         document.querySelectorAll('img').forEach(function (img) {
             if (img.complete) {
@@ -382,9 +435,11 @@ document.addEventListener('keydown', function(e) {
         });
     }
 
+    /* ── 4. PARALLAX SUAVE EN EL HERO ── */
     function initParallaxHero() {
         var hero = document.querySelector('.hero-galeria');
         if (!hero) return;
+
         var ticking = false;
         window.addEventListener('scroll', function () {
             if (!ticking) {
@@ -401,14 +456,17 @@ document.addEventListener('keydown', function(e) {
         });
     }
 
+    /* ── 5. NAV — resaltar sección activa ── */
     function initNavActiva() {
         var enlaces = document.querySelectorAll('nav.main-nav a[href^="#"]');
         var secciones = [];
+
         enlaces.forEach(function (a) {
             var id  = a.getAttribute('href').substring(1);
             var sec = document.getElementById(id);
             if (sec) secciones.push({ el: sec, a: a });
         });
+
         var tickNav = false;
         window.addEventListener('scroll', function () {
             if (tickNav) return;
@@ -431,6 +489,10 @@ document.addEventListener('keydown', function(e) {
         });
     }
 
+    /* ── 6. NÚMERO ANIMADO AL ENTRAR EN VISTA ── */
+    /* (preparado para futuras stats/métricas) */
+
+    /* ── INIT ── */
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', function () {
             marcarElementos();
