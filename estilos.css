@@ -567,6 +567,7 @@ footer {
     font-weight: 500;
     
     transition: background-color 0.25s, transform 0.2s;
+    cursor: pointer;
 }
 
 /* Efecto al pasar el cursor por encima de la tarjeta */
