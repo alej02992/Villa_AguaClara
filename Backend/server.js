@@ -33,43 +33,117 @@ app.use(cors({
 app.use('/api/wompi/webhook', express.raw({ type: 'application/json' }));
 app.use(express.json());
 
-// ── Salud ──────────────────────────────────────────────────────────────────
+// ── Saludo ──────────────────────────────────────────────────────────────────
 app.get('/', (_req, res) => res.json({ ok: true, msg: 'Backend Villa AguaClara 🚀' }));
 
-// ── POST /api/reservas — crear reserva (estado: pendiente) ─────────────────
-// ✅ CORRECCIÓN: ruta solo con el path, no la URL completa
-app.post('/api/reservas', async (req, res) => {
-    const { nombre, correo, telefono, alojamiento,
-            checkin, checkout, noches, decoracion, total, referencia } = req.body;
-
-    if (!nombre || !correo || !telefono || !alojamiento ||
-        !checkin || !checkout || !noches || !referencia) {
-        return res.status(400).json({ error: 'Faltan campos obligatorios' });
-    }
-
-    const deco       = decoracion ? true : false;
-    const subtotal   = noches * 250000;
-    const totalFinal = deco ? subtotal + 100000 : subtotal;
-
+app.get('/ping', async (_req, res) => {
     try {
-        const r = await pool.query(
-            `INSERT INTO reservas
-                (nombre, correo, telefono, alojamiento,
-                 fecha_entrada, fecha_salida, noches, decoracion,
-                 subtotal, total, referencia)
-             VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
-             ON CONFLICT (referencia) DO NOTHING
-             RETURNING id, referencia`,
-            [nombre, correo, telefono, alojamiento,
-             checkin, checkout, noches, deco,
-             subtotal, totalFinal, referencia]
-        );
-        res.status(201).json(r.rows[0] || { msg: 'ya existía' });
+        await pool.query('SELECT 1');
+        res.status(200).json({
+            ok: true,
+            msg: 'Backend activo'
+        });
     } catch (err) {
-        console.error('POST /api/reservas:', err.message);
-        res.status(500).json({ error: 'Error interno' });
+        res.status(500).json({
+            ok: false,
+            error: err.message
+        });
     }
 });
+
+// ── POST /api/reservas — crear reserva (estado: pendiente) ─────────────────
+
+        app.post('/api/reservas', async (req, res) => {
+
+            const {
+                nombre,
+                correo,
+                telefono,
+                alojamiento,
+                checkin,
+                checkout,
+                noches,
+                decoracion,
+                total,
+                referencia
+            } = req.body;
+
+            if (
+                !nombre || !correo || !telefono ||
+                !alojamiento || !checkin ||
+                !checkout || !noches || !referencia
+            ) {
+                return res.status(400).json({
+                    error: 'Faltan campos obligatorios'
+                });
+            }
+
+            const deco       = decoracion ? true : false;
+            const subtotal   = noches * 250000;
+            const totalFinal = deco ? subtotal + 100000 : subtotal;
+
+            try {
+
+                // ── VALIDAR DISPONIBILIDAD ─────────────
+                const existe = await pool.query(
+                    `
+                    SELECT id
+                    FROM reservas
+                    WHERE alojamiento = $1
+                    AND estado_pago IN ('pendiente', 'pagada')
+                    AND (
+                        ($2 < fecha_salida)
+                        AND
+                        ($3 > fecha_entrada)
+                    )
+                    `,
+                    [alojamiento, checkin, checkout]
+                );
+
+                if (existe.rows.length > 0) {
+
+                    return res.status(409).json({
+                        error: 'Las fechas ya no están disponibles'
+                    });
+
+                }
+
+                // ── INSERTAR RESERVA ─────────────
+                const r = await pool.query(
+                    `
+                    INSERT INTO reservas
+                    (
+                        nombre,correo,telefono,alojamiento,fecha_entrada,
+                        fecha_salida,noches,decoracion,subtotal,total,referencia
+                    )
+                    VALUES
+                    (
+                        $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11
+                    )
+                    ON CONFLICT (referencia) DO NOTHING
+                    RETURNING id, referencia
+                    `,
+                    [
+                        nombre,correo,telefono,alojamiento,checkin,checkout,
+                        noches,deco,subtotal,totalFinal,referencia
+                    ]
+                );
+
+                res.status(201).json(
+                    r.rows[0] || { msg: 'ya existía' }
+                );
+
+            } catch (err) {
+
+                console.error('POST /api/reservas:', err.message);
+
+                res.status(500).json({
+                    error: 'Error interno'
+                });
+
+            }
+
+        });
 
 // ── GET /api/reservas — listar (solo uso interno / admin) ──────────────────
 // ✅ CORRECCIÓN: ruta solo con el path

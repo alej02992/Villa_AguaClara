@@ -4,9 +4,11 @@
    ═══════════════════════════════════════ */
 
 const API = 'https://villa-aguaclara.onrender.com';
-// ✅ CORRECCIÓN: eliminada llamada a cargarReservas() que no existe en este archivo.
-// Si necesitas cargar reservas, defínela aquí o impórtala desde reservar.js
 
+// ── Despertar Render ─────────────────────
+fetch(`${API}/ping`)
+    .then(() => console.log('Backend despierto'))
+    .catch(err => console.log('Wake-up error:', err));
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -127,13 +129,51 @@ function formatCOP(valor) {
 }
 
 
-function abrirCalendario(nombre) {
+async function abrirCalendario(nombre) {
+
     calAlojamiento = nombre;
     calInicio = null;
-    calFin    = null;
+    calFin = null;
     calDecoActiva = false;
-    calAnio   = new Date().getFullYear();
-    calMes    = new Date().getMonth();
+
+    calAnio = new Date().getFullYear();
+    calMes = new Date().getMonth();
+
+    try {
+
+        // Loader opcional
+        document.body.style.cursor = 'wait';
+
+        // Wake-up backend
+        await fetch(`${API}/ping`);
+
+        // Precargar disponibilidad
+        const res = await fetch(
+            `${API}/api/disponibilidad?alojamiento=${encodeURIComponent(nombre)}`
+        );
+
+        const data = await res.json();
+
+        console.log('Disponibilidad:', data);
+
+        // Guardamos reservas bloqueadas globalmente
+        window.fechasBloqueadas = data;
+
+    } catch (err) {
+
+        console.error('Error disponibilidad:', err);
+
+        alert(
+            'El servidor está iniciando. Intenta nuevamente en unos segundos.'
+        );
+
+        return;
+
+    } finally {
+
+        document.body.style.cursor = 'default';
+
+    }
 
     var titulo    = document.getElementById('cal-titulo');
     var checkin   = document.getElementById('cal-checkin');
@@ -141,18 +181,24 @@ function abrirCalendario(nombre) {
     var btnWa     = document.getElementById('cal-btn-wa');
     var precio    = document.getElementById('cal-precio');
 
-    if (titulo)   titulo.textContent   = nombre;
-    if (checkin)  checkin.textContent  = '—';
+    if (titulo) titulo.textContent = nombre;
+    if (checkin) checkin.textContent = '—';
     if (checkout) checkout.textContent = '—';
-    if (btnWa)  { btnWa.classList.remove('listo'); btnWa.href = '#'; }
-    if (precio)   precio.classList.remove('visible');
+
+    if (btnWa) {
+        btnWa.classList.remove('listo');
+        btnWa.href = '#';
+    }
+
+    if (precio) precio.classList.remove('visible');
 
     renderCalendario();
 
     var overlay = document.getElementById('cal-overlay');
     var modal   = document.getElementById('cal-modal');
+
     if (overlay) overlay.classList.add('visible');
-    if (modal)   modal.classList.add('visible');
+    if (modal) modal.classList.add('visible');
 }
 
 function cerrarCalendario() {
@@ -209,10 +255,34 @@ function crearMes(anio, mes, offset) {
             var celda = document.createElement('div');
             celda.className = 'cal-dia';
 
-            if (fecha < hoy) {
+            let bloqueada = false;
+
+            if (window.fechasBloqueadas) {
+
+                bloqueada = window.fechasBloqueadas.some(r => {
+
+                    const entrada = new Date(r.fecha_entrada);
+                    const salida  = new Date(r.fecha_salida);
+
+                    entrada.setHours(0,0,0,0);
+                    salida.setHours(0,0,0,0);
+
+                    return fecha >= entrada && fecha < salida;
+
+                });
+
+            }
+
+            if (fecha < hoy || bloqueada) {
+
                 celda.classList.add('cal-dia--pasado');
+
             } else {
-                celda.addEventListener('click', function() { seleccionarDia(fecha); });
+
+                celda.addEventListener('click', function() {
+                    seleccionarDia(fecha);
+                });
+
             }
 
             if (calInicio && fecha.getTime() === calInicio.getTime()) celda.classList.add('cal-dia--checkin');
@@ -259,9 +329,9 @@ function actualizarPrecio() {
     var total = subtotal + deco;
 
     precio.innerHTML =
-        '<span>' + noches + ' noche' + (noches > 1 ? 's' : '') + '</span>' +
+        '<span>' + noches + ' noche' + (noches > 1 ? 's ' : '') + '</span>' +
         (deco ? '<span>Decoración: ' + formatCOP(deco) + '</span>' : '') +
-        '<strong>Total: ' + formatCOP(total) + '</strong>';
+        '<strong> Total: ' + formatCOP(total) + '</strong>';
     precio.classList.add('visible');
 }
 
