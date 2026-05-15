@@ -416,7 +416,8 @@ function formularioValido() {
 function habilitarPago() {
     actualizarOverlayWompi(true);
 
-    if (guardadoEnBackend) return;   /* evitar doble llamada */
+    if (guardadoEnBackend) return;
+    if (!wompiReferencia) return;   /* ← esperar a que se genere la referencia */
     guardadoEnBackend = true;
 
     var nombre  = document.getElementById('p-nombre').value.trim();
