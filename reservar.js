@@ -444,25 +444,35 @@ function habilitarPago() {
         referencia:  wompiReferencia
     };
 
-    fetch(BACKEND_URL + '/api/reservas', {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify(payload)
+    var t0 = performance.now();
+console.log('⏳ Guardando reserva en Aiven...');
+
+fetch(BACKEND_URL + '/api/reservas', {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify(payload)
     })
     .then(function(res) {
-        if (!res.ok) {
-            return res.json().then(function(data) {
-                /* 409 = fechas ya ocupadas — caso más común */
-                if (res.status === 409) {
-                    alert('⚠️ Lo sentimos, esas fechas ya no están disponibles.\nPor favor regresa y elige otras fechas.');
-                    window.location.href = 'index.html';
-                }
-            });
-        }
+    var ms = Math.round(performance.now() - t0);
+    if (!res.ok) {
+        return res.json().then(function(data) {
+            if (res.status === 409) {
+                alert('⚠️ Lo sentimos, esas fechas ya no están disponibles.\nPor favor regresa y elige otras fechas.');
+                window.location.href = 'index.html';
+            } else {
+                console.error('❌ Error al guardar (' + ms + 'ms) — status ' + res.status, data);
+            }
+        });
+    }
+
+    return res.json().then(function(data) {
+        console.log('✅ Reserva guardada en Aiven en ' + ms + 'ms — ID:', data.id, '| Ref:', data.referencia);
+        });
     })
-    .catch(function() {
-        /* Silencioso: el pago puede continuar aunque el backend falle.
-           El webhook de Wompi actualizará el estado cuando el pago se procese. */
+    
+    .catch(function(err) {
+    var ms = Math.round(performance.now() - t0);
+    console.warn('⚠️ Backend no respondió (' + ms + 'ms):', err.message);
     });
 }
 
