@@ -247,5 +247,34 @@ app.use((err, _req, res, _next) => {
     res.status(500).json({ error: 'Error interno' });
 });
 
+// ── Job: liberar reservas pendientes expiradas ─────────────────────────────
+var MINUTOS_EXPIRACION = 15;
+
+async function limpiarReservasExpiradas() {
+    try {
+        var r = await pool.query(
+            `UPDATE reservas
+             SET estado_pago = 'cancelada'
+             WHERE estado_pago = 'pendiente'
+               AND creado_en < NOW() - INTERVAL '${MINUTOS_EXPIRACION} minutes'
+             RETURNING id, referencia, creado_en`
+        );
+        if (r.rows.length > 0) {
+            console.log(`🧹 ${r.rows.length} reserva(s) expirada(s) liberadas:`,
+                r.rows.map(function(row) {
+                    return 'ID ' + row.id + ' | Ref: ' + row.referencia;
+                })
+            );
+        }
+    } catch (err) {
+        console.error('Error limpiando reservas expiradas:', err.message);
+    }
+}
+
+// Ejecutar al iniciar y luego cada 5 minutos
+limpiarReservasExpiradas();
+setInterval(limpiarReservasExpiradas, 5 * 60 * 1000);
+
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`🚀 Puerto ${PORT}`));
