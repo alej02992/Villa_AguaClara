@@ -251,8 +251,9 @@ function montarWompiEnPopup(totalCOP) {
 
     if (correo) script.setAttribute('data-customer-data:email',              correo);
     if (nombre) script.setAttribute('data-customer-data:full-name',          nombre);
-    if (tel)    script.setAttribute('data-customer-data:phone-number',       tel.replace(/\D/g, '').slice(-10));
-    if (tel)    script.setAttribute('data-customer-data:phone-number-prefix', '57');
+    var prefijo = document.getElementById('p-pais') ? document.getElementById('p-pais').value : '57';
+    if (tel)    script.setAttribute('data-customer-data:phone-number',        tel.replace(/\D/g, ''));
+    if (tel)    script.setAttribute('data-customer-data:phone-number-prefix', prefijo);
 
     container.appendChild(script);
 

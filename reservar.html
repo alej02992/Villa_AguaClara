@@ -181,10 +181,24 @@
 
             <div class="popup-campo">
                 <label class="popup-label" for="p-tel">Teléfono / WhatsApp</label>
-                <input class="popup-input" type="tel" id="p-tel"
-                       placeholder="Ej: +57 300 000 0000" autocomplete="tel">
-                <span class="popup-error" id="err-tel"></span>
+                    <div class="popup-tel-wrap">
+                        <select class="popup-tel-pais" id="p-pais">
+                            <option value="57">🇨🇴 +57</option>
+                            <option value="1">🇺🇸 +1</option>
+                            <option value="52">🇲🇽 +52</option>
+                            <option value="54">🇦🇷 +54</option>
+                            <option value="56">🇨🇱 +56</option>
+                            <option value="51">🇵🇪 +51</option>
+                            <option value="58">🇻🇪 +58</option>
+                            <option value="593">🇪🇨 +593</option>
+                            <option value="34">🇪🇸 +34</option>
+                        </select>
+                    <input class="popup-input popup-input--tel" type="tel" id="p-tel"
+                    placeholder="300 000 0000" autocomplete="tel">
             </div>
+            
+    <span class="popup-error" id="err-tel"></span>
+</div>
 
             <!--
                 WOMPI WIDGET:
