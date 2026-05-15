@@ -248,7 +248,7 @@ app.use((err, _req, res, _next) => {
 });
 
 // ── Job: liberar reservas pendientes expiradas ─────────────────────────────
-var MINUTOS_EXPIRACION = 15;
+var MINUTOS_EXPIRACION = 1;  // tiempo para completar el pago antes de liberar la reserva
 
 async function limpiarReservasExpiradas() {
     try {
