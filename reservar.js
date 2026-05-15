@@ -202,7 +202,6 @@ function actualizarOverlayWompi(habilitado) {
 /* ── Monta el widget de Wompi dentro del popup ───────────────────────────── */
 function montarWompiEnPopup(totalCOP) {
     if (wompiMontado) return;
-    wompiMontado = true;
 
     var params = {};
     try {
@@ -250,14 +249,16 @@ function montarWompiEnPopup(totalCOP) {
     var correo = document.getElementById('p-correo') ? document.getElementById('p-correo').value.trim() : '';
     var tel    = document.getElementById('p-tel')    ? document.getElementById('p-tel').value.trim()    : '';
 
-    if (correo) script.setAttribute('data-customer-data:email',       correo);
-    if (nombre) script.setAttribute('data-customer-data:full-name',   nombre);
-    if (tel)    script.setAttribute('data-customer-data:phone-number', tel.replace(/\D/g, ''));
+    if (correo) script.setAttribute('data-customer-data:email',              correo);
+    if (nombre) script.setAttribute('data-customer-data:full-name',          nombre);
+    if (tel)    script.setAttribute('data-customer-data:phone-number',       tel.replace(/\D/g, '').slice(-10));
+    if (tel)    script.setAttribute('data-customer-data:phone-number-prefix', '57');
 
     container.appendChild(script);
 
     /* Auto-scroll: cuando Wompi cargue, bajar el modal hasta el botón */
     script.addEventListener('load', function() {
+        wompiMontado = true;
         setTimeout(function() {
             var modal   = document.querySelector('.popup-modal');
             var wompiEl = document.getElementById('popup-wompi-container');
@@ -282,7 +283,7 @@ function montarWompiEnPopup(totalCOP) {
         'color:#888',
         'letter-spacing:.04em',
         'z-index:10',
-        'display:flex'
+        'display:none'
     ].join(';');
     overlay.textContent = 'Completa tus datos para continuar';
     container.appendChild(overlay);
@@ -340,9 +341,11 @@ function confirmarDatos() {
     if (wompiContainer) wompiContainer.style.display = 'block';
 
     // Importante: resetear wompiMontado SOLO si el contenedor está vacío
-    if (wompiContainer && wompiContainer.children.length === 0) {
-        wompiMontado = false;
+    if (wompiContainer) {
+        wompiContainer.innerHTML = '';
+        wompiContainer.style.display = 'block';  // ← visible ANTES de montar
     }
+    wompiMontado = false;
 
     var noches = parseInt(document.getElementById('res-noches-texto').dataset.noches || '0');
     var total  = noches * PRECIO_NOCHE + (decoActiva ? PRECIO_DECO : 0);
@@ -537,8 +540,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var ciEl = document.getElementById('res-checkin');
     var coEl = document.getElementById('res-checkout');
-    if (ciEl) ciEl.textContent = ci;
-    if (coEl) coEl.textContent = co;
+    function formatearFecha(iso) {
+        var meses = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+        var partes = iso.split('-');
+        if (partes.length !== 3) return iso;
+            return parseInt(partes[2]) + ' ' + meses[parseInt(partes[1]) - 1] + ' ' + partes[0];
+        }
+    if (ciEl) ciEl.textContent = ci !== '—' ? formatearFecha(ci) : '—';
+    if (coEl) coEl.textContent = co !== '—' ? formatearFecha(co) : '—';
 
     var nochesEl = document.getElementById('res-noches-texto');
     if (nochesEl) {

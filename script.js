@@ -374,8 +374,14 @@ function actualizarResumen() {
     if (btnWa) {
         if (calInicio && calFin) {
             actualizarPrecio();
-            var ciStr = calInicio.getDate() + ' ' + meses[calInicio.getMonth()] + ' ' + calInicio.getFullYear();
-            var coStr = calFin.getDate()    + ' ' + meses[calFin.getMonth()]    + ' ' + calFin.getFullYear();
+            function toISO(d) {
+                return d.getFullYear() + '-' +
+                String(d.getMonth() + 1).padStart(2, '0') + '-' +
+                String(d.getDate()).padStart(2, '0');
+                }
+            var ciStr = toISO(calInicio);
+            var coStr = toISO(calFin);
+            
             var data  = encodeURIComponent(JSON.stringify({
                 aloj: calAlojamiento,
                 ci:   ciStr,
