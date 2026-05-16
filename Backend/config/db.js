@@ -8,10 +8,7 @@ const pool = new Pool({
     port:     parseInt(process.env.DB_PORT, 10),
     database: process.env.DB_NAME,
     ssl: {
-        rejectUnauthorized: true,
-        // El certificado CA se lee desde una variable de entorno multilínea
-        // En Render: pega el contenido del .pem en DB_SSL_CA (con saltos de línea reales)
-        ca: process.env.DB_SSL_CA,
+        rejectUnauthorized: false,
     },
 });
 
