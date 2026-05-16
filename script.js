@@ -69,9 +69,12 @@ document.addEventListener('DOMContentLoaded', function () {
 var detalleActivo = null;
 
 function abrirAlojamiento(id) {
-    if (detalleActivo && detalleActivo !== id) {
+    var hayCambio = detalleActivo && detalleActivo !== id;
+
+    if (hayCambio) {
         cerrarAlojamiento(detalleActivo, false);
     }
+
     var panel = document.getElementById('detalle-' + id);
     var card  = document.querySelector('[data-id="' + id + '"]');
     if (!panel) return;
@@ -84,6 +87,15 @@ function abrirAlojamiento(id) {
     panel.classList.add('visible');
     if (card) card.classList.add('activa');
     detalleActivo = id;
+
+    // Si había otro panel abierto esperamos a que termine su transición de cierre
+    // antes de calcular la posición, para que no empuje el scroll hacia abajo.
+    var delay = hayCambio ? 420 : 50;
+    setTimeout(function () {
+        var offset = 80;
+        var top = panel.getBoundingClientRect().top + window.pageYOffset - offset;
+        window.scrollTo({ top: top, behavior: 'smooth' });
+    }, delay);
 }
 
 function cerrarAlojamiento(id, scroll) {
@@ -551,4 +563,3 @@ document.addEventListener('keydown', function(e) {
     }
 
 })();
-
