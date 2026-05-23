@@ -145,13 +145,24 @@ async function abrirCalendario(nombre) {
     calAnio = new Date().getFullYear();
     calMes = new Date().getMonth();
 
+    const loader = document.getElementById('loader-overlay');
+
     try {
 
-        // Loader opcional
-        document.body.style.cursor = 'wait';
+        // Mostrar loader
+        if (loader) loader.classList.add('visible');
+        document.body.style.overflow = 'hidden'; // Evitar scroll mientras carga
 
         // Wake-up backend
+        const pingStart = Date.now();
         await fetch(`${API}/ping`);
+        const pingEnd = Date.now();
+        
+        // Si el ping tardó mucho (backend estaba dormido), damos un margen
+        if (pingEnd - pingStart > 2000) {
+            console.log('Backend estaba dormido, esperando un poco más...');
+            await new Promise(resolve => setTimeout(resolve, 1000));
+        }
 
         // Precargar disponibilidad
         const res = await fetch(
@@ -170,16 +181,18 @@ async function abrirCalendario(nombre) {
         console.error('Error disponibilidad:', err);
 
         alert(
-            'El servidor está iniciando. Intenta nuevamente en unos segundos.'
+            'El servidor está iniciando o hay un problema de conexión. Intenta nuevamente en unos segundos.'
         );
 
         return;
 
     } finally {
 
-        document.body.style.cursor = 'default';
+        if (loader) loader.classList.remove('visible');
+        document.body.style.overflow = '';
 
     }
+
 
     var titulo    = document.getElementById('cal-titulo');
     var checkin   = document.getElementById('cal-checkin');

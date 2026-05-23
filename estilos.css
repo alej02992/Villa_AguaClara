@@ -2708,3 +2708,53 @@ img.loaded {
 .popup-input--tel {
     flex: 1;
 }
+
+/* ═══════════════════════════════════════
+   LOADER OVERLAY
+   ═══════════════════════════════════════ */
+#loader-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.95);
+    z-index: 10000;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+}
+
+#loader-overlay.visible {
+    display: flex;
+}
+
+.loader-spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(26, 95, 122, 0.1);
+    border-radius: 50%;
+    border-top-color: var(--agua-oscuro);
+    animation: spin 1s ease-in-out infinite;
+    margin-bottom: 24px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.loader-msg {
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    font-weight: 500;
+    color: var(--agua-oscuro);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.loader-sub {
+    font-size: 14px;
+    color: var(--gris-suave);
+    max-width: 300px;
+    line-height: 1.6;
+}
