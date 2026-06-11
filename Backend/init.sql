@@ -60,7 +60,9 @@ CREATE INDEX IF NOT EXISTS idx_reservas_fecha_entrada ON reservas (fecha_entrada
 
 -- Trigger: actualiza "actualizado_en" automáticamente
 CREATE OR REPLACE FUNCTION set_actualizado_en()
-RETURNS TRIGGER LANGUAGE plpgsql AS $$
+RETURNS TRIGGER LANGUAGE plpgsql 
+SET search_path = '' 
+AS $$
 BEGIN NEW.actualizado_en = NOW(); RETURN NEW; END;
 $$;
 
