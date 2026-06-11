@@ -140,7 +140,7 @@ app.get('/api/ping', async (_req, res) => {
                 console.error('POST /api/reservas:', err.message);
 
                 res.status(500).json({
-                    error: 'Error interno'
+                    error: 'Error interno: ' + err.message
                 });
 
             }

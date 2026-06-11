@@ -409,6 +409,16 @@ function formularioValido() {
     var correo   = document.getElementById('p-correo').value.trim();
     var tel      = document.getElementById('p-tel').value.trim();
     var reCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+    var params = {};
+    try {
+        params = JSON.parse(decodeURIComponent(new URLSearchParams(location.search).get('d') || '{}'));
+    } catch(e) {}
+    
+    if (!params.aloj || params.aloj === 'Tu alojamiento' || !params.ci || params.ci === '—') {
+        return false;
+    }
+
     return nombre.length >= 3 && reCorreo.test(correo) && tel.replace(/\D/g,'').length >= 7;
 }
 
@@ -461,6 +471,9 @@ fetch(BACKEND_URL + '/api/reservas', {
                 window.location.href = 'index.html';
             } else {
                 console.error('❌ Error al guardar (' + ms + 'ms) — status ' + res.status, data);
+                alert('Hubo un error al procesar tu reserva: ' + (data.error || 'Error interno'));
+                guardadoEnBackend = false;
+                actualizarOverlayWompi(false);
             }
         });
     }
