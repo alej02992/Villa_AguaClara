@@ -36,9 +36,9 @@ app.use('/api/wompi/webhook', express.raw({ type: 'application/json' }));
 app.use(express.json());
 
 // ── Saludo ──────────────────────────────────────────────────────────────────
-app.get('/', (_req, res) => res.json({ ok: true, msg: 'Backend Villa AguaClara 🚀' }));
+app.get('/api', (_req, res) => res.json({ ok: true, msg: 'Backend Villa AguaClara 🚀' }));
 
-app.get('/ping', async (_req, res) => {
+app.get('/api/ping', async (_req, res) => {
     try {
         await pool.query('SELECT 1');
         res.status(200).json({

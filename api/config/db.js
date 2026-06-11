@@ -2,11 +2,12 @@ const { Pool } = require('pg');
 
 // Todas las credenciales vienen de variables de entorno (.env local / Vercel dashboard en producción)
 const pool = new Pool({
-    user:     process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    host:     process.env.DB_HOST,
-    port:     parseInt(process.env.DB_PORT, 10),
-    database: process.env.DB_NAME,
+    connectionString: process.env.DATABASE_URL,
+    user:     process.env.DATABASE_URL ? undefined : process.env.DB_USER,
+    password: process.env.DATABASE_URL ? undefined : process.env.DB_PASSWORD,
+    host:     process.env.DATABASE_URL ? undefined : process.env.DB_HOST,
+    port:     process.env.DATABASE_URL ? undefined : parseInt(process.env.DB_PORT, 10),
+    database: process.env.DATABASE_URL ? undefined : process.env.DB_NAME,
     ssl: {
         rejectUnauthorized: false,
     },
