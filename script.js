@@ -424,7 +424,11 @@ function actualizarResumen() {
 }
 
 document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') cerrarCalendario();
+    if (e.key === 'Escape') {
+        cerrarCalendario();
+        cerrarLegalModal('terminos');
+        cerrarLegalModal('privacidad');
+    }
 });
 
 /* ═══════════════════════════════════════════════════════
@@ -576,3 +580,34 @@ document.addEventListener('keydown', function(e) {
     }
 
 })();
+
+/* ═══════════════════════════════════════
+   MODALES LEGALES (TÉRMINOS Y PRIVACIDAD)
+   ═══════════════════════════════════════ */
+function abrirLegalModal(tipo) {
+    var overlay = document.getElementById('modal-' + tipo + '-overlay');
+    var modal   = document.getElementById('modal-' + tipo);
+    if (overlay) overlay.classList.add('visible');
+    if (modal)   modal.classList.add('visible');
+    document.body.style.overflow = 'hidden'; // Evita scroll de fondo
+}
+
+function cerrarLegalModal(tipo) {
+    var overlay = document.getElementById('modal-' + tipo + '-overlay');
+    var modal   = document.getElementById('modal-' + tipo);
+    if (overlay) overlay.classList.remove('visible');
+    if (modal)   modal.classList.remove('visible');
+    
+    // Solo restaurar overflow si no hay otros modales abiertos
+    var terminos = document.getElementById('modal-terminos');
+    var privacidad = document.getElementById('modal-privacidad');
+    var cal = document.getElementById('cal-modal');
+    
+    var terminosVisible = terminos && terminos.classList.contains('visible');
+    var privacidadVisible = privacidad && privacidad.classList.contains('visible');
+    var calVisible = cal && cal.classList.contains('visible');
+    
+    if (!terminosVisible && !privacidadVisible && !calVisible) {
+        document.body.style.overflow = '';
+    }
+}

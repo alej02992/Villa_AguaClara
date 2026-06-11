@@ -541,8 +541,17 @@
     </section>
 
     <!-- FOOTER -->
-    <footer>
-        © 2025 Villa AguaClara · Glamping & Cabañas · Florián, Santander, Colombia
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-spacer"></div>
+            <div class="footer-copy">
+                © 2025 Villa AguaClara · Glamping & Cabañas · Florián, Santander, Colombia
+            </div>
+            <div class="footer-links">
+                <button class="footer-btn" onclick="abrirLegalModal('terminos')">Términos y Condiciones</button>
+                <button class="footer-btn" onclick="abrirLegalModal('privacidad')">Política de Privacidad</button>
+            </div>
+        </div>
     </footer>
 
     <!-- INSTAGRAM FLOTANTE -->
@@ -567,6 +576,303 @@
         <img class="lightbox-img" id="lb-img" src="" alt="">
         <span class="lb-flecha lb-der" id="lb-der">&#10095;</span>
         <div class="lb-contador" id="lb-contador"></div>
+    </div>
+
+    <!-- MODAL TÉRMINOS Y CONDICIONES -->
+    <div class="legal-modal-overlay" id="modal-terminos-overlay" onclick="cerrarLegalModal('terminos')"></div>
+    <div class="legal-modal" id="modal-terminos">
+        <div class="legal-modal__header">
+            <div>
+                <p class="section-label" style="margin-bottom:4px">Villa AguaClara</p>
+                <h3 class="legal-modal__titulo">Términos y Condiciones</h3>
+            </div>
+            <button class="legal-modal__cerrar" onclick="cerrarLegalModal('terminos')">&times;</button>
+        </div>
+        <div class="legal-modal__content">
+            <p><strong>Vigente desde:</strong> Junio 2025</p>
+
+            <h4>1. Aceptación de los Términos</h4>
+            <p>Al realizar una reserva, acceder a nuestro sitio web o utilizar los servicios de Villa Agua Clara (en adelante "el Glamping"), usted acepta de manera expresa e incondicional los presentes Términos y Condiciones. Si no está de acuerdo con alguno de estos términos, le rogamos abstenerse de utilizar nuestros servicios.</p>
+
+            <h4>2. Información del Establecimiento</h4>
+            <p>
+                <strong>Razón social:</strong> Villa Agua Clara<br>
+                <strong>NIT:</strong> 900.123.456-7<br>
+                <strong>Dirección:</strong> Vereda Guaymaral, Florián, Santander, Colombia<br>
+                <strong>Correo electrónico:</strong> <a href="mailto:reservas@villaaguaclara.com">reservas@villaaguaclara.com</a><br>
+                <strong>Teléfono:</strong> +57 320 273 2233 | <strong>WhatsApp:</strong> +57 320 273 2233<br>
+                <strong>Registro Nacional de Turismo:</strong> RNT-456789
+            </p>
+
+            <h4>3. Proceso de Reservas</h4>
+            <h5>3.1 Canales de reserva</h5>
+            <p>Las reservas pueden realizarse a través de:</p>
+            <ul>
+                <li>Sitio web oficial: www.villaaguaclara.com</li>
+                <li>WhatsApp y línea telefónica de atención</li>
+                <li>Plataformas aliadas (Booking.com, Airbnb, entre otras)</li>
+            </ul>
+
+            <h5>3.2 Confirmación de reserva</h5>
+            <p>Una reserva se considera confirmada únicamente cuando se ha recibido el pago del anticipo requerido y el huésped ha recibido un correo de confirmación con el código de reserva. Villa Agua Clara se reserva el derecho de cancelar reservas pendientes de pago tras 24 horas de su solicitud.</p>
+
+            <h5>3.3 Requisitos de reserva</h5>
+            <ul>
+                <li>El huésped principal debe ser mayor de 18 años</li>
+                <li>Se requiere documento de identidad válido al momento del check-in</li>
+                <li>La capacidad máxima por alojamiento debe respetarse en todo momento</li>
+            </ul>
+
+            <h4>4. Tarifas y Pagos</h4>
+            <h5>4.1 Estructura de pagos</h5>
+            <ul>
+                <li>Anticipo del 50% del valor total para confirmar la reserva</li>
+                <li>Saldo restante (50%) pagadero máximo 48 horas antes del check-in</li>
+                <li>Reservas con menos de 5 días de anticipación requieren pago total al momento de la reserva</li>
+            </ul>
+
+            <h5>4.2 Medios de pago aceptados</h5>
+            <ul>
+                <li>Transferencia bancaria o PSE</li>
+                <li>Tarjeta de crédito o débito (Visa, Mastercard, American Express)</li>
+                <li>Efectivo (únicamente en instalaciones del glamping)</li>
+            </ul>
+
+            <h5>4.3 Tarifas adicionales</h5>
+            <p>Los siguientes servicios tienen costo adicional y no están incluidos en la tarifa base salvo indicación expresa:</p>
+            <ul>
+                <li>Traslados desde/hacia el punto de encuentro designado</li>
+                <li>Actividades y experiencias adicionales (senderismo guiado, cabalgata, fogatas privadas, etc.)</li>
+                <li>Servicio de desayuno, almuerzo o cena en habitación</li>
+                <li>Mascotas: tarifa adicional de $30.000 COP por noche por mascota (previa autorización)</li>
+            </ul>
+
+            <h4>5. Políticas de Cancelación y Modificación</h4>
+            <h5>5.1 Cancelaciones realizadas por el huésped</h5>
+            <ul>
+                <li>Con más de 15 días de anticipación: reembolso del 100% del anticipo pagado</li>
+                <li>Entre 8 y 15 días de anticipación: reembolso del 50% del anticipo pagado</li>
+                <li>Con menos de 7 días de anticipación: no hay reembolso</li>
+                <li>No-show (no presentación sin aviso previo): no hay reembolso</li>
+            </ul>
+
+            <h5>5.2 Modificaciones de reserva</h5>
+            <p>Las modificaciones de fecha están sujetas a disponibilidad y deben solicitarse con al menos 72 horas de anticipación. Solo se permite una modificación por reserva sin costo adicional; modificaciones subsiguientes tendrán un cargo administrativo de $20.000 COP.</p>
+
+            <h5>5.3 Cancelaciones por parte del Glamping</h5>
+            <p>En caso de cancelación por causas imputables al glamping (ej. daños en las instalaciones, caso fortuito o fuerza mayor), se ofrecerá al huésped la opción de reprogramar la estadía sin costo adicional o recibir un reembolso del 100% de los pagos realizados.</p>
+
+            <h4>6. Check-in y Check-out</h4>
+            <ul>
+                <li>Hora de check-in: 3:00 p.m. en adelante</li>
+                <li>Hora de check-out: hasta las 12:00 m. (mediodía)</li>
+                <li>Check-in tardío (después de las 8:00 p.m.) debe coordinarse previamente con reservas</li>
+                <li>Late check-out (hasta las 3:00 p.m.) disponible con solicitud previa y sujeto a disponibilidad; tiene costo adicional del 30% de la tarifa de una noche</li>
+                <li>El Glamping no se hace responsable por el equipaje dejado fuera de los horarios establecidos</li>
+            </ul>
+
+            <h4>7. Normas de Convivencia y Uso de Instalaciones</h4>
+            <h5>7.1 Comportamiento esperado</h5>
+            <ul>
+                <li>Respeto hacia otros huéspedes, personal y el entorno natural</li>
+                <li>Horario de silencio: 10:00 p.m. – 7:00 a.m.</li>
+                <li>Música y sonido a volumen moderado en todo momento</li>
+                <li>Prohibido el ingreso de personas externas a las instalaciones sin autorización previa</li>
+            </ul>
+
+            <h5>7.2 Uso responsable de instalaciones</h5>
+            <ul>
+                <li>Prohibido encender fogatas fuera de las zonas habilitadas para tal fin</li>
+                <li>No está permitido trepar árboles, recolectar flora silvestre ni disturbar la fauna local</li>
+                <li>Los senderos deben recorrerse únicamente con acompañamiento autorizado o en las rutas señalizadas</li>
+                <li>Prohibido el uso de drones sin autorización previa del Glamping</li>
+                <li>El uso de la piscina (si aplica) está sujeto a los horarios y normas publicadas en las instalaciones</li>
+            </ul>
+
+            <h5>7.3 Prohibiciones</h5>
+            <ul>
+                <li>Consumo de sustancias psicoactivas ilegales en las instalaciones</li>
+                <li>Armas de fuego o elementos que puedan causar daño a personas o al entorno</li>
+                <li>Ingreso de alimentos que puedan atraer fauna silvestre a los alojamientos</li>
+                <li>Actividades que alteren el ecosistema o contravengan las normas ambientales vigentes</li>
+            </ul>
+
+            <h4>8. Política de Mascotas</h4>
+            <p>Villa Agua Clara es un establecimiento pet-friendly con las siguientes condiciones:</p>
+            <ul>
+                <li>Mascotas permitidas: perros y gatos de cualquier tamaño (máximo 2 por reserva)</li>
+                <li>Tarifa adicional: $30.000 COP por mascota por noche</li>
+                <li>Las mascotas deben estar al día en vacunas y desparasitación (se puede solicitar certificado)</li>
+                <li>Las mascotas deben mantenerse con correa en zonas comunes</li>
+                <li>El huésped es responsable de los daños causados por su mascota</li>
+                <li>No se permite que las mascotas ingresen a zonas de restaurante o spa</li>
+            </ul>
+
+            <h4>9. Responsabilidad y Daños</h4>
+            <p>El huésped es responsable de cualquier daño causado a las instalaciones, mobiliario o equipos del glamping durante su estadía. El costo de reparación o reposición será cobrado directamente al huésped.</p>
+            <p>Villa Agua Clara no se hace responsable por:</p>
+            <ul>
+                <li>Pérdida, robo o daño de objetos personales de los huéspedes</li>
+                <li>Accidentes derivados de la inobservancia de las normas de seguridad establecidas</li>
+                <li>Lesiones o daños causados por el uso inadecuado de las instalaciones o actividades</li>
+                <li>Situaciones derivadas de fenómenos naturales, caso fortuito o fuerza mayor</li>
+            </ul>
+            <p>Se recomienda a todos los huéspedes contratar un seguro de viaje que cubra accidentes y cancelaciones.</p>
+
+            <h4>10. Sostenibilidad y Compromiso Ambiental</h4>
+            <p>Villa Agua Clara opera bajo principios de ecoturismo sostenible. Como huésped, usted se compromete a:</p>
+            <ul>
+                <li>Seguir las instrucciones del personal en cuanto al manejo de residuos y reciclaje</li>
+                <li>Usar de manera responsable el agua y la energía en su alojamiento</li>
+                <li>No contaminar fuentes de agua, suelos ni aire dentro y en los alrededores del establecimiento</li>
+                <li>Respetar la flora y fauna nativa del área</li>
+            </ul>
+            <p>El incumplimiento de estas normas ambientales puede resultar en la cancelación de la estadía sin derecho a reembolso.</p>
+
+            <h4>11. Propiedad Intelectual</h4>
+            <p>Todo el contenido publicado en el sitio web de Villa Agua Clara, incluyendo textos, imágenes, logotipos, videos y diseños, es propiedad exclusiva del establecimiento o de sus licenciantes y está protegido por las leyes de propiedad intelectual de Colombia. Queda prohibida su reproducción, distribución o uso sin autorización previa y escrita.</p>
+            <p>El huésped autoriza a Villa Agua Clara a utilizar fotografías o videos en los que aparezca, tomados durante su estadía, únicamente con fines promocionales del establecimiento, salvo que manifieste expresamente su negativa por escrito.</p>
+
+            <h4>12. Ley Aplicable y Jurisdicción</h4>
+            <p>Los presentes Términos y Condiciones se rigen por las leyes de la República de Colombia. Cualquier controversia derivada de su interpretación o aplicación será resuelta, en primera instancia, mediante arreglo directo entre las partes. De no llegarse a un acuerdo, las partes se someterán a la jurisdicción de los jueces competentes del Círculo Judicial de Bogotá D.C.</p>
+
+            <h4>13. Modificaciones a los Términos</h4>
+            <p>Villa Agua Clara se reserva el derecho de modificar los presentes Términos y Condiciones en cualquier momento. Las modificaciones serán notificadas en nuestro sitio web con al menos 15 días de anticipación a su entrada en vigor. El uso continuado de nuestros servicios tras la publicación de cambios implica la aceptación de los nuevos términos.</p>
+
+            <h4>14. Contacto</h4>
+            <p>Para consultas, reclamaciones o cualquier asunto relacionado con estos Términos y Condiciones:</p>
+            <ul>
+                <li><strong>Correo electrónico:</strong> <a href="mailto:info@villaaguaclara.com">info@villaaguaclara.com</a></li>
+                <li><strong>WhatsApp:</strong> +57 320 273 2233</li>
+                <li><strong>Teléfono:</strong> +57 320 273 2233</li>
+                <li><strong>Horario de atención:</strong> Lunes a domingo, 7:00 a.m. – 8:00 p.m.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- MODAL POLÍTICAS DE PRIVACIDAD -->
+    <div class="legal-modal-overlay" id="modal-privacidad-overlay" onclick="cerrarLegalModal('privacidad')"></div>
+    <div class="legal-modal" id="modal-privacidad">
+        <div class="legal-modal__header">
+            <div>
+                <p class="section-label" style="margin-bottom:4px">Villa AguaClara</p>
+                <h3 class="legal-modal__titulo">Política de Privacidad</h3>
+            </div>
+            <button class="legal-modal__cerrar" onclick="cerrarLegalModal('privacidad')">&times;</button>
+        </div>
+        <div class="legal-modal__content">
+            <p><strong>Vigente desde:</strong> Junio 2025</p>
+
+            <h4>1. Introducción</h4>
+            <p>Villa Agua Clara (en adelante "nosotros", "nuestro" o "la Empresa") se compromete a proteger la privacidad y los datos personales de todos nuestros huéspedes, visitantes y usuarios de nuestro sitio web. Esta Política de Privacidad describe cómo recopilamos, usamos, almacenamos y protegemos su información personal, de conformidad con la Ley 1581 de 2012 (Ley de Protección de Datos Personales de Colombia) y sus decretos reglamentarios.</p>
+            <p>Al utilizar nuestro sitio web, realizar una reserva o contactarnos, usted acepta las prácticas descritas en esta política.</p>
+
+            <h4>2. Responsable del Tratamiento de Datos</h4>
+            <p>
+                <strong>Razón social:</strong> Villa Agua Clara<br>
+                <strong>Dirección:</strong> Vereda Guaymaral, Florián, Santander, Colombia<br>
+                <strong>Teléfono de atención:</strong> +57 320 273 2233
+            </p>
+
+            <h4>3. Datos Personales que Recopilamos</h4>
+            <h5>3.1 Datos que usted nos proporciona directamente</h5>
+            <ul>
+                <li>Nombre completo y documento de identidad</li>
+                <li>Dirección de correo electrónico</li>
+                <li>Número de teléfono o celular</li>
+                <li>Información de pago (número de tarjeta, datos bancarios) procesada mediante pasarela de pago certificada</li>
+                <li>Preferencias de hospedaje y requerimientos especiales</li>
+                <li>Fotografías o comentarios que comparte en nuestras plataformas</li>
+            </ul>
+
+            <h5>3.2 Datos recopilados automáticamente</h5>
+            <ul>
+                <li>Dirección IP y datos de ubicación geográfica aproximada</li>
+                <li>Tipo de dispositivo, navegador y sistema operativo</li>
+                <li>Páginas visitadas, tiempo de navegación y clics</li>
+                <li>Cookies y tecnologías de rastreo similares</li>
+            </ul>
+
+            <h4>4. Finalidades del Tratamiento</h4>
+            <p>Sus datos personales serán utilizados para las siguientes finalidades:</p>
+            <ul>
+                <li>Procesar y confirmar reservas de hospedaje y servicios adicionales</li>
+                <li>Gestionar pagos y facturación electrónica</li>
+                <li>Enviar confirmaciones, recordatorios y actualizaciones sobre su estadía</li>
+                <li>Prestar atención al cliente y resolver consultas o reclamaciones</li>
+                <li>Enviar comunicaciones de marketing, ofertas y promociones (solo con su consentimiento previo)</li>
+                <li>Cumplir con obligaciones legales y requerimientos de autoridades competentes</li>
+                <li>Mejorar nuestros servicios a través del análisis de datos y estadísticas</li>
+                <li>Gestionar el programa de fidelización de clientes</li>
+            </ul>
+
+            <h4>5. Base Legal del Tratamiento</h4>
+            <p>El tratamiento de sus datos personales se basa en:</p>
+            <ul>
+                <li>Su consentimiento expreso para finalidades de marketing y comunicaciones</li>
+                <li>La ejecución del contrato de hospedaje y prestación de servicios</li>
+                <li>El cumplimiento de obligaciones legales aplicables</li>
+                <li>Nuestro interés legítimo en mejorar nuestros servicios y garantizar la seguridad</li>
+            </ul>
+
+            <h4>6. Transferencia y Compartición de Datos</h4>
+            <p>Sus datos personales podrán ser compartidos con:</p>
+            <ul>
+                <li>Pasarelas de pago certificadas para procesar transacciones de forma segura</li>
+                <li>Proveedores de servicios tecnológicos (hosting, CRM, herramientas de email)</li>
+                <li>Autoridades gubernamentales cuando sea requerido por ley</li>
+                <li>Plataformas de reservas turísticas con las que operamos (Booking.com, Airbnb, etc.)</li>
+            </ul>
+            <p>No vendemos ni cedemos sus datos personales a terceros con fines comerciales propios.</p>
+
+            <h4>7. Cookies y Tecnologías de Rastreo</h4>
+            <p>Nuestro sitio web utiliza cookies para mejorar su experiencia de navegación. Las cookies son pequeños archivos de texto que se almacenan en su dispositivo. Utilizamos:</p>
+            <ul>
+                <li><strong>Cookies esenciales:</strong> necesarias para el funcionamiento del sitio</li>
+                <li><strong>Cookies de análisis:</strong> para entender cómo los usuarios interactúan con el sitio (Google Analytics)</li>
+                <li><strong>Cookies de marketing:</strong> para mostrar contenido publicitario relevante</li>
+            </ul>
+            <p>Puede gestionar o desactivar las cookies desde la configuración de su navegador. Tenga en cuenta que deshabilitar ciertas cookies puede afectar la funcionalidad del sitio.</p>
+
+            <h4>8. Derechos del Titular de los Datos</h4>
+            <p>De conformidad con la Ley 1581 de 2012, usted tiene los siguientes derechos:</p>
+            <ul>
+                <li><strong>Derecho de acceso:</strong> conocer qué datos personales tenemos sobre usted</li>
+                <li><strong>Derecho de rectificación:</strong> solicitar la corrección de datos inexactos o incompletos</li>
+                <li><strong>Derecho de supresión:</strong> solicitar la eliminación de sus datos cuando no sean necesarios</li>
+                <li><strong>Derecho de oposición:</strong> oponerse al tratamiento de sus datos en determinadas circunstancias</li>
+                <li><strong>Derecho de portabilidad:</strong> recibir sus datos en un formato estructurado</li>
+                <li><strong>Derecho a revocar el consentimiento:</strong> retirar su autorización en cualquier momento</li>
+            </ul>
+            <p>Para ejercer cualquiera de estos derechos, puede contactarnos en: <a href="mailto:privacidad@villaaguaclara.com">privacidad@villaaguaclara.com</a></p>
+
+            <h4>9. Seguridad de los Datos</h4>
+            <p>Implementamos medidas técnicas y organizativas apropiadas para proteger sus datos personales contra acceso no autorizado, alteración, divulgación o destrucción. Entre las medidas adoptadas se incluyen:</p>
+            <ul>
+                <li>Cifrado SSL/TLS en todas las transmisiones de datos</li>
+                <li>Control de acceso basado en roles para el personal interno</li>
+                <li>Revisiones periódicas de seguridad y pruebas de vulnerabilidad</li>
+                <li>Capacitación regular del personal en protección de datos</li>
+            </ul>
+
+            <h4>10. Conservación de Datos</h4>
+            <p>Conservaremos sus datos personales durante el tiempo necesario para cumplir con las finalidades descritas en esta política, o hasta que usted solicite su eliminación, salvo que la ley exija una conservación por un período determinado (por ejemplo, registros contables por 10 años según normativa colombiana).</p>
+
+            <h4>11. Menores de Edad</h4>
+            <p>Nuestros servicios están dirigidos a personas mayores de 18 años. No recopilamos intencionalmente datos personales de menores de edad sin el consentimiento expreso de sus padres o tutores legales. Si usted es padre o tutor y cree que su hijo nos ha proporcionado datos sin su consentimiento, contáctenos de inmediato.</p>
+
+            <h4>12. Cambios a esta Política</h4>
+            <p>Podemos actualizar esta Política de Privacidad periódicamente. Le notificaremos sobre cambios significativos mediante un aviso visible en nuestro sitio web o por correo electrónico. La fecha de última actualización siempre estará indicada al inicio del documento.</p>
+
+            <h4>13. Contacto y Reclamaciones</h4>
+            <p>Para consultas, ejercer sus derechos o presentar reclamaciones relacionadas con el tratamiento de sus datos personales:</p>
+            <ul>
+                <li><strong>Correo electrónico:</strong> <a href="mailto:privacidad@villaaguaclara.com">privacidad@villaaguaclara.com</a></li>
+                <li><strong>Teléfono:</strong> +57 320 273 2233</li>
+                <li><strong>Dirección postal:</strong> Vereda Guaymaral, Florián, Santander</li>
+            </ul>
+            <p>Si considera que su solicitud no fue atendida satisfactoriamente, tiene derecho a presentar una queja ante la Superintendencia de Industria y Comercio (SIC), entidad encargada de velar por el cumplimiento de la Ley de Protección de Datos en Colombia.</p>
+        </div>
     </div>
 
     <script src="script.js"></script>
