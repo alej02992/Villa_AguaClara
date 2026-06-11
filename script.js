@@ -3,10 +3,10 @@
    Lightbox · Alojamientos · Calendario
    ═══════════════════════════════════════ */
 
-const API = 'https://villa-aguaclara.onrender.com';
+const API = '';
 
 // ── Despertar Render ─────────────────────
-fetch(`${API}/ping`)
+fetch(`${API}/api/ping`)
     .then(() => console.log('Backend despierto'))
     .catch(err => console.log('Wake-up error:', err));
 
@@ -155,7 +155,7 @@ async function abrirCalendario(nombre) {
 
         // Wake-up backend
         const pingStart = Date.now();
-        await fetch(`${API}/ping`);
+        await fetch(`${API}/api/ping`);
         const pingEnd = Date.now();
         
         // Si el ping tardó mucho (backend estaba dormido), damos un margen

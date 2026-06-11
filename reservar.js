@@ -14,8 +14,8 @@ var decoActiva   = false;
    ─────────────────────────────────────────────────────────────── */
 var WOMPI_PUBLIC_KEY = 'pub_prod_EDGKnGR5aiuG1n3XmYesXEVjNZeZEe6g';
 
-/* URL del backend en Render */
-var BACKEND_URL = 'https://villa-aguaclara.onrender.com';
+/* URL del backend (ruta relativa en Vercel) */
+var BACKEND_URL = '';
 
 /* ── IMÁGENES POR ALOJAMIENTO ── */
 var imagenes = {
