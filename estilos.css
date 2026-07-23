@@ -35,6 +35,15 @@ body {
     overflow-x: hidden;
 }
 
+/* ── BLOQUEO DE SCROLL DE FONDO EN MODALES ── */
+html.modal-open,
+body.modal-open {
+    overflow: hidden !important;
+    height: 100% !important;
+    touch-action: none;
+    overscroll-behavior: none;
+}
+
 /* ═══════════════════════════════════════
    TOP BAR
    ═══════════════════════════════════════ */
@@ -412,6 +421,8 @@ nav.main-nav a.reservar:hover {
     visibility: hidden;
     pointer-events: none;
     transition: opacity 0.3s ease, visibility 0.3s;
+    touch-action: none;
+    overscroll-behavior: contain;
 }
 
 .legal-modal-overlay.visible {
@@ -437,6 +448,9 @@ nav.main-nav a.reservar:hover {
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, visibility 0.3s;
     display: flex;
     flex-direction: column;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
 }
 
 .legal-modal.visible {
@@ -967,6 +981,8 @@ nav.main-nav a.reservar:hover {
     background: rgba(10, 40, 55, 0.65);
     z-index: 1500;
     backdrop-filter: blur(2px);
+    touch-action: none;
+    overscroll-behavior: contain;
 }
 
 .cal-overlay.visible {
@@ -988,6 +1004,9 @@ nav.main-nav a.reservar:hover {
     border-top: 3px solid var(--agua-claro);
     opacity: 0;
     transition: transform 0.3s ease, opacity 0.3s ease;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
 }
 
 .cal-modal.visible {
@@ -2345,6 +2364,8 @@ body {
     justify-content: center;
     align-items: center;
     padding: 20px;
+    touch-action: none;
+    overscroll-behavior: contain;
     /* SIN backdrop-filter: crea un stacking context que atrapa el iframe de Wompi */
 }
 
@@ -2371,6 +2392,9 @@ body {
     box-shadow: 0 24px 64px rgba(10, 40, 55, 0.28);
     animation: popup-entrar 0.3s cubic-bezier(0.22, 1, 0.36, 1);
     scroll-behavior: smooth;  /* para el auto-scroll al botón de Wompi */
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
 }
 
 @keyframes popup-entrar {

@@ -3,7 +3,9 @@
    Lightbox · Alojamientos · Calendario
    ═══════════════════════════════════════ */
 
-const API = '';
+const API = (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:') && window.location.port !== '3000')
+    ? 'http://localhost:3000'
+    : '';
 
 // ── Despertar Render ─────────────────────
 fetch(`${API}/api/ping`)
@@ -151,7 +153,7 @@ async function abrirCalendario(nombre) {
 
         // Mostrar loader
         if (loader) loader.classList.add('visible');
-        document.body.style.overflow = 'hidden'; // Evitar scroll mientras carga
+        meBloquearScroll();
 
         // Wake-up backend
         const pingStart = Date.now();
@@ -184,12 +186,12 @@ async function abrirCalendario(nombre) {
             'El servidor está iniciando o hay un problema de conexión. Intenta nuevamente en unos segundos.'
         );
 
+        meDesbloquearScroll();
         return;
 
     } finally {
 
         if (loader) loader.classList.remove('visible');
-        document.body.style.overflow = '';
 
     }
 
@@ -218,6 +220,7 @@ async function abrirCalendario(nombre) {
 
     if (overlay) overlay.classList.add('visible');
     if (modal) modal.classList.add('visible');
+    meBloquearScroll();
 }
 
 function cerrarCalendario() {
@@ -225,6 +228,7 @@ function cerrarCalendario() {
     var modal   = document.getElementById('cal-modal');
     if (overlay) overlay.classList.remove('visible');
     if (modal)   modal.classList.remove('visible');
+    meDesbloquearScroll();
 }
 
 function renderCalendario() {
@@ -582,6 +586,33 @@ document.addEventListener('keydown', function(e) {
 })();
 
 /* ═══════════════════════════════════════
+   HELPER DE BLOQUEO DE SCROLL EN MODALES
+   ═══════════════════════════════════════ */
+function meBloquearScroll() {
+    document.body.classList.add('modal-open');
+    document.documentElement.classList.add('modal-open');
+    document.body.style.overflow = 'hidden';
+}
+
+function meDesbloquearScroll() {
+    var terminos = document.getElementById('modal-terminos');
+    var privacidad = document.getElementById('modal-privacidad');
+    var cal = document.getElementById('cal-modal');
+    var popup = document.getElementById('popup-overlay');
+
+    var terminosVisible = terminos && terminos.classList.contains('visible');
+    var privacidadVisible = privacidad && privacidad.classList.contains('visible');
+    var calVisible = cal && cal.classList.contains('visible');
+    var popupVisible = popup && popup.classList.contains('activo');
+
+    if (!terminosVisible && !privacidadVisible && !calVisible && !popupVisible) {
+        document.body.classList.remove('modal-open');
+        document.documentElement.classList.remove('modal-open');
+        document.body.style.overflow = '';
+    }
+}
+
+/* ═══════════════════════════════════════
    MODALES LEGALES (TÉRMINOS Y PRIVACIDAD)
    ═══════════════════════════════════════ */
 function abrirLegalModal(tipo) {
@@ -589,7 +620,7 @@ function abrirLegalModal(tipo) {
     var modal   = document.getElementById('modal-' + tipo);
     if (overlay) overlay.classList.add('visible');
     if (modal)   modal.classList.add('visible');
-    document.body.style.overflow = 'hidden'; // Evita scroll de fondo
+    meBloquearScroll();
 }
 
 function cerrarLegalModal(tipo) {
@@ -597,17 +628,5 @@ function cerrarLegalModal(tipo) {
     var modal   = document.getElementById('modal-' + tipo);
     if (overlay) overlay.classList.remove('visible');
     if (modal)   modal.classList.remove('visible');
-    
-    // Solo restaurar overflow si no hay otros modales abiertos
-    var terminos = document.getElementById('modal-terminos');
-    var privacidad = document.getElementById('modal-privacidad');
-    var cal = document.getElementById('cal-modal');
-    
-    var terminosVisible = terminos && terminos.classList.contains('visible');
-    var privacidadVisible = privacidad && privacidad.classList.contains('visible');
-    var calVisible = cal && cal.classList.contains('visible');
-    
-    if (!terminosVisible && !privacidadVisible && !calVisible) {
-        document.body.style.overflow = '';
-    }
+    meDesbloquearScroll();
 }

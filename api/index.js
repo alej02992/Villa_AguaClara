@@ -36,6 +36,9 @@ app.use(cors({
 app.use('/api/wompi/webhook', express.raw({ type: 'application/json' }));
 app.use(express.json());
 
+// Servir archivos estáticos del frontend en desarrollo local
+app.use(express.static(path.join(__dirname, '../')));
+
 // ── Saludo ──────────────────────────────────────────────────────────────────
 app.get('/api', (_req, res) => res.json({ ok: true, msg: 'Backend Villa AguaClara 🚀' }));
 

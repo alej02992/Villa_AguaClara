@@ -14,8 +14,10 @@ var decoActiva   = false;
    ─────────────────────────────────────────────────────────────── */
 var WOMPI_PUBLIC_KEY = 'pub_prod_EDGKnGR5aiuG1n3XmYesXEVjNZeZEe6g';
 
-/* URL del backend (ruta relativa en Vercel) */
-var BACKEND_URL = '';
+/* URL del backend (detecta entorno local o producción en Vercel) */
+var BACKEND_URL = (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:') && window.location.port !== '3000')
+    ? 'http://localhost:3000'
+    : '';
 
 /* ── IMÁGENES POR ALOJAMIENTO ── */
 var imagenes = {
@@ -354,9 +356,25 @@ function confirmarDatos() {
     habilitarPago();
 }
 
+function meBloquearScroll() {
+    document.body.classList.add('modal-open');
+    document.documentElement.classList.add('modal-open');
+    document.body.style.overflow = 'hidden';
+}
+
+function meDesbloquearScroll() {
+    var popup = document.getElementById('popup-overlay');
+    var popupVisible = popup && popup.classList.contains('activo');
+    if (!popupVisible) {
+        document.body.classList.remove('modal-open');
+        document.documentElement.classList.remove('modal-open');
+        document.body.style.overflow = '';
+    }
+}
+
 function abrirPopup() {
     document.getElementById('popup-overlay').classList.add('activo');
-    document.body.style.overflow = 'hidden';
+    meBloquearScroll();
 
     // Resetear vista: mostrar botón confirmar, ocultar Wompi
     var btnConfirmar   = document.getElementById('btn-confirmar-datos');
@@ -375,7 +393,7 @@ function abrirPopup() {
 
 function cerrarPopup() {
     document.getElementById('popup-overlay').classList.remove('activo');
-    document.body.style.overflow = '';
+    meDesbloquearScroll();
 }
 
 function cerrarPopupOverlay(e) {
